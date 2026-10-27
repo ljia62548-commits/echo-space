@@ -1,0 +1,22 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# local tooling
+.npm-cache/
+.tmp/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# studio temp files
+public/uploads/*.tmp
+src/data/*.tmp-*
+*.tmp-*

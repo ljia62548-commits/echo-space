@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import profile from '../data/profile.json';
+import site from '../data/site.json';
+
+const links = profile.links as Array<{ label: string; href: string }>;
+const hasAvatar = Boolean(profile.avatar);
+---
+
+<BaseLayout
+  title="About Me"
+  description={`关于 ${profile.name}：${profile.headline}。${profile.intro}`}
+>
+  <div class="page">
+    <section class="about-hero" aria-labelledby="about-name">
+      <div class="portrait" data-reveal>
+        {
+          hasAvatar ? (
+            <img src={profile.avatar} alt={`${profile.name} 的照片`} />
+          ) : (
+            <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>
+          )
+        }
+        <span class="portrait__label">Portrait / 01</span>
+      </div>
+
+      <div class="about-intro" data-reveal>
+        <p class="eyebrow">01 / About Me</p>
+        <h1 class="about-name" id="about-name" data-bind="profile.name">{profile.name}</h1>
+        <p class="about-headline" data-bind="profile.headline">{profile.headline}</p>
+        <p class="about-lede" data-bind="profile.intro">{profile.intro}</p>
+
+        <dl class="about-facts">
+          <div class="about-fact">
+            <dt>Based in</dt>
+            <dd data-bind="profile.location">{profile.location}</dd>
+          </div>
+          <div class="about-fact">
+            <dt>Currently</dt>
+            <dd data-bind="profile.status">{profile.status}</dd>
+          </div>
+          <div class="about-fact">
+            <dt>Focus</dt>
+            <dd>{profile.interests.slice(0, 3).join(' / ')}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="about-sections">
+      <section class="about-section" aria-labelledby="bio-title">
+        <p class="about-section__label" id="bio-title">02 / 关于我</p>
+        <div class="about-bio">
+          {
+            profile.bio.map((paragraph, index) => (
+              <p data-bind={`profile.bio.${index}`}>{paragraph}</p>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="now-title">
+        <p class="about-section__label" id="now-title">03 / 现在</p>
+        <div class="now-table">
+          <div class="now-table__row">
+            <span class="now-table__key">Building</span>
+            <span class="now-table__value" data-bind="profile.now.building">{profile.now.building}</span>
+          </div>
+          <div class="now-table__row">
+            <span class="now-table__key">Learning</span>
+            <span class="now-table__value" data-bind="profile.now.learning">{profile.now.learning}</span>
+          </div>
+          <div class="now-table__row">
+            <span class="now-table__key">Playing</span>
+            <span class="now-table__value" data-bind="profile.now.playing">{profile.now.playing}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="toolbox-title">
+        <p class="about-section__label" id="toolbox-title">04 / 工具箱</p>
+        <div class="toolbox">
+          {
+            profile.toolbox.map((group, groupIndex) => (
+              <div class="toolbox__group">
+                <h3 data-bind={`profile.toolbox.${groupIndex}.group`}>{group.group}</h3>
+                <div class="toolbox__items">
+                  {group.items.map((item, itemIndex) => (
+                    <span class="tag" data-bind={`profile.toolbox.${groupIndex}.items.${itemIndex}`}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="timeline-title">
+        <p class="about-section__label" id="timeline-title">05 / 时间线</p>
+        <div class="timeline">
+          {
+            profile.timeline.map((item, index) => (
+              <div class="timeline__item">
+                <span class="timeline__date" data-bind={`profile.timeline.${index}.date`}>
+                  {item.date}
+                </span>
+                <div>
+                  <p class="timeline__title" data-bind={`profile.timeline.${index}.title`}>
+                    {item.title}
+                  </p>
+                  <p class="timeline__desc" data-bind={`profile.timeline.${index}.description`}>
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="interests-title">
+        <p class="about-section__label" id="interests-title">06 / 兴趣</p>
+        <div class="interest-list">
+          {
+            profile.interests.map((interest, index) => (
+              <span class="tag" data-bind={`profile.interests.${index}`}>{interest}</span>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="links-title">
+        <p class="about-section__label" id="links-title">07 / 找到我</p>
+        <div>
+          <div class="link-list">
+            {links.map((link) => (
+              <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
+            ))}
+            <a href="/rss.xml">RSS Feed ↗</a>
+          </div>
+          <p class="about-note">这里没有更多公开账号。如果你读到某篇文字想说点什么，RSS 是找到这个空间最安静的方式。</p>
+          {import.meta.env.DEV && (
+            <p class="about-note edit-only">
+              提示：进入编辑模式可直接改文字；社交链接与头像在
+              <a href="/studio/">Studio → 关于我</a> 中管理。
+            </p>
+          )}
+        </div>
+      </section>
+    </div>
+
+    <p class="about-note" style="margin-top: 40px;">
+      {site.name} · {site.footerNote}
+    </p>
+  </div>
+</BaseLayout>

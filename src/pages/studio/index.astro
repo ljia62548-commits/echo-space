@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/studio.css';
+import site from '../../data/site.json';
+import profile from '../../data/profile.json';
+import { categoryNav } from '../../lib/content';
+
+const today = new Date().toISOString().slice(0, 10);
+const initialTab = 'posts';
+---
+
+<BaseLayout title="Studio" bare bodyClass="studio-page">
+  <div class="studio" data-studio>
+    <header class="studio-top">
+      <div class="studio-brand">
+        <a href="/" class="studio-brand__back">← Echo Space</a>
+        <span class="studio-brand__divider">/</span>
+        <span class="studio-brand__name">Studio</span>
+      </div>
+
+      <nav class="studio-tabs" aria-label="编辑区域">
+        <button class="studio-tab is-active" type="button" data-tab="posts">文章</button>
+        <button class="studio-tab" type="button" data-tab="site">站点</button>
+        <button class="studio-tab" type="button" data-tab="profile">关于我</button>
+      </nav>
+
+      <div class="studio-top__right">
+        <span class="studio-local"><i></i>LOCAL ONLY</span>
+        <a href="/" class="studio-top__link">查看站点 ↗</a>
+      </div>
+    </header>
+
+    <div class="studio-body">
+      <div class="studio-banner">
+        <strong>本地编辑模式</strong>
+        <span>所有修改直接写入项目文件。这里是私人后台，不会部署到线上。</span>
+      </div>
+
+      <!-- ============================ POSTS ============================ -->
+      <section class="studio-panel" data-panel="posts">
+        <div class="studio-posts">
+          <aside class="studio-list">
+            <div class="studio-list__head">
+              <span>文章 <em data-post-count>0</em></span>
+              <button class="studio-mini-btn" type="button" data-new-post>+ 新建</button>
+            </div>
+            <div class="studio-list__items" data-post-list>
+              <p class="studio-muted">正在读取文章…</p>
+            </div>
+          </aside>
+
+          <div class="studio-editor">
+            <form data-post-form>
+              <input type="hidden" data-post-original />
+              <div class="studio-editor__head">
+                <div>
+                  <p class="studio-kicker" data-editor-mode>New entry</p>
+                  <h1 class="studio-editor__title">写一篇新的</h1>
+                </div>
+                <div class="studio-editor__actions">
+                  <a class="studio-mini-btn" data-post-preview href="#" target="_blank" hidden>预览 ↗</a>
+                  <button class="studio-mini-btn studio-mini-btn--danger" type="button" data-delete-post hidden>
+                    删除
+                  </button>
+                  <button class="studio-btn studio-btn--solid" type="submit">保存文章</button>
+                </div>
+              </div>
+
+              <div class="studio-grid studio-grid--2">
+                <label class="studio-field studio-field--wide">
+                  <span>标题</span>
+                  <input class="studio-input" data-post-title required maxlength="140" placeholder="一篇值得留下的文章" />
+                </label>
+
+                <label class="studio-field">
+                  <span>Slug（URL）</span>
+                  <input class="studio-input" data-post-slug placeholder="leave-empty-for-auto" />
+                  <small>小写字母、数字、连字符。留空会自动生成。</small>
+                </label>
+
+                <label class="studio-field">
+                  <span>分类</span>
+                  <select class="studio-input" data-post-category>
+                    {categoryNav.map((item) => <option value={item.key}>{item.label}</option>)}
+                  </select>
+                </label>
+
+                <label class="studio-field">
+                  <span>日期</span>
+                  <input class="studio-input" type="date" data-post-date value={today} />
+                </label>
+
+                <label class="studio-field">
+                  <span>标签（逗号分隔）</span>
+                  <input class="studio-input" data-post-tags placeholder="写作, 思考" />
+                </label>
+
+                <label class="studio-field studio-field--wide">
+                  <span>摘要</span>
+                  <textarea class="studio-input studio-textarea" data-post-description rows="3" maxlength="400" placeholder="一两句话，告诉读者这篇文章在讲什么。"></textarea>
+                </label>
+
+                <label class="studio-field studio-field--wide">
+                  <span>封面图（可选）</span>
+                  <input class="studio-input" data-post-cover placeholder="/uploads/cover.jpg" />
+                </label>
+              </div>
+
+              <div class="studio-checks">
+                <label><input type="checkbox" data-post-featured /> 精选到首页</label>
+                <label><input type="checkbox" data-post-draft /> 草稿（不公开）</label>
+              </div>
+
+              <label class="studio-field studio-field--wide studio-field--body">
+                <span>正文 · Markdown</span>
+                <textarea class="studio-input studio-textarea studio-textarea--code" data-post-body rows="22" placeholder="从这里开始写…"></textarea>
+                <small>支持标准 Markdown。保存后打开预览，或在站点里查看。</small>
+              </label>
+
+              <div class="studio-editor__foot">
+                <span class="studio-save-state" data-post-status>尚未保存</span>
+                <button class="studio-btn studio-btn--solid" type="submit">保存文章</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ SITE ============================ -->
+      <section class="studio-panel" data-panel="site" hidden>
+        <div class="studio-stack">
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>基本信息</h2>
+              <p>站名、作者与站点描述。</p>
+            </div>
+            <div class="studio-grid studio-grid--2">
+              <label class="studio-field">
+                <span>站点名称</span>
+                <input class="studio-input" data-site-name value={site.name} />
+              </label>
+              <label class="studio-field">
+                <span>作者</span>
+                <input class="studio-input" data-site-author value={site.author} />
+              </label>
+              <label class="studio-field studio-field--wide">
+                <span>站点描述（SEO）</span>
+                <textarea class="studio-input studio-textarea" data-site-description rows="3">{site.description}</textarea>
+              </label>
+              <label class="studio-field studio-field--wide">
+                <span>页脚短句</span>
+                <input class="studio-input" data-site-footer value={site.footerNote} />
+              </label>
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>首屏主图</h2>
+              <p>这张图会作为首屏的方形主视觉，并被柔化成背景色。建议方图、至少 800px。</p>
+            </div>
+
+            <div class="studio-hero-editor">
+              <div class="studio-wallpaper">
+                <img src={site.hero.image} alt="当前壁纸" data-site-wallpaper-preview />
+                <label class="studio-upload">
+                  <input type="file" accept="image/jpeg,image/png,image/webp" data-site-wallpaper-file />
+                  更换图片
+                </label>
+              </div>
+
+              <div class="studio-hero-fields">
+                <label class="studio-field">
+                  <span>遮罩浓度 — <em data-site-overlay-value>{Math.round(site.hero.overlay * 100)}%</em></span>
+                  <input type="range" min="0" max="80" step="1" value={Math.round(site.hero.overlay * 100)} data-site-overlay />
+                </label>
+
+                <label class="studio-field">
+                  <span>画面焦点</span>
+                  <select class="studio-input" data-site-position>
+                    <option value="50% 38%" selected={site.hero.position === '50% 38%'}>偏上 · 主图</option>
+                    <option value="66% 42%" selected={site.hero.position === '66% 42%'}>偏右 · 默认</option>
+                    <option value="50% 50%" selected={site.hero.position === '50% 50%'}>居中</option>
+                    <option value="50% 28%" selected={site.hero.position === '50% 28%'}>更偏上</option>
+                    <option value="50% 72%" selected={site.hero.position === '50% 72%'}>偏下</option>
+                    <option value="28% 50%" selected={site.hero.position === '28% 50%'}>偏左</option>
+                    <option value="82% 50%" selected={site.hero.position === '82% 50%'}>偏右</option>
+                  </select>
+                </label>
+
+                <label class="studio-field">
+                  <span>首屏眉标</span>
+                  <input class="studio-input" data-site-kicker value={site.hero.kicker} />
+                </label>
+
+                <label class="studio-field">
+                  <span>首屏主句</span>
+                  <textarea class="studio-input studio-textarea" data-site-line rows="2">{site.hero.line}</textarea>
+                </label>
+
+                <label class="studio-field">
+                  <span>首屏副句</span>
+                  <input class="studio-input" data-site-subline value={site.hero.subline} />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>左侧导航</h2>
+              <p>只改显示文字与说明，链接和顺序保持固定，避免页面结构被改坏。</p>
+            </div>
+            <div class="studio-nav-list">
+              {
+                site.nav.map((item) => (
+                  <div class="studio-nav-row" data-nav-key={item.key}>
+                    <span class="studio-nav-row__index">{item.index}</span>
+                    <label class="studio-field">
+                      <span>名称</span>
+                      <input class="studio-input" data-nav-label value={item.label} />
+                    </label>
+                    <label class="studio-field">
+                      <span>说明</span>
+                      <input class="studio-input" data-nav-description value={item.description} />
+                    </label>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>社交链接</h2>
+              <p>显示在左侧栏底部。留空则不显示。</p>
+            </div>
+            <div class="studio-repeat-list" data-social-list>
+              {
+                site.social.map((link) => (
+                  <div class="studio-repeat-row studio-repeat-row--social" data-repeat>
+                    <input class="studio-input" data-social-label value={link.label} placeholder="GitHub" />
+                    <input class="studio-input" data-social-href value={link.href} placeholder="https://github.com/..." />
+                    <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="studio-add-btn" type="button" data-add-social>+ 添加链接</button>
+          </div>
+
+          <div class="studio-actions">
+            <span class="studio-save-state" data-site-status>尚未修改</span>
+            <button class="studio-btn studio-btn--solid" type="button" data-save-site>保存站点设置</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ PROFILE ============================ -->
+      <section class="studio-panel" data-panel="profile" hidden>
+        <div class="studio-stack">
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>关于我</h2>
+              <p>这些内容会出现在 About Me 页面。</p>
+            </div>
+            <div class="studio-grid studio-grid--2">
+              <label class="studio-field">
+                <span>名字</span>
+                <input class="studio-input" data-profile-name value={profile.name} />
+              </label>
+              <label class="studio-field">
+                <span>字母缩写</span>
+                <input class="studio-input" data-profile-monogram value={profile.monogram} maxlength="4" />
+              </label>
+              <label class="studio-field studio-field--wide">
+                <span>身份标签</span>
+                <input class="studio-input" data-profile-headline value={profile.headline} />
+              </label>
+              <label class="studio-field studio-field--wide">
+                <span>一句话介绍</span>
+                <textarea class="studio-input studio-textarea" data-profile-intro rows="3">{profile.intro}</textarea>
+              </label>
+              <label class="studio-field">
+                <span>所在地</span>
+                <input class="studio-input" data-profile-location value={profile.location} />
+              </label>
+              <label class="studio-field">
+                <span>当前状态</span>
+                <input class="studio-input" data-profile-status value={profile.status} />
+              </label>
+              <label class="studio-field studio-field--wide">
+                <span>头像地址（可选）</span>
+                <input class="studio-input" data-profile-avatar value={profile.avatar} placeholder="/uploads/avatar.jpg" />
+              </label>
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>自我介绍</h2>
+              <p>用空行分隔段落。每一段会独立成为一个段落。</p>
+            </div>
+            <label class="studio-field">
+              <span>正文</span>
+              <textarea class="studio-input studio-textarea" data-profile-bio rows="10">{profile.bio.join('\n\n')}</textarea>
+            </label>
+            <label class="studio-field">
+              <span>兴趣（逗号分隔）</span>
+              <input class="studio-input" data-profile-interests value={profile.interests.join(', ')} />
+            </label>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>Now</h2>
+              <p>最近在做、在学、在玩的事。</p>
+            </div>
+            <div class="studio-grid studio-grid--3">
+              <label class="studio-field">
+                <span>Building</span>
+                <textarea class="studio-input studio-textarea" data-now-building rows="3">{profile.now.building}</textarea>
+              </label>
+              <label class="studio-field">
+                <span>Learning</span>
+                <textarea class="studio-input studio-textarea" data-now-learning rows="3">{profile.now.learning}</textarea>
+              </label>
+              <label class="studio-field">
+                <span>Playing</span>
+                <textarea class="studio-input studio-textarea" data-now-playing rows="3">{profile.now.playing}</textarea>
+              </label>
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>工具箱</h2>
+              <p>每一行是一组技能，用逗号分隔。</p>
+            </div>
+            <div class="studio-repeat-list" data-toolbox-list>
+              {
+                profile.toolbox.map((group) => (
+                  <div class="studio-repeat-row studio-repeat-row--toolbox" data-repeat>
+                    <input class="studio-input" data-toolbox-group value={group.group} placeholder="Language & Data" />
+                    <input class="studio-input" data-toolbox-items value={group.items.join(', ')} placeholder="Python, SQL, Pandas" />
+                    <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="studio-add-btn" type="button" data-add-toolbox>+ 添加一组</button>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>时间线</h2>
+              <p>按你喜欢的顺序排列，不需要严格倒序。</p>
+            </div>
+            <div class="studio-repeat-list" data-timeline-list>
+              {
+                profile.timeline.map((item) => (
+                  <div class="studio-repeat-row studio-repeat-row--timeline" data-repeat>
+                    <input class="studio-input" data-timeline-date value={item.date} placeholder="2026" />
+                    <input class="studio-input" data-timeline-title value={item.title} placeholder="发生了什么" />
+                    <input class="studio-input" data-timeline-description value={item.description} placeholder="一句话说明" />
+                    <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="studio-add-btn" type="button" data-add-timeline>+ 添加一条</button>
+          </div>
+
+          <div class="studio-card">
+            <div class="studio-card__head">
+              <h2>社交链接</h2>
+              <p>显示在 About Me 页面的「找到我」区域。</p>
+            </div>
+            <div class="studio-repeat-list" data-links-list>
+              {
+                profile.links.map((link) => (
+                  <div class="studio-repeat-row studio-repeat-row--social" data-repeat>
+                    <input class="studio-input" data-link-label value={link.label} placeholder="GitHub" />
+                    <input class="studio-input" data-link-href value={link.href} placeholder="https://github.com/..." />
+                    <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+                  </div>
+                ))
+              }
+            </div>
+            <button class="studio-add-btn" type="button" data-add-link>+ 添加链接</button>
+          </div>
+
+          <div class="studio-actions">
+            <span class="studio-save-state" data-profile-status>尚未修改</span>
+            <button class="studio-btn studio-btn--solid" type="button" data-save-profile>保存关于我</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <template data-toolbox-template>
+    <div class="studio-repeat-row studio-repeat-row--toolbox" data-repeat>
+      <input class="studio-input" data-toolbox-group placeholder="Group name" />
+      <input class="studio-input" data-toolbox-items placeholder="Python, SQL, Pandas" />
+      <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+    </div>
+  </template>
+
+  <template data-timeline-template>
+    <div class="studio-repeat-row studio-repeat-row--timeline" data-repeat>
+      <input class="studio-input" data-timeline-date placeholder="2026" />
+      <input class="studio-input" data-timeline-title placeholder="发生了什么" />
+      <input class="studio-input" data-timeline-description placeholder="一句话说明" />
+      <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+    </div>
+  </template>
+
+  <template data-social-template>
+    <div class="studio-repeat-row studio-repeat-row--social" data-repeat>
+      <input class="studio-input" data-social-label placeholder="GitHub" />
+      <input class="studio-input" data-social-href placeholder="https://github.com/..." />
+      <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+    </div>
+  </template>
+
+  <template data-link-template>
+    <div class="studio-repeat-row studio-repeat-row--social" data-repeat>
+      <input class="studio-input" data-link-label placeholder="GitHub" />
+      <input class="studio-input" data-link-href placeholder="https://github.com/..." />
+      <button class="studio-icon-btn" type="button" data-remove-row aria-label="移除">×</button>
+    </div>
+  </template>
+
+  <div class="toast" data-toast role="status"></div>
+
+  <script>
+    import '../../scripts/studio.ts';
+  </script>
+</BaseLayout>

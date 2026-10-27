@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import Footer from '../components/Footer.astro';
+import EditDock from '../components/EditDock.astro';
+import site from '../data/site.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  bare?: boolean;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description = site.description,
+  image = site.hero.image,
+  bare = false,
+  bodyClass = '',
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('http://localhost:4321');
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = new URL(image, siteUrl).href;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.hero.line}`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.author} />
+    <meta name="theme-color" content="#080c11" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">跳到正文</a>
+
+    {!bare && <Sidebar />}
+    {!bare && <div class="nav-overlay" data-nav-overlay aria-hidden="true"></div>}
+
+    <div class:list={['shell', bare && 'shell--bare']}>
+      <main id="main">
+        <slot />
+      </main>
+      {!bare && <Footer />}
+    </div>
+
+    {!bare && import.meta.env.DEV && <EditDock />}
+
+    <script>
+      import '../scripts/app.ts';
+    </script>
+  </body>
+</html>

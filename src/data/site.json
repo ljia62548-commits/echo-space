@@ -1,0 +1,54 @@
+{
+  "name": "Echo Space",
+  "author": "Jason Jia",
+  "description": "Echo Space 是 Jason Jia 的个人博客，记录关于思考、生活、游戏、AI 工具与机器学习的长文字。",
+  "locale": "zh-CN",
+  "hero": {
+    "kicker": "PERSONAL ARCHIVE — 001",
+    "line": "在噪声里，留下自己的回声。",
+    "subline": "关于思考、生活与机器的一点记录。",
+    "image": "/uploads/echo-space-portrait.jpg",
+    "position": "50% 38%",
+    "overlay": 0.22,
+    "updatedAt": "2026-10-28"
+  },
+  "nav": [
+    {
+      "key": "about",
+      "label": "About Me",
+      "href": "/about/",
+      "index": "01",
+      "description": "关于我是谁、在做什么，以及这个空间为什么存在。"
+    },
+    {
+      "key": "thinking",
+      "label": "Personal Thinking",
+      "href": "/thinking/",
+      "index": "02",
+      "description": "关于选择、习惯、创造与生活的长期思考。"
+    },
+    {
+      "key": "life",
+      "label": "Life and Game",
+      "href": "/life/",
+      "index": "03",
+      "description": "游戏、阅读、旅行，以及那些不产出 KPI 的时间。"
+    },
+    {
+      "key": "ai-tools",
+      "label": "AI Tools",
+      "href": "/ai-tools/",
+      "index": "04",
+      "description": "把 AI 真正用进日常工作的工具、提示词与工作流。"
+    },
+    {
+      "key": "ml",
+      "label": "Machine Learning",
+      "href": "/ml/",
+      "index": "05",
+      "description": "机器学习、论文笔记、实验与工程实践。"
+    }
+  ],
+  "social": [],
+  "footerNote": "Built slowly, in a quiet corner of the internet."
+}

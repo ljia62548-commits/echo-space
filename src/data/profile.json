@@ -1,0 +1,78 @@
+{
+  "name": "Jason Jia",
+  "monogram": "JJ",
+  "headline": "AI & Machine Learning · 长期主义 · 游戏玩家",
+  "intro": "白天和模型、数据打交道，晚上写字、打游戏。这里不追热点，只记录那些过了很久仍然想得起来的东西。",
+  "location": "China",
+  "status": "正在把零散的笔记，慢慢整理成自己的系统",
+  "avatar": "",
+  "bio": [
+    "我是 Jason，一个在 AI 与机器学习领域持续学习的人。比起快速给出答案，我更关心一个问题是怎么被想清楚的：哪些假设成立，哪些证据不足，哪里只是自己的一厢情愿。",
+    "Echo Space 的名字来自一个很简单的念头：说出去的话、写下来的字，会在时间里产生回声。它们可能很轻，但积累久了，会变成一个人思考的形状。",
+    "这个空间不打算追逐更新频率，也不打算什么都写。它更像一间安静的书房：有想法的时候进来坐一会儿，把值得留下的东西放在架子上。"
+  ],
+  "interests": [
+    "Machine Learning",
+    "AI Tools",
+    "Game Design",
+    "Writing",
+    "Long-form Reading"
+  ],
+  "toolbox": [
+    {
+      "group": "Language & Data",
+      "items": [
+        "Python",
+        "SQL",
+        "Pandas",
+        "NumPy"
+      ]
+    },
+    {
+      "group": "Machine Learning",
+      "items": [
+        "PyTorch",
+        "scikit-learn",
+        "Transformers",
+        "Experiment Tracking"
+      ]
+    },
+    {
+      "group": "Build & Think",
+      "items": [
+        "Vite / Astro",
+        "Git",
+        "Notion",
+        "Writing"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2026",
+      "title": "Echo Space",
+      "description": "把散落在笔记软件里的想法，搬到一个可以慢慢长大的地方。"
+    },
+    {
+      "date": "2025",
+      "title": "深潜机器学习",
+      "description": "从调用库函数，走向理解梯度、概率与泛化。开始认真记录实验。"
+    },
+    {
+      "date": "2024",
+      "title": "把 AI 用进工作流",
+      "description": "不再把模型当成搜索引擎，而是当成可以委派任务的同事。"
+    },
+    {
+      "date": "更早",
+      "title": "在游戏、阅读与代码之间",
+      "description": "寻找自己的节奏。很多事情没有坚持下来，但留下的都还算喜欢。"
+    }
+  ],
+  "now": {
+    "building": "Echo Space，以及一套更顺手的个人知识工作流。",
+    "learning": "机器学习的基础与工程实践，试着把数学直觉写清楚。",
+    "playing": "一些需要慢慢玩的游戏，和几本不急着读完的书。"
+  },
+  "links": []
+}

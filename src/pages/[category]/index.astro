@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostRow from '../../components/PostRow.astro';
+import { categoryNav, getPostsByCategory, type NavItem } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  return categoryNav.map((meta) => ({
+    params: { category: meta.key },
+    props: { meta },
+  }));
+}
+
+interface Props {
+  meta: NavItem;
+}
+
+const { meta } = Astro.props;
+const posts = await getPostsByCategory(meta.key);
+
+const words = meta.label.split(' ');
+const lastWord = words.pop() ?? meta.label;
+const leadWords = words.join(' ');
+const latest = posts[0];
+---
+
+<BaseLayout title={meta.label} description={meta.description}>
+  <div class="page">
+    <header class="page__head">
+      <p class="page__index">{meta.index} / SECTION</p>
+      <h1 class="page__title">
+        {leadWords} <em>{lastWord}</em>
+      </h1>
+      <p class="page__lede">{meta.description}</p>
+      <div class="page__meta">
+        <span>{String(posts.length).padStart(2, '0')} entries</span>
+        {latest && <span>Last update {formatDate(latest.data.date)}</span>}
+        <a class="text-link" href="/archive/">Archive</a>
+      </div>
+    </header>
+
+    <div class="page__body">
+      {
+        posts.length > 0 ? (
+          <div class="post-list">
+            {posts.map((post) => <PostRow post={post} />)}
+          </div>
+        ) : (
+          <p class="empty-state">这个栏目还没有文章。</p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

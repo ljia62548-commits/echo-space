@@ -1,0 +1,36 @@
+---
+import { getCategoryMeta, getPostUrl, postReadingMinutes, type Post } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  post: Post;
+  lead?: boolean;
+}
+
+const { post, lead = false } = Astro.props;
+const category = getCategoryMeta(post.data.category);
+const minutes = postReadingMinutes(post);
+---
+
+<a
+  class:list={['post-feature', lead && 'post-feature--lead']}
+  href={getPostUrl(post)}
+  data-reveal
+>
+  <span class="post-feature__top">
+    <span class="post-feature__cat">{category?.label ?? post.data.category}</span>
+    <span class="post-feature__date">{formatDate(post.data.date)}</span>
+  </span>
+
+  {lead && <span class="post-feature__ghost" aria-hidden="true">01</span>}
+
+  <span class="post-feature__body">
+    <span class="post-feature__title">{post.data.title}</span>
+    {post.data.description && <span class="post-feature__excerpt">{post.data.description}</span>}
+  </span>
+
+  <span class="post-feature__foot">
+    <span>{minutes} MIN READ</span>
+    <span class="post-feature__arrow" aria-hidden="true">↗</span>
+  </span>
+</a>

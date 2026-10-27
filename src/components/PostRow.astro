@@ -1,0 +1,25 @@
+---
+import { getCategoryMeta, getPostUrl, type Post } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const category = getCategoryMeta(post.data.category);
+---
+
+<a class="post-row" href={getPostUrl(post)}>
+  <time class="post-row__date" datetime={post.data.date.toISOString()}>
+    {formatDate(post.data.date)}
+  </time>
+  <span class="post-row__main">
+    <span class="post-row__title">{post.data.title}</span>
+    {post.data.description && <span class="post-row__excerpt">{post.data.description}</span>}
+  </span>
+  <span class="post-row__meta">
+    {post.data.tags.slice(0, 2).map((tag) => <span class="tag">{tag}</span>)}
+  </span>
+  <span class="post-row__arrow" aria-hidden="true">↗</span>
+</a>

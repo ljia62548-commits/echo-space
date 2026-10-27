@@ -1,0 +1,76 @@
+---
+import Brand from './Brand.astro';
+import site from '../data/site.json';
+import { getPublishedPosts, socialLinks } from '../lib/content';
+
+const path = Astro.url.pathname;
+const posts = await getPublishedPosts();
+const year = new Date().getFullYear();
+
+const counts = new Map<string, number>();
+for (const post of posts) {
+  counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
+}
+
+const isActive = (href: string) => {
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(href);
+};
+---
+
+<aside class="sidebar" id="site-nav" data-sidebar aria-label="站点导航">
+  <Brand />
+
+  <nav class="nav" aria-label="主导航">
+    {
+      site.nav.map((item) => {
+        const active = isActive(item.href);
+        const meta = item.key === 'about' ? 'Profile' : `${counts.get(item.key) ?? 0} entries`;
+        return (
+          <a
+            class="nav__link"
+            href={item.href}
+            aria-current={active ? 'page' : undefined}
+            data-nav-link
+          >
+            <span class="nav__num">{item.index}</span>
+            <span class="nav__label">{item.label}</span>
+            <span class="nav__meta">{meta}</span>
+          </a>
+        );
+      })
+    }
+  </nav>
+
+  <div class="sidebar__foot">
+    <div class="sidebar__time">
+      <span class="sidebar__time-label">Local time</span>
+      <time class="sidebar__time-value" data-local-time>--:--</time>
+    </div>
+
+    <div class="sidebar__links">
+      {socialLinks.map((link) => <a href={link.href} rel="me noopener" target="_blank">{link.label}</a>)}
+      <a href="/rss.xml">RSS</a>
+      {import.meta.env.DEV && <a class="sidebar__edit" href="/studio/">Edit</a>}
+    </div>
+
+    <p class="sidebar__copyright">
+      © {year} {site.name}<br />
+      All words are my own.
+    </p>
+  </div>
+</aside>
+
+<header class="mobile-bar" data-mobile-bar>
+  <Brand compact />
+  <button
+    class="mobile-bar__menu"
+    type="button"
+    data-nav-toggle
+    aria-label="打开导航"
+    aria-expanded="false"
+    aria-controls="site-nav"
+  >
+    <span></span><span></span><span></span>
+  </button>
+</header>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPosts, type Post } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+const posts = await getPublishedPosts();
+const years = new Map<number, Post[]>();
+
+for (const post of posts) {
+  const year = post.data.date.getFullYear();
+  const group = years.get(year) ?? [];
+  group.push(post);
+  years.set(year, group);
+}
+
+const entries = [...years.entries()].sort((a, b) => b[0] - a[0]);
+---
+
+<BaseLayout title="Archive" description="Echo Space 的全部文章归档。">
+  <div class="page">
+    <header class="page__head">
+      <p class="page__index">INDEX / ARCHIVE</p>
+      <h1 class="page__title">All <em>writing</em></h1>
+      <p class="page__lede">
+        所有写下来的东西，按时间排列。它们不代表最终答案，只代表某个时刻的我。
+      </p>
+      <div class="page__meta">
+        <span>{String(posts.length).padStart(2, '0')} entries</span>
+        <span>{entries.length} years</span>
+        <a class="text-link" href="/tags/">Tags</a>
+      </div>
+    </header>
+
+    <div class="page__body">
+      {
+        entries.map(([year, items]) => (
+          <section class="archive-year" aria-labelledby={`year-${year}`}>
+            <h2 class="archive-year__label" id={`year-${year}`}>{year}</h2>
+            <div class="archive-list">
+              {items.map((post) => (
+                <a class="archive-item" href={`/${post.data.category}/${post.id.split('/').pop()}/`}>
+                  <time class="archive-item__date" datetime={post.data.date.toISOString()}>
+                    {formatDate(post.data.date).slice(5)}
+                  </time>
+                  <span class="archive-item__title">{post.data.title}</span>
+                  <span class="archive-item__cat">{post.data.category}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+
+      {entries.length === 0 && <p class="empty-state">还没有文章。</p>}
+    </div>
+  </div>
+</BaseLayout>
