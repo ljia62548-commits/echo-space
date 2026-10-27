@@ -1,6 +1,5 @@
 ---
-import '../styles/global.css';
-import Brand from '../components/Brand.astro';
+import site from '../data/site.json';
 
 interface Props {
   compact?: boolean;
@@ -9,10 +8,10 @@ interface Props {
 const { compact = false } = Astro.props;
 ---
 
-<a class="brand" href="/" aria-label="Echo Space 首页">
+<a class="brand" href="/" aria-label={`${site.name} 首页`}>
   <span class="brand__line">
     <span class="brand__mark" aria-hidden="true"></span>
-    <span class="brand__name">Echo Space</span>
+    <span class="brand__name">{site.name}</span>
   </span>
   {!compact && <span class="brand__sub">Personal archive</span>}
 </a>
