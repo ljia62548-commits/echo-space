@@ -7,6 +7,7 @@ export default defineConfig({
   site: 'http://localhost:4321',
   output: 'static',
   server: { port: 4321, host: '127.0.0.1' },
+  devToolbar: { enabled: false },
   vite: {
     plugins: [studioApi()],
   },

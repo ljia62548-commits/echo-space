@@ -157,7 +157,7 @@ const initialTab = 'posts';
           <div class="studio-card">
             <div class="studio-card__head">
               <h2>首屏主图</h2>
-              <p>这张图会作为首屏的方形主视觉，并被柔化成背景色。建议方图、至少 800px。</p>
+              <p>整屏铺满的首屏背景。建议横图（16:10），至少 1920px 宽。</p>
             </div>
 
             <div class="studio-hero-editor">
@@ -178,10 +178,11 @@ const initialTab = 'posts';
                 <label class="studio-field">
                   <span>画面焦点</span>
                   <select class="studio-input" data-site-position>
-                    <option value="50% 38%" selected={site.hero.position === '50% 38%'}>偏上 · 主图</option>
-                    <option value="66% 42%" selected={site.hero.position === '66% 42%'}>偏右 · 默认</option>
+                    <option value="50% 45%" selected={site.hero.position === '50% 45%'}>偏上 · 默认</option>
+                    <option value="50% 38%" selected={site.hero.position === '50% 38%'}>更偏上</option>
+                    <option value="66% 42%" selected={site.hero.position === '66% 42%'}>偏右</option>
                     <option value="50% 50%" selected={site.hero.position === '50% 50%'}>居中</option>
-                    <option value="50% 28%" selected={site.hero.position === '50% 28%'}>更偏上</option>
+                    <option value="50% 28%" selected={site.hero.position === '50% 28%'}>顶部</option>
                     <option value="50% 72%" selected={site.hero.position === '50% 72%'}>偏下</option>
                     <option value="28% 50%" selected={site.hero.position === '28% 50%'}>偏左</option>
                     <option value="82% 50%" selected={site.hero.position === '82% 50%'}>偏右</option>
@@ -189,18 +190,8 @@ const initialTab = 'posts';
                 </label>
 
                 <label class="studio-field">
-                  <span>首屏眉标</span>
-                  <input class="studio-input" data-site-kicker value={site.hero.kicker} />
-                </label>
-
-                <label class="studio-field">
-                  <span>首屏主句</span>
+                  <span>首屏主句（唯一一行）</span>
                   <textarea class="studio-input studio-textarea" data-site-line rows="2">{site.hero.line}</textarea>
-                </label>
-
-                <label class="studio-field">
-                  <span>首屏副句</span>
-                  <input class="studio-input" data-site-subline value={site.hero.subline} />
                 </label>
               </div>
             </div>

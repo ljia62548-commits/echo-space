@@ -7,9 +7,7 @@ type SiteData = {
   description: string;
   footerNote: string;
   hero: {
-    kicker: string;
     line: string;
-    subline: string;
     image: string;
     position: string;
     overlay: number;
@@ -526,9 +524,7 @@ function initSiteForm(): void {
         description: qs<HTMLTextAreaElement>('[data-site-description]')?.value.trim(),
         footerNote: qs<HTMLInputElement>('[data-site-footer]')?.value.trim(),
         hero: {
-          kicker: qs<HTMLInputElement>('[data-site-kicker]')?.value.trim(),
           line: qs<HTMLTextAreaElement>('[data-site-line]')?.value.trim(),
-          subline: qs<HTMLInputElement>('[data-site-subline]')?.value.trim(),
           overlay: overlay ? Number(overlay.value) / 100 : state.site.hero.overlay,
           position: position?.value ?? state.site.hero.position,
           ...(image ? { image, updatedAt: new Date().toISOString() } : {}),

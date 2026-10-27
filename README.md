@@ -1,10 +1,11 @@
 # Echo Space
 
-一个本地优先的个人博客。深蓝夜色、黄铜金，以及一张属于你的首屏主图。
+一个本地优先的个人博客。深蓝夜色、黄铜金，以及一张铺满首屏的主图。
 
 ![Echo Space 首页](docs/preview-home.jpg)
 
 - 纯静态输出，没有数据库，没有外部服务。
+- 首屏只有一行字，进入页面时逐字打出；没有副标题和多余文案。
 - 内容保存在普通的 Markdown / JSON 文件里，随时可以用 VS Code 直接改。
 - 本地自带编辑模式与 Studio，改文字、换图、写文章都不用碰代码。
 - 暂不部署，只在电脑本地运行。
@@ -65,7 +66,7 @@ src/
     studio-api.mjs    本地编辑接口（只在 npm run dev 时存在）
 public/
   uploads/            首屏主图、封面、头像
-assets/source/        你提供的原始图片
+assets/source/        你提供的原始图片（2560×1600）
 docs/                 README 预览图
 ```
 
@@ -95,7 +96,7 @@ draft: false
 
 ## 换首屏图片
 
-当前主图：`public/uploads/echo-space-portrait.jpg`（由 `assets/source/echo-space-portrait-original.jpg` 复制而来）。
+当前主图：`public/uploads/echo-space-hero.jpg`（来自 `assets/source/echo-space-hero-original.jpg`，2560×1600）。
 
 推荐直接：
 
@@ -104,20 +105,20 @@ draft: false
 3. 点「更换图片」，选一张更大的图；
 4. 调整遮罩和焦点，保存。
 
-也可以用同名文件覆盖 `public/uploads/echo-space-portrait.jpg`。建议使用**方形、至少 800×800** 的图片；当前这张 200×200 的图在首屏会略显柔焦，换成更高分辨率会更清晰。
+也可以用同名文件覆盖 `public/uploads/echo-space-hero.jpg`。建议使用**横图（16:10）、至少 1920px 宽**；图片会以 `cover` 铺满整个首屏，其他比例也能用，但 16:10 的构图最完整。
 
-首屏的模糊背景会自动从这张图生成，不需要另外准备壁纸。
+首屏不是简单的平铺：图片带有极轻的透视倾斜，边缘由径向渐变、底部渐隐和暗角收进页面背景。页面上只有一行文字，加载后逐字出现，保留一个闪烁的光标；开启系统“减少动态效果”时会直接显示整句。
 
 ## 改颜色
 
 全站颜色集中在 `src/styles/global.css` 顶部的 `:root`：
 
 ```css
---bg: #080c11;
---ink: #f1ece3;
---accent: #b88b4f;        /* 黄铜金 */
---accent-soft: #d8b476;
---accent-deep: #1f3846;   /* 深钢蓝，用于实心按钮 */
+--bg: #0a111a;
+--ink: #f4efe7;
+--accent: #c49a55;        /* 黄铜金 */
+--accent-soft: #e0be80;
+--accent-deep: #233f50;   /* 深钢蓝，用于实心按钮 */
 ```
 
 这组颜色来自那张主图：深蓝头发、暗色背景、金色眼睛。改这几个变量就能整体换色调。

@@ -57,7 +57,7 @@ const overlayPercent = Math.round(hero.overlay * 100);
         accept="image/jpeg,image/png,image/webp"
         data-wallpaper-file
       />
-      <span class="field__hint">建议方图，至少 800px；JPG / PNG / WebP，12MB 以内。低分辨率图片会显得柔焦。</span>
+      <span class="field__hint">建议横图（16:10），至少 1920px 宽；JPG / PNG / WebP，12MB 以内。</span>
     </div>
 
     <div class="field">
@@ -77,10 +77,11 @@ const overlayPercent = Math.round(hero.overlay * 100);
     <div class="field">
       <label for="wallpaper-position">画面焦点</label>
       <select id="wallpaper-position" data-wallpaper-position>
-        <option value="50% 38%" selected={hero.position === '50% 38%'}>偏上 · 主图</option>
-        <option value="66% 42%" selected={hero.position === '66% 42%'}>偏右 · 默认</option>
+        <option value="50% 45%" selected={hero.position === '50% 45%'}>偏上 · 默认</option>
+        <option value="50% 38%" selected={hero.position === '50% 38%'}>更偏上</option>
+        <option value="66% 42%" selected={hero.position === '66% 42%'}>偏右</option>
         <option value="50% 50%" selected={hero.position === '50% 50%'}>居中</option>
-        <option value="50% 28%" selected={hero.position === '50% 28%'}>偏上</option>
+        <option value="50% 28%" selected={hero.position === '50% 28%'}>顶部</option>
         <option value="50% 72%" selected={hero.position === '50% 72%'}>偏下</option>
         <option value="28% 50%" selected={hero.position === '28% 50%'}>偏左</option>
         <option value="82% 50%" selected={hero.position === '82% 50%'}>偏右</option>

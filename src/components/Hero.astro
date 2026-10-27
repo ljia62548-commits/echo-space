@@ -4,7 +4,7 @@ import site from '../data/site.json';
 const hero = site.hero;
 ---
 
-<section class="hero hero--portrait" aria-labelledby="hero-title">
+<section class="hero hero--full" aria-labelledby="hero-title">
   <div
     class="hero__bg"
     style={`--hero-image: url('${hero.image}'); --hero-position: ${hero.position};`}
@@ -18,21 +18,12 @@ const hero = site.hero;
   </button>
 
   <div class="hero__content">
-    <p class="hero__kicker" data-bind="site.hero.kicker">{hero.kicker}</p>
-
-    <figure class="hero__portrait">
-      <img src={hero.image} alt="Echo Space 主视觉" width="200" height="200" />
-    </figure>
-
-    <h1 class="hero__title" id="hero-title" data-bind="site.hero.line">{hero.line}</h1>
-    <p class="hero__subline" data-bind="site.hero.subline">{hero.subline}</p>
+    <h1 class="hero__title" id="hero-title" data-bind="site.hero.line" aria-label={hero.line}>
+      <span data-typewriter data-text={hero.line}>{hero.line}</span>
+    </h1>
   </div>
 
   <div class="hero__scroll" aria-hidden="true">
-    <span>Scroll</span>
     <span class="hero__scroll-line"></span>
-  </div>
-  <div class="hero__corner" aria-hidden="true">
-    Echo Space — Est. 2026
   </div>
 </section>

@@ -119,6 +119,50 @@ function initLocalTime(): void {
   window.setInterval(tick, 30_000);
 }
 
+function initTypewriter(): void {
+  const element = qs<HTMLElement>('[data-typewriter]');
+  if (!element) return;
+
+  const text = element.dataset.text ?? element.textContent ?? '';
+  if (!text) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    element.textContent = text;
+    return;
+  }
+
+  let index = 0;
+  let timer = 0;
+  let stopped = false;
+
+  const reveal = (): void => {
+    stopped = true;
+    window.clearTimeout(timer);
+    element.textContent = text;
+  };
+
+  window.addEventListener('echo:edit-start', reveal);
+
+  const step = (): void => {
+    if (stopped) return;
+    if (document.body.classList.contains('is-editing')) {
+      reveal();
+      return;
+    }
+
+    index += 1;
+    element.textContent = text.slice(0, index);
+
+    if (index < text.length) {
+      timer = window.setTimeout(step, 68 + Math.random() * 34);
+    }
+  };
+
+  element.textContent = '';
+  timer = window.setTimeout(step, 520);
+}
+
 /* ------------------------------------------------------------------ */
 /* Article niceties                                                    */
 /* ------------------------------------------------------------------ */
@@ -386,6 +430,7 @@ function initEditMode(): void {
 
     for (const element of bindings()) {
       if (next) {
+        window.dispatchEvent(new Event('echo:edit-start'));
         element.setAttribute('contenteditable', 'true');
         element.setAttribute('spellcheck', 'false');
         element.addEventListener('input', markDirty);
@@ -502,7 +547,7 @@ function initEditMode(): void {
 
     const currentImage = dialog.dataset.currentImage ?? '';
     const currentOverlay = Number(dialog.dataset.currentOverlay ?? 0.22);
-    const currentPosition = dialog.dataset.currentPosition ?? '50% 38%';
+    const currentPosition = dialog.dataset.currentPosition ?? '50% 45%';
 
     if (preview) {
       preview.src = currentImage;
@@ -643,6 +688,7 @@ function boot(): void {
   initScrollState();
   initReveal();
   initLocalTime();
+  initTypewriter();
   initCodeCopy();
   initCopyLink();
   initToc();

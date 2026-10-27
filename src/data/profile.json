@@ -1,7 +1,7 @@
 {
   "name": "Jason Jia",
   "monogram": "JJ",
-  "headline": "AI & Machine Learning · 长期主义 · 游戏玩家",
+  "headline": "AI & MACHINE LEARNING · 长期主义 · 游戏玩家",
   "intro": "白天和模型、数据打交道，晚上写字、打游戏。这里不追热点，只记录那些过了很久仍然想得起来的东西。",
   "location": "China",
   "status": "正在把零散的笔记，慢慢整理成自己的系统",
@@ -20,7 +20,7 @@
   ],
   "toolbox": [
     {
-      "group": "Language & Data",
+      "group": "LANGUAGE & DATA",
       "items": [
         "Python",
         "SQL",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "group": "Machine Learning",
+      "group": "MACHINE LEARNING",
       "items": [
         "PyTorch",
         "scikit-learn",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "group": "Build & Think",
+      "group": "BUILD & THINK",
       "items": [
         "Vite / Astro",
         "Git",
