@@ -6,38 +6,23 @@ import Hero from '../components/Hero.astro';
 <BaseLayout bodyClass="page-home">
   <Hero />
 
-  <section class="memo-section" aria-labelledby="memo-title" data-reveal>
+  <section class="memo-section" aria-label="待办便签" data-reveal>
     <div class="memo-board" data-memo-board>
-      <header class="memo-board__head">
-        <p class="memo-board__eyebrow">MEMO BOARD</p>
-        <div class="memo-board__heading">
-          <h2 id="memo-title">待办便签</h2>
-          <span class="memo-board__date" data-memo-date>—</span>
-        </div>
-        <p class="memo-board__lede">把今天要做的事留在这里。做完就划掉，不必急着删。</p>
-      </header>
-
       <form class="memo-form" data-memo-form>
-        <label class="sr-only" for="memo-input">添加待办事项</label>
+        <label class="sr-only" for="memo-input">添加待办</label>
         <input
           class="memo-form__input"
           id="memo-input"
           type="text"
-          placeholder="写下一件要做的事…"
+          placeholder="添加待办"
           maxlength="120"
           autocomplete="off"
           data-memo-input
         />
-        <button class="memo-form__button" type="submit">贴上去</button>
+        <button class="memo-form__button" type="submit" aria-label="添加待办">+</button>
       </form>
 
       <ul class="memo-list" data-memo-list></ul>
-      <p class="memo-empty" data-memo-empty hidden>便签板还是空的。</p>
-
-      <footer class="memo-board__foot">
-        <span data-memo-count>0 条待办</span>
-        <span>每天午夜清除已划掉的事项，未完成的留到明天。</span>
-      </footer>
     </div>
   </section>
 </BaseLayout>

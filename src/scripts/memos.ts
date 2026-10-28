@@ -62,14 +62,6 @@ function rollover(state: MemoState): boolean {
   return true;
 }
 
-function formatToday(): string {
-  return new Intl.DateTimeFormat('zh-CN', {
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-  }).format(new Date());
-}
-
 function makeId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
     return crypto.randomUUID();
@@ -82,11 +74,8 @@ export function initMemos(): void {
   const form = document.querySelector<HTMLFormElement>('[data-memo-form]');
   const input = document.querySelector<HTMLInputElement>('[data-memo-input]');
   const list = document.querySelector<HTMLUListElement>('[data-memo-list]');
-  const empty = document.querySelector<HTMLElement>('[data-memo-empty]');
-  const dateLabel = document.querySelector<HTMLElement>('[data-memo-date]');
-  const countLabel = document.querySelector<HTMLElement>('[data-memo-count]');
 
-  if (!board || !form || !input || !list || !empty || !dateLabel || !countLabel) {
+  if (!board || !form || !input || !list) {
     return;
   }
 
@@ -95,11 +84,6 @@ export function initMemos(): void {
 
   const render = (): void => {
     list.replaceChildren();
-    dateLabel.textContent = formatToday();
-
-    const open = state.items.filter((item) => !item.done).length;
-    countLabel.textContent = `${open} 条待办`;
-    empty.hidden = state.items.length > 0;
 
     for (const item of state.items) {
       const row = document.createElement('li');

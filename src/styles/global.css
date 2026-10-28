@@ -960,53 +960,10 @@ body.is-editing .hero__column.is-typing::after {
   transform: translateX(-50%);
 }
 
-.memo-board__eyebrow {
-  margin-bottom: 16px;
-  color: #777369;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.16em;
-}
-
-.memo-board__heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(42, 46, 48, 0.18);
-}
-
-.memo-board__heading h2 {
-  color: #262b2d;
-  font-family: var(--font-sans);
-  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-}
-
-.memo-board__date {
-  flex: none;
-  color: #777369;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.memo-board__lede {
-  margin-top: 16px;
-  color: #67645b;
-  font-size: 12px;
-  line-height: 1.7;
-}
-
 .memo-form {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 26px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(42, 46, 48, 0.24);
 }
@@ -1029,13 +986,15 @@ body.is-editing .hero__column.is-typing::after {
 
 .memo-form__button {
   flex: none;
-  padding: 7px 13px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
   border: 1px solid rgba(42, 46, 48, 0.3);
-  border-radius: 3px;
+  border-radius: 50%;
   color: #44413a;
   font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 0.04em;
+  font-size: 18px;
+  line-height: 1;
   transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
 
@@ -1105,25 +1064,6 @@ body.is-editing .hero__column.is-typing::after {
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   opacity: 0.62;
-}
-
-.memo-empty {
-  padding: 18px 0 8px;
-  color: #8a857a;
-  font-size: 12px;
-}
-
-.memo-board__foot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px 18px;
-  padding-top: 20px;
-  color: #777369;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.04em;
-  line-height: 1.7;
 }
 
 /* ---------- home: selected writing ---------- */
@@ -3030,22 +2970,12 @@ body.is-editing .edit-wallpaper {
     transform: none;
   }
 
-  .memo-board__heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 7px;
-  }
-
   .memo-form {
     gap: 8px;
   }
 
   .memo-form__input {
     font-size: 16px;
-  }
-
-  .memo-board__foot {
-    flex-direction: column;
   }
 
   .section {
