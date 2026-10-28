@@ -22,6 +22,7 @@ const SITE_KEYS = new Set([
   'name',
   'author',
   'description',
+  'tagline',
   'locale',
   'hero',
   'nav',

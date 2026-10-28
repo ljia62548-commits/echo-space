@@ -5,6 +5,7 @@ type SiteData = {
   name: string;
   author: string;
   description: string;
+  tagline: string;
   footerNote: string;
   hero: {
     line: string;
@@ -521,6 +522,7 @@ function initSiteForm(): void {
         name: qs<HTMLInputElement>('[data-site-name]')?.value.trim(),
         author: qs<HTMLInputElement>('[data-site-author]')?.value.trim(),
         description: qs<HTMLTextAreaElement>('[data-site-description]')?.value.trim(),
+        tagline: qs<HTMLInputElement>('[data-site-tagline]')?.value.trim(),
         footerNote: qs<HTMLInputElement>('[data-site-footer]')?.value.trim(),
         hero: {
           line: qs<HTMLTextAreaElement>('[data-site-line]')?.value.trim(),

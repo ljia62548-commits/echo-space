@@ -4,17 +4,16 @@
 > 文件名、目录名、关键类名可以直接在本文件里搜索。
 > 行号会随着以后修改而漂移，所以优先用「文件名 + 关键词」定位。
 
-## 首屏文字
+## 首屏与品牌标注
 
-首屏文字按中文逗号分成两列竖排，紧贴左侧菜单并上下错开，进入页面时逐字出现：
+首屏只保留整张图片，文字全部移到左上角 `Echo Space` 下方：
 
-- 文字内容在 [site.json](../src/data/site.json#L7) 的 `hero.line`；
-- 分列逻辑在 [Hero.astro](../src/components/Hero.astro)：按 `，` 拆分；
-- 渲染在 `.hero__content` / `.hero__title` / `.hero__column`；
-- 打字逻辑在 [app.ts](../src/scripts/app.ts) 的 `initTypewriter()`；
-- 光标是当前列底部的竖线，由 `.hero__column.is-typing::after` 控制。
+- 站名下方两行标注来自 [site.json](../src/data/site.json) 的 `tagline`；
+- [Brand.astro](../src/components/Brand.astro) 按中文逗号把 `tagline` 拆成两行；
+- 首屏图片上不再显示文字，`hero.line` 只作为隐藏的 SEO / 读屏标题；
+- 文字样式在 `.brand__name` 和 `.brand__sub`。
 
-具体调整方法见 [调整首屏文字](#调整首屏文字)。
+具体调整方法见 [调整品牌标注](#调整品牌标注)。
 
 ---
 
@@ -62,7 +61,6 @@ plog/
 │
 ├─ assets/source/                  # 你提供的原图，不参与网站
 ├─ docs/
-│  ├─ preview-home.jpg             # README 顶部预览图
 │  └─ PROJECT-STRUCTURE.md         # 本文件
 │
 ├─ astro.config.mjs
@@ -86,8 +84,9 @@ plog/
 | `name` | 站名。左上角 Logo、侧栏、页脚、SEO 都会读取它 |
 | `author` | 作者名 |
 | `description` | 站点默认描述，用于 SEO |
+| `tagline` | `Echo Space` 下方的标注，按中文逗号分成两行 |
 | `locale` | 页面语言，默认 `zh-CN` |
-| `hero.line` | 首屏文字，按中文逗号分成两列竖排 |
+| `hero.line` | 首屏隐藏标题，用于 SEO / 读屏，不显示在画面上 |
 | `hero.image` | 首屏图片地址 |
 | `hero.position` | 图片焦点，例如 `50% 45%` |
 | `hero.overlay` | 暗色遮罩浓度，0 到 1 |
@@ -187,9 +186,9 @@ cover: /uploads/cover.jpg
 
 | 文件 | 功能 |
 | --- | --- |
-| [Brand.astro](../src/components/Brand.astro) | 左上角站名，从 `site.json` 的 `name` 读取 |
+| [Brand.astro](../src/components/Brand.astro) | 左上角站名和下方两行标注，来自 `site.name` / `site.tagline` |
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
-| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、两列竖排文字、打字容器 |
+| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变，以及隐藏的 SEO 标题 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张为大卡片 |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
@@ -212,16 +211,9 @@ cover: /uploads/cover.jpg
 
 - 移动端菜单；
 - 滚动状态、入场动画；
-- **逐字打字**：`initTypewriter()`；
 - 代码复制、目录高亮、复制链接；
 - 站内搜索；
 - 编辑模式与图片弹窗。
-
-打字相关位置：
-
-- 每字间隔：搜索 `68 + Math.random() * 34`；
-- 开始前等待：搜索 `520`；
-- 光标样式：`global.css` 里的 `.hero__column.is-typing::after`。
 
 ### `src/scripts/studio.ts`
 
@@ -274,7 +266,7 @@ cover: /uploads/cover.jpg
 | [public/favicon.svg](../public/favicon.svg) | 浏览器标签页图标 |
 | [public/uploads/echo-space-hero.jpg](../public/uploads/echo-space-hero.jpg) | 首屏实际图片 |
 | [assets/source/echo-space-hero-original.jpg](../assets/source/echo-space-hero-original.jpg) | 原图备份，不参与网站 |
-| [docs/preview-home.jpg](./preview-home.jpg) | README 预览图，不影响网站 |
+| [docs/PROJECT-STRUCTURE.md](./PROJECT-STRUCTURE.md) | 本说明文档，不影响网站 |
 
 `dist/`、`.astro/`、`node_modules/`、`.git/` 都是自动生成或工具目录，不要手改。
 
@@ -284,11 +276,9 @@ cover: /uploads/cover.jpg
 
 | 想改什么 | 去哪里 |
 | --- | --- |
-| 首屏文字（逗号分列） | `src/data/site.json` → `hero.line`，或页面 `Ctrl + E`/Studio |
-| 打字速度 | `src/scripts/app.ts` → `68 + Math.random() * 34` |
-| 开始前停顿 | `src/scripts/app.ts` → `520` |
-| 打字光标 | `src/styles/global.css` → `.hero__column.is-typing::after` |
-| 文字上下位置 | `src/styles/global.css` → `.hero--full .hero__content` 的 `padding-bottom` |
+| Echo Space 下方标注 | `src/data/site.json` → `tagline`，或 Studio → 站点 |
+| 站名字号 | `src/styles/global.css` → `.brand__name` |
+| 标注字号/颜色 | `src/styles/global.css` → `.brand__sub` |
 | 首屏图片 | 替换 `public/uploads/echo-space-hero.jpg`，或编辑模式上传 |
 | 首屏亮度 | `src/styles/global.css` → `.hero--full .hero__bg` 的 `brightness()` |
 | 首屏遮罩 | `src/data/site.json` → `hero.overlay` |
@@ -304,136 +294,46 @@ cover: /uploads/cover.jpg
 | SEO / 分享卡片 | `src/layouts/BaseLayout.astro` |
 | 端口号 | `astro.config.mjs` → `server.port` |
 | 网站图标 | `public/favicon.svg` |
-| README 预览图 | `docs/preview-home.jpg` |
 | Studio 后台样式 | `src/styles/studio.css` |
 
 ---
 
-## 调整首屏文字
+## 调整品牌标注
 
-### 改文字内容
+### 改文字
 
-改 [site.json](../src/data/site.json#L7) 的 `hero.line`，或者进入页面编辑模式 / Studio → 站点。
+改 [site.json](../src/data/site.json) 的 `tagline`，或者打开 Studio → 站点 →「Echo Space 下方标注」。
 
-句子中的中文逗号会被 [Hero.astro](../src/components/Hero.astro) 拆成两列。例如「第一句，第二句」会变成右边「第一句」、左边「第二句」两列。想增加第三列，就再加一个逗号；不想要分列，就去掉逗号。
+[Brand.astro](../src/components/Brand.astro) 会按中文逗号把 `tagline` 拆成两行：
 
-### 改字体
-
-[global.css](../src/styles/global.css) 顶部：
-
-```css
---font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-  "Microsoft YaHei", sans-serif;
---font-serif: Georgia, "Songti SC", "STSong", "Noto Serif SC", "Times New Roman",
-  serif;
+```json
+"tagline": "这世间满是噪声，在此留一方天地聆听自己"
 ```
 
-- 界面文字、正文、导航、About：`--font-sans`；
-- 文章标题：`--font-serif`，英文用 Georgia，中文回退到宋体；
-- 编号、日期、小标签：`--font-mono`。
+`hero.line` 现在只作为首屏隐藏的 SEO / 读屏标题，不再显示在画面上；它和 `tagline` 可以保持一致，也可以单独写。
 
-文章标题的统一规则在 `.article-title, .post-feature__title, .post-row__title, ...` 这一组选择器里。
-
-### 改字号
-
-[global.css](../src/styles/global.css) 的 `.hero__title`：
-
-```css
-font-size: clamp(1.1rem, 2.2vw, 2rem);
-```
-
-- 第一个值是最小字号；
-- 中间是随屏幕宽度变化的字号；
-- 最后是桌面最大字号；
-- 手机上还有一条单独的字号覆盖：`clamp(1rem, 4.6vw, 1.45rem)`。
-
-### 改颜色 / 和背景融合
-
-[global.css](../src/styles/global.css) 的 `.hero__title`：
-
-```css
-color: rgba(220, 226, 230, 0.72);
-```
-
-现在用的是一种带蓝灰倾向的半透明暗白，会透出一点背景图。想要更明显就提高最后一位透明度，想更淡就降低。
-
-### 改位置
-
-[global.css](../src/styles/global.css) 的 `.hero--full .hero__content`：
-
-```css
-padding: 0 0 0 calc(var(--sidebar-w) + 14px);
-```
-
-`14px` 决定文字离菜单栏有多近。改大就更远，改小就贴得更紧。
-
-两列之间的间距在 `.hero__title` 的 `gap`。
-
-### 让两列错开
+### 改字号 / 颜色
 
 [global.css](../src/styles/global.css)：
 
 ```css
-.hero__column:first-child {
-  margin-top: clamp(32px, 6vh, 64px);
+.brand__name {
+  font-size: 28px;
+}
+
+.brand__sub {
+  font-size: 10px;
+  color: var(--muted);
 }
 ```
 
-`first-child` 是右边那句；调大这个值，右列会向下错得更多。想让左列下移，就改成 `:last-child`。
+`brand__sub` 的 `max-width` 控制两行标注的换行宽度。
 
-### 改竖排 / 横排
+### 改首屏图片
 
-[global.css](../src/styles/global.css) 的 `.hero__column`：
-
-```css
-writing-mode: vertical-rl;
-```
-
-把 `vertical-rl` 改成 `horizontal-tb`，文字就会恢复横向排列。
-
-`row-reverse` 控制两列的阅读顺序：第一句在右边、第二句在左边。改成 `row` 就会反过来。
-
-### 改打字速度
-
-[app.ts](../src/scripts/app.ts)：
-
-```js
-timer = window.setTimeout(step, 68 + Math.random() * 34);
-```
-
-每字约 68–102ms。开始前的停顿：
-
-```js
-timer = window.setTimeout(step, 520);
-```
-
-### 改光标
-
-[global.css](../src/styles/global.css) 的 `.hero__column.is-typing::after`：
-
-```css
-content: "";
-width: 1px;
-height: 0.7em;
-background: currentColor;
-```
-
-这是当前列底部的一条竖直光标。
-
-### 不要逐字、直接显示整句
-
-保留文字块，去掉每列 `<span>` 上的 `data-typewriter` 属性，或者把 `app.ts` 里 `initTypewriter()` 的调用注释掉。
-
-### 暂时隐藏文字
-
-如果又要露出整张图：
-
-1. 注释 [Hero.astro](../src/components/Hero.astro) 里的 `.hero__content`；
-2. 在同样位置加一个 `<h1 class="sr-only" id="hero-title">{hero.line}</h1>`，保留 SEO；
-3. 在 `<section>` 上加 `hero--clean`，减少为文字准备的底部压暗。
+替换 `public/uploads/echo-space-hero.jpg`，或在编辑模式里点「更换图片」。图片仍由 `hero.image`、`hero.position`、`hero.overlay` 控制。
 
 ---
-
 ## 九、常见坑
 
 1. **不要改 `dist/`**。它是构建产物，下次构建会被覆盖。

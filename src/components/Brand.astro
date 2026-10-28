@@ -6,11 +6,21 @@ interface Props {
 }
 
 const { compact = false } = Astro.props;
+const taglineLines = site.tagline
+  .split(/[，,]/)
+  .map((line) => line.trim())
+  .filter(Boolean);
 ---
 
 <a class="brand" href="/" aria-label={`${site.name} 首页`}>
   <span class="brand__line">
     <span class="brand__name">{site.name}</span>
   </span>
-  {!compact && <span class="brand__sub">All words are my own.</span>}
+  {
+    !compact && taglineLines.length > 0 && (
+      <span class="brand__sub">
+        {taglineLines.map((line) => <span class="brand__sub-line">{line}</span>)}
+      </span>
+    )
+  }
 </a>
