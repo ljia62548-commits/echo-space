@@ -337,6 +337,18 @@ a.tag:hover {
   transform: translateY(0);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------- sidebar ---------- */
 
 .sidebar {
@@ -604,6 +616,15 @@ a.tag:hover {
     radial-gradient(28% 32% at 61% 34%, rgba(224, 190, 128, 0.12), transparent 72%),
     radial-gradient(ellipse 80% 32% at 50% 102%, rgba(196, 154, 85, 0.08), transparent 70%);
   pointer-events: none;
+}
+
+/* 文字暂时隐藏时，减少底部压暗，让画面尽量完整露出。 */
+.hero--clean .hero__grade {
+  background:
+    linear-gradient(125deg, rgba(48, 104, 146, 0.08), transparent 55%),
+    radial-gradient(ellipse 70% 62% at 58% 38%, transparent 0%, rgba(10, 17, 26, 0.02) 45%, rgba(10, 17, 26, 0.24) 75%, rgba(10, 17, 26, 0.78) 100%),
+    linear-gradient(180deg, rgba(10, 17, 26, 0.36) 0%, transparent 24%, transparent 72%, rgba(10, 17, 26, 0.55) 92%, var(--bg) 100%),
+    linear-gradient(90deg, rgba(10, 17, 26, 0.72) 0%, rgba(10, 17, 26, 0.16) 38%, transparent 68%);
 }
 
 .hero__content {
