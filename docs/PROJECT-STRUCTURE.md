@@ -307,7 +307,7 @@ cover: /uploads/cover.jpg
 [Brand.astro](../src/components/Brand.astro) 会按中文逗号把 `tagline` 拆成两行：
 
 ```json
-"tagline": "噪声太大，在此留一方天地聆听自己"
+"tagline": "这世间噪声太大，在此留一方天地聆听自己"
 ```
 
 `hero.line` 现在只作为首屏隐藏的 SEO / 读屏标题，不再显示在画面上；它和 `tagline` 可以保持一致，也可以单独写。
