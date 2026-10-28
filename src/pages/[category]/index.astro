@@ -21,14 +21,20 @@ interface Props {
 
 const { meta } = Astro.props;
 const posts = await getPostsByCategory(meta.key);
-const description =
-  meta.description?.trim() || `关于 ${meta.label} 的一些记录，还在慢慢整理。`;
+const rawDescription =
+  meta.description?.trim() || `关于 ${meta.label}，一些记录还在慢慢整理。`;
+const breakAt = rawDescription.search(/[，,、。]/);
+const lead = breakAt >= 0 ? rawDescription.slice(0, breakAt).trim() : rawDescription;
+const rest = breakAt >= 0 ? rawDescription.slice(breakAt + 1).trim() : '';
 ---
 
 <BaseLayout title={meta.label} description={meta.description}>
   <div class="page category-page">
     <div class="category-inner">
-      <p class="category-note">{description}</p>
+      <p class:list={['category-note', lead.length > 10 && 'category-note--long']}>
+        <span class="category-note__lead">{lead}</span>
+        {rest && <span class="category-note__rest">{rest}</span>}
+      </p>
 
       <div class="category-list">
         {

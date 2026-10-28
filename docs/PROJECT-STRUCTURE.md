@@ -155,7 +155,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [index.astro](../src/pages/index.astro) | `/` 首页：固定壁纸 + 下滑出现的待办便签板 |
 | [about.astro](../src/pages/about.astro) | `/about/` 关于我 |
-| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部一句专栏说明，下面标题在左、日期在右的文章列表 |
+| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部大小字混排的专栏说明，下面标题在左、日期在右的文章列表 |
 | [文章页 slug.astro](<../src/pages/[category]/[slug].astro>) | 单篇文章，例如 `/thinking/why-i-write-again/` |
 | [tags/index.astro](../src/pages/tags/index.astro) | `/tags/` 全部标签 |
 | [标签页 tag.astro](<../src/pages/tags/[tag].astro>) | 单个标签下的文章 |
