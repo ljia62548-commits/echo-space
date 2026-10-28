@@ -380,8 +380,12 @@ a.tag:hover {
   gap: 10px;
 }
 
+.sidebar .brand {
+  transform: translateY(-10px);
+}
+
 .brand__name {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 500;
   letter-spacing: 0.035em;
   color: var(--ink-strong);
@@ -2576,7 +2580,7 @@ body.is-editing .edit-wallpaper {
   }
 
   .mobile-bar .brand__name {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   .mobile-bar__menu {
