@@ -153,7 +153,7 @@ cover: /uploads/cover.jpg
 
 | 文件 | 对应网址 / 功能 |
 | --- | --- |
-| [index.astro](../src/pages/index.astro) | `/` 首页 |
+| [index.astro](../src/pages/index.astro) | `/` 首页：固定壁纸 + 下滑出现的待办便签板 |
 | [about.astro](../src/pages/about.astro) | `/about/` 关于我 |
 | [栏目页 index.astro](<../src/pages/[category]/index.astro>) | `/thinking/`、`/life/`、`/ai-tools/`、`/ml/` 栏目页 |
 | [文章页 slug.astro](<../src/pages/[category]/[slug].astro>) | 单篇文章，例如 `/thinking/why-i-write-again/` |
@@ -213,6 +213,7 @@ cover: /uploads/cover.jpg
 - 滚动状态、入场动画；
 - 代码复制、目录高亮、复制链接；
 - 站内搜索；
+- 待办便签：`initMemos()`；
 - 编辑模式与图片弹窗。
 
 ### `src/scripts/studio.ts`
@@ -294,7 +295,8 @@ cover: /uploads/cover.jpg
 | 关于我内容 | `src/data/profile.json` 或 Studio |
 | 新增文章 | `src/content/posts/<分类>/` 新建 `.md` |
 | 首页精选 | 文章 Frontmatter 的 `featured: true` 和 `date` |
-| 首页区块布局 | `src/pages/index.astro` |
+| 首页区块布局 | `src/pages/index.astro`（首页只有 Hero 和便签板） |
+| 待办便签逻辑 | `src/scripts/memos.ts` |
 | 文章详情页 | `src/pages/[category]/[slug].astro` |
 | SEO / 分享卡片 | `src/layouts/BaseLayout.astro` |
 | 端口号 | `astro.config.mjs` → `server.port` |

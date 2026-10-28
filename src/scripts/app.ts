@@ -1,5 +1,7 @@
 /* Echo Space — small, dependency-free client behaviours. */
 
+import { initMemos } from './memos';
+
 type Json = Record<string, unknown>;
 
 const qs = <T extends Element>(selector: string, root: ParentNode = document): T | null =>
@@ -794,6 +796,7 @@ function boot(): void {
   initCopyLink();
   initToc();
   initSidebarSearch();
+  initMemos();
   initEditMode();
 }
 

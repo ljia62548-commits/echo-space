@@ -1,125 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import PostFeature from '../components/PostFeature.astro';
-import site from '../data/site.json';
-import profile from '../data/profile.json';
-import {
-  categoryNav,
-  getFeaturedPosts,
-  getPublishedPosts,
-} from '../lib/content';
-
-const posts = await getPublishedPosts();
-const featured = await getFeaturedPosts(3);
-const [lead, ...secondary] = featured;
-
-const latestByCategory = new Map<string, (typeof posts)[number]>();
-for (const post of posts) {
-  if (!latestByCategory.has(post.data.category)) {
-    latestByCategory.set(post.data.category, post);
-  }
-}
-
-const now = profile.now;
 ---
 
 <BaseLayout bodyClass="page-home">
   <Hero />
 
-  <div class="home-body">
-    <section class="section" aria-labelledby="selected-title">
-      <div class="section-head" data-reveal>
-        <div>
-          <p class="section-head__index">SELECTED WRITING</p>
-          <h2 id="selected-title">最近写下的</h2>
+  <section class="memo-section" aria-labelledby="memo-title" data-reveal>
+    <div class="memo-board" data-memo-board>
+      <header class="memo-board__head">
+        <p class="memo-board__eyebrow">MEMO BOARD</p>
+        <div class="memo-board__heading">
+          <h2 id="memo-title">待办便签</h2>
+          <span class="memo-board__date" data-memo-date>—</span>
         </div>
-        <div class="section-head__aside">
-          <span>{posts.length} 篇记录</span>
-          <a class="text-link" href="/archive/">全部文章</a>
-        </div>
-      </div>
+        <p class="memo-board__lede">把今天要做的事留在这里。做完就划掉，不必急着删。</p>
+      </header>
 
-      {
-        lead ? (
-          <div class="writing-grid">
-            <PostFeature post={lead} lead />
-            {secondary.map((post) => <PostFeature post={post} />)}
-          </div>
-        ) : (
-          <p class="empty-state">还没有文章。去 Studio 写第一篇。</p>
-        )
-      }
-    </section>
+      <form class="memo-form" data-memo-form>
+        <label class="sr-only" for="memo-input">添加待办事项</label>
+        <input
+          class="memo-form__input"
+          id="memo-input"
+          type="text"
+          placeholder="写下一件要做的事…"
+          maxlength="120"
+          autocomplete="off"
+          data-memo-input
+        />
+        <button class="memo-form__button" type="submit">贴上去</button>
+      </form>
 
-    <section class="section" aria-labelledby="sections-title">
-      <div class="section-head" data-reveal>
-        <div>
-          <p class="section-head__index">SECTIONS</p>
-          <h2 id="sections-title">按主题进入</h2>
-        </div>
-        <div class="section-head__aside">
-          <span>四个长期栏目</span>
-        </div>
-      </div>
+      <ul class="memo-list" data-memo-list></ul>
+      <p class="memo-empty" data-memo-empty hidden>便签板还是空的。</p>
 
-      <div class="section-index">
-        {
-          categoryNav.map((item) => {
-            const latest = latestByCategory.get(item.key);
-            const count = posts.filter((post) => post.data.category === item.key).length;
-            return (
-              <a class="section-row" href={item.href} data-reveal>
-                <span class="section-row__title">{item.label}</span>
-                <span class="section-row__desc">
-                  {item.description}（{count} 篇）
-                </span>
-                <span class="section-row__latest">
-                  Latest
-                  <strong>{latest?.data.title ?? '等待第一篇'}</strong>
-                </span>
-              </a>
-            );
-          })
-        }
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="now-title">
-      <div class="now-block">
-        <div class="now-block__lead" data-reveal>
-          <p class="section-head__index">NOW</p>
-          <h2 id="now-title">最近在做的事</h2>
-          <p>{now.building}</p>
-          <a class="text-link" href="/about/" style="margin-top: 26px;">关于我</a>
-        </div>
-
-        <dl class="now-list" data-reveal>
-          <div class="now-item">
-            <dt>Building</dt>
-            <dd>{now.building}</dd>
-          </div>
-          <div class="now-item">
-            <dt>Learning</dt>
-            <dd>{now.learning}</dd>
-          </div>
-          <div class="now-item">
-            <dt>Playing</dt>
-            <dd>{now.playing}</dd>
-          </div>
-          <div class="now-item">
-            <dt>Status</dt>
-            <dd>{profile.status}</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="quote-strip" aria-label="一句题记" data-reveal>
-      <blockquote>
-        “不是所有时间都要被优化。有些时间，只用来成为一个具体的人。”
-      </blockquote>
-      <cite>Note to self — {site.name}</cite>
-    </section>
-  </div>
+      <footer class="memo-board__foot">
+        <span data-memo-count>0 条待办</span>
+        <span>每天午夜清除已划掉的事项，未完成的留到明天。</span>
+      </footer>
+    </div>
+  </section>
 </BaseLayout>
