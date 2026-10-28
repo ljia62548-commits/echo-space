@@ -2336,7 +2336,6 @@ body.is-editing .edit-only {
 .site-footer {
   margin-top: auto;
   padding: 34px var(--gutter);
-  border-top: 1px solid var(--line);
   display: flex;
   align-items: center;
   justify-content: space-between;
