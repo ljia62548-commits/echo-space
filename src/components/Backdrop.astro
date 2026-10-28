@@ -1,0 +1,14 @@
+---
+import site from '../data/site.json';
+
+const hero = site.hero;
+---
+
+<div
+  class="site-backdrop"
+  aria-hidden="true"
+  style={`--backdrop-image: url('${hero.image}'); --backdrop-position: ${hero.position}; --backdrop-overlay: ${hero.overlay};`}
+>
+  <div class="site-backdrop__image"></div>
+  <div class="site-backdrop__shade"></div>
+</div>

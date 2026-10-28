@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
+import Backdrop from '../components/Backdrop.astro';
 import EditDock from '../components/EditDock.astro';
 import site from '../data/site.json';
 
@@ -62,6 +63,7 @@ const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site
   <body class={bodyClass}>
     <a class="skip-link" href="#main">跳到正文</a>
 
+    {!bare && <Backdrop />}
     {!bare && <Sidebar />}
     {!bare && <div class="nav-overlay" data-nav-overlay aria-hidden="true"></div>}
 

@@ -56,7 +56,7 @@ html {
 body {
   margin: 0;
   min-height: 100svh;
-  background: var(--bg);
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -65,6 +65,35 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* 固定在视口上的壁纸；内容像一块玻璃从它上面滑过。 */
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg-deep);
+}
+
+.site-backdrop__image {
+  position: absolute;
+  inset: -3%;
+  background-image: var(--backdrop-image);
+  background-size: cover;
+  background-position: var(--backdrop-position, 50% 45%);
+  filter: brightness(0.84) saturate(1.02);
+  transform: scale(1.03);
+}
+
+.site-backdrop__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 12, 18, 0.72) 0%, rgba(7, 12, 18, 0.28) 36%, transparent 68%),
+    linear-gradient(180deg, rgba(7, 12, 18, 0.18) 0%, transparent 30%, rgba(7, 12, 18, 0.12) 66%, rgba(7, 12, 18, 0.58) 100%),
+    rgba(10, 17, 26, var(--backdrop-overlay, 0.07));
 }
 
 body::after {
@@ -154,6 +183,8 @@ button {
 /* ---------- shared primitives ---------- */
 
 .shell {
+  position: relative;
+  z-index: 1;
   margin-left: var(--sidebar-w);
   min-height: 100svh;
   display: flex;
@@ -896,12 +927,12 @@ body.is-editing .hero__column.is-typing::after {
   flex-direction: column;
   min-height: 300px;
   padding: clamp(26px, 3.2vw, 42px);
-  background: var(--bg);
+  background: rgba(10, 17, 26, 0.24);
   transition: background 0.35s var(--ease);
 }
 
 .post-feature:hover {
-  background: var(--bg-raised);
+  background: rgba(10, 17, 26, 0.4);
 }
 
 .post-feature--lead {
@@ -1171,6 +1202,16 @@ body.is-editing .hero__column.is-typing::after {
 }
 
 /* ---------- generic page ---------- */
+
+.home-body,
+.page,
+.article-page,
+.not-found,
+.site-footer {
+  background: rgba(10, 17, 26, 0.64);
+  -webkit-backdrop-filter: blur(26px) saturate(1.12);
+  backdrop-filter: blur(26px) saturate(1.12);
+}
 
 .page {
   padding: clamp(100px, 12vw, 150px) var(--gutter) clamp(64px, 8vw, 100px);

@@ -6,7 +6,7 @@
 
 ## 首屏与品牌标注
 
-首屏只保留整张图片，文字全部移到左上角 `Echo Space` 下方：
+首屏只保留整张图片，文字全部移到左上角 `Echo Space` 下方。壁纸由 [Backdrop.astro](../src/components/Backdrop.astro) 固定在视口，内容层是半透明玻璃，滚动时从壁纸上滑过：
 
 - 站名下方两行标注来自 [site.json](../src/data/site.json) 的 `tagline`；
 - [Brand.astro](../src/components/Brand.astro) 按中文逗号把 `tagline` 拆成两行；
@@ -87,9 +87,9 @@ plog/
 | `tagline` | `Echo Space` 下方的标注，按中文逗号分成两行 |
 | `locale` | 页面语言，默认 `zh-CN` |
 | `hero.line` | 首屏隐藏标题，用于 SEO / 读屏，不显示在画面上 |
-| `hero.image` | 首屏图片地址 |
-| `hero.position` | 图片焦点，例如 `50% 45%` |
-| `hero.overlay` | 暗色遮罩浓度，0 到 1 |
+| `hero.image` | 全站固定壁纸地址 |
+| `hero.position` | 壁纸焦点，例如 `50% 45%` |
+| `hero.overlay` | 壁纸暗色遮罩浓度，0 到 1 |
 | `nav` | 左侧菜单：`key`、`label`、`href`、`description` |
 | `social` | 左侧栏底部的社交链接数组 |
 | `footerNote` | 页脚那句短话 |
@@ -187,8 +187,8 @@ cover: /uploads/cover.jpg
 | 文件 | 功能 |
 | --- | --- |
 | [Brand.astro](../src/components/Brand.astro) | 左上角站名和下方两行标注，来自 `site.name` / `site.tagline` |
-| [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
-| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变，以及隐藏的 SEO 标题 |
+| [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、搜索框、当前项高亮、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
+| [Hero.astro](../src/components/Hero.astro) | 透明首屏占位：更换图片按钮、滚动提示和隐藏的 SEO 标题 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张为大卡片 |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
