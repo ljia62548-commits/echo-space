@@ -389,7 +389,7 @@ a.tag:hover {
 }
 
 .brand__name {
-  font-size: 21px;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: 0.035em;
   color: var(--ink-strong);
@@ -2642,7 +2642,7 @@ body.is-editing .edit-wallpaper {
   }
 
   .mobile-bar .brand__name {
-    font-size: 19px;
+    font-size: 22px;
   }
 
   .mobile-bar__menu {
