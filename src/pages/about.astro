@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import profile from '../data/profile.json';
-import site from '../data/site.json';
 
 const links = profile.links as Array<{ label: string; href: string }>;
 const hasAvatar = Boolean(profile.avatar);
@@ -16,46 +15,23 @@ const hasAvatar = Boolean(profile.avatar);
       <div class="portrait" data-reveal>
         <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>
         {hasAvatar && <img src={profile.avatar} alt={`${profile.name} 的照片`} onerror="this.remove()" />}
-        <span class="portrait__label">Portrait</span>
       </div>
 
       <div class="about-intro" data-reveal>
-        <p class="eyebrow">About Me</p>
         <h1 class="about-name" id="about-name">{profile.name}</h1>
         <p class="about-headline">{profile.headline}</p>
         <p class="about-lede">{profile.intro}</p>
-
-        <dl class="about-facts">
-          <div class="about-fact">
-            <dt>Based in</dt>
-            <dd>{profile.location}</dd>
-          </div>
-          <div class="about-fact">
-            <dt>Currently</dt>
-            <dd>{profile.status}</dd>
-          </div>
-          <div class="about-fact">
-            <dt>Focus</dt>
-            <dd>{profile.interests.slice(0, 3).join(' / ')}</dd>
-          </div>
-        </dl>
       </div>
     </section>
 
     <div class="about-sections">
-      <section class="about-section" aria-labelledby="bio-title">
-        <p class="about-section__label" id="bio-title">关于我</p>
+      <section class="about-section" aria-label="关于我">
         <div class="about-bio">
-          {
-            profile.bio.map((paragraph, index) => (
-              <p>{paragraph}</p>
-            ))
-          }
+          {profile.bio.map((paragraph) => <p>{paragraph}</p>)}
         </div>
       </section>
 
-      <section class="about-section" aria-labelledby="now-title">
-        <p class="about-section__label" id="now-title">现在</p>
+      <section class="about-section" aria-label="现在">
         <div class="now-table">
           <div class="now-table__row">
             <span class="now-table__key">Building</span>
@@ -72,42 +48,32 @@ const hasAvatar = Boolean(profile.avatar);
         </div>
       </section>
 
-      <section class="about-section" aria-labelledby="toolbox-title">
-        <p class="about-section__label" id="toolbox-title">工具箱</p>
-        <div class="toolbox">
-          {
-            profile.toolbox.map((group, groupIndex) => (
-              <div class="toolbox__group">
-                <h3>{group.group}</h3>
-                <div class="toolbox__items">
-                  {group.items.map((item, itemIndex) => (
-                    <span class="tag">
-                      {item}
-                    </span>
-                  ))}
+      {
+        profile.toolbox.length > 0 && (
+          <section class="about-section" aria-label="工具箱">
+            <div class="toolbox">
+              {profile.toolbox.map((group) => (
+                <div class="toolbox__group">
+                  <h3>{group.group}</h3>
+                  <div class="toolbox__items">
+                    {group.items.map((item) => <span class="tag">{item}</span>)}
+                  </div>
                 </div>
-              </div>
-            ))
-          }
-        </div>
-      </section>
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-      <section class="about-section" aria-labelledby="timeline-title">
-        <p class="about-section__label" id="timeline-title">时间线</p>
+      <section class="about-section" aria-label="时间线">
         <div class="timeline">
           {
-            profile.timeline.map((item, index) => (
+            profile.timeline.map((item) => (
               <div class="timeline__item">
-                <span class="timeline__date">
-                  {item.date}
-                </span>
+                <span class="timeline__date">{item.date}</span>
                 <div>
-                  <p class="timeline__title">
-                    {item.title}
-                  </p>
-                  <p class="timeline__desc">
-                    {item.description}
-                  </p>
+                  <p class="timeline__title">{item.title}</p>
+                  <p class="timeline__desc">{item.description}</p>
                 </div>
               </div>
             ))
@@ -115,33 +81,20 @@ const hasAvatar = Boolean(profile.avatar);
         </div>
       </section>
 
-      <section class="about-section" aria-labelledby="interests-title">
-        <p class="about-section__label" id="interests-title">兴趣</p>
+      <section class="about-section" aria-label="兴趣">
         <div class="interest-list">
-          {
-            profile.interests.map((interest, index) => (
-              <span class="tag">{interest}</span>
-            ))
-          }
+          {profile.interests.map((interest) => <span class="tag">{interest}</span>)}
         </div>
       </section>
 
-      <section class="about-section" aria-labelledby="links-title">
-        <p class="about-section__label" id="links-title">找到我</p>
-        <div>
-          <div class="link-list">
-            {links.map((link) => (
-              <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
-            ))}
-            <a href="/rss.xml">RSS Feed ↗</a>
-          </div>
-          <p class="about-note">这里没有更多公开账号。如果你读到某篇文字想说点什么，RSS 是找到这个空间最安静的方式。</p>
+      <section class="about-section" aria-label="找到我">
+        <div class="link-list">
+          {links.map((link) => (
+            <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
+          ))}
+          <a href="/rss.xml">RSS Feed ↗</a>
         </div>
       </section>
     </div>
-
-    <p class="about-note" style="margin-top: 40px;">
-      {site.name} · {site.footerNote}
-    </p>
   </div>
 </BaseLayout>
