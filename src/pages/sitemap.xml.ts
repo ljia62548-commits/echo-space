@@ -6,7 +6,7 @@ export const GET: APIRoute = async ({ site }) => {
   const posts = await getPublishedPosts();
   const tags = await getAllTags();
 
-  const staticPages = ['/', '/about/', '/archive/', '/tags/', '/search/'];
+  const staticPages = ['/', '/about/', '/archive/', '/tags/'];
   const entries = [
     ...staticPages.map((path) => ({ loc: new URL(path, base).href, lastmod: undefined })),
     ...categoryNav.map((category) => ({

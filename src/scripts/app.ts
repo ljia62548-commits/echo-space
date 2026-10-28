@@ -254,85 +254,174 @@ interface SearchItem {
   date: string;
 }
 
-function initSearch(): void {
-  const input = qs<HTMLInputElement>('[data-search-input]');
-  const status = qs<HTMLElement>('[data-search-status]');
-  const results = qs<HTMLElement>('[data-search-results]');
-  const data = qs<HTMLScriptElement>('#search-index');
+function initSidebarSearch(): void {
+  const root = qs<HTMLElement>('[data-sidebar-search]');
+  const input = qs<HTMLInputElement>('[data-search-input]', root ?? document);
+  const panel = qs<HTMLElement>('[data-search-panel]', root ?? document);
+  const results = qs<HTMLElement>('[data-search-results]', root ?? document);
+  const hint = qs<HTMLElement>('[data-search-hint]', root ?? document);
+  const clear = qs<HTMLButtonElement>('[data-search-clear]', root ?? document);
 
-  if (!input || !status || !results || !data) return;
+  if (!root || !input || !panel || !results || !hint || !clear) return;
 
-  let items: SearchItem[] = [];
-  try {
-    items = JSON.parse(data.textContent ?? '[]') as SearchItem[];
-  } catch {
-    return;
-  }
+  let items: SearchItem[] | null = null;
+  let loading = false;
+  let activeIndex = -1;
+  let links: HTMLAnchorElement[] = [];
+
+  const open = (): void => {
+    panel.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+
+  const close = (): void => {
+    panel.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    activeIndex = -1;
+  };
 
   const render = (query: string): void => {
+    clear.hidden = query.length === 0;
+    results.replaceChildren();
+    links = [];
+    activeIndex = -1;
+
+    if (!items) {
+      hint.textContent = '正在读取文章索引…';
+      return;
+    }
+
     const normalized = query.trim().toLowerCase();
     const matched = normalized
-      ? items.filter((item) => {
-          const haystack = [
-            item.title,
-            item.description,
-            item.categoryLabel,
-            item.tags.join(' '),
-          ]
+      ? items.filter((item) =>
+          [item.title, item.description, item.categoryLabel, item.tags.join(' ')]
             .join(' ')
-            .toLowerCase();
-          return haystack.includes(normalized);
-        })
-      : items.slice(0, 8);
+            .toLowerCase()
+            .includes(normalized),
+        )
+      : items.slice(0, 6);
 
-    status.textContent = normalized
-      ? `${matched.length} 条结果${matched.length === 0 ? ' — 换个词试试' : ''}`
-      : `最近更新 · 共 ${items.length} 篇`;
-
-    results.replaceChildren();
+    hint.textContent = normalized
+      ? `${matched.length} 条结果`
+      : `${items.length} 篇文章`;
 
     if (matched.length === 0) {
       const empty = document.createElement('p');
-      empty.className = 'search-empty';
-      empty.textContent = '没有找到匹配的文章。';
+      empty.className = 'sidebar-search__empty';
+      empty.textContent = items.length === 0 ? '还没有文章。' : '没有找到匹配的文章。';
       results.append(empty);
       return;
     }
 
     for (const item of matched) {
       const link = document.createElement('a');
-      link.className = 'search-result';
+      link.className = 'sidebar-search__result';
       link.href = item.url;
 
-      const category = document.createElement('span');
-      category.className = 'search-result__cat';
-      category.textContent = item.categoryLabel;
+      const meta = document.createElement('span');
+      meta.className = 'sidebar-search__result-meta';
+      meta.textContent = item.categoryLabel;
 
-      const main = document.createElement('span');
       const title = document.createElement('span');
-      title.className = 'search-result__title';
+      title.className = 'sidebar-search__result-title';
       title.textContent = item.title;
 
-      const description = document.createElement('span');
-      description.className = 'search-result__desc';
-      description.textContent = item.description;
-
-      main.append(title, description);
-      link.append(category, main);
+      link.append(meta, title);
       results.append(link);
+      links.push(link);
     }
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const initial = params.get('q') ?? '';
-  input.value = initial;
-  render(initial);
+  const load = async (): Promise<void> => {
+    if (items || loading) return;
+    loading = true;
 
-  input.addEventListener('input', () => render(input.value));
+    try {
+      const response = await fetch('/search-index.json', {
+        headers: { accept: 'application/json' },
+      });
+      if (!response.ok) throw new Error('索引加载失败');
+      items = (await response.json()) as SearchItem[];
+      render(input.value);
+    } catch {
+      hint.textContent = '搜索索引加载失败，请刷新后重试。';
+    } finally {
+      loading = false;
+    }
+  };
+
+  input.addEventListener('focus', () => {
+    open();
+    void load();
+  });
+
+  input.addEventListener('input', () => {
+    open();
+    void load();
+    render(input.value);
+  });
+
   input.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
+      event.preventDefault();
       input.value = '';
       render('');
+      close();
+      input.blur();
+      return;
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      if (links.length === 0) return;
+      event.preventDefault();
+      links.forEach((link) => link.classList.remove('is-active'));
+      activeIndex =
+        event.key === 'ArrowDown'
+          ? (activeIndex + 1) % links.length
+          : (activeIndex - 1 + links.length) % links.length;
+      links[activeIndex].classList.add('is-active');
+      links[activeIndex].scrollIntoView({ block: 'nearest' });
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      const target = links[activeIndex] ?? links[0];
+      if (target) {
+        event.preventDefault();
+        window.location.href = target.href;
+      }
+    }
+  });
+
+  clear.addEventListener('click', () => {
+    input.value = '';
+    render('');
+    input.focus();
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!root.contains(event.target as Node)) close();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const target = event.target as HTMLElement | null;
+    const typing =
+      target &&
+      (/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable);
+
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      input.focus();
+      open();
+      void load();
+      return;
+    }
+
+    if (!typing && event.key === '/') {
+      event.preventDefault();
+      input.focus();
+      open();
+      void load();
     }
   });
 }
@@ -704,7 +793,7 @@ function boot(): void {
   initCodeCopy();
   initCopyLink();
   initToc();
-  initSearch();
+  initSidebarSearch();
   initEditMode();
 }
 

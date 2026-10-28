@@ -15,6 +15,33 @@ const isActive = (href: string) => {
 <aside class="sidebar" id="site-nav" data-sidebar aria-label="站点导航">
   <Brand />
 
+  <div class="sidebar-search" data-sidebar-search role="search">
+    <div class="sidebar-search__box">
+      <svg class="sidebar-search__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"></circle>
+        <path d="M16 16l4.2 4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+      </svg>
+      <input
+        class="sidebar-search__input"
+        type="search"
+        placeholder="搜索文章"
+        aria-label="搜索文章"
+        aria-controls="sidebar-search-panel"
+        aria-expanded="false"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+      />
+      <kbd class="sidebar-search__kbd">⌘K</kbd>
+      <button class="sidebar-search__clear" type="button" aria-label="清空搜索" data-search-clear hidden>×</button>
+    </div>
+
+    <div class="sidebar-search__panel" id="sidebar-search-panel" data-search-panel hidden>
+      <p class="sidebar-search__hint" data-search-hint>输入标题、标签或关键词</p>
+      <div class="sidebar-search__results" data-search-results></div>
+    </div>
+  </div>
+
   <nav class="nav" aria-label="主导航">
     {
       site.nav.map((item) => {
