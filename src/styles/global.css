@@ -2136,12 +2136,10 @@ a.tag:hover {
 }
 
 .about-headline__line:nth-child(2) {
-  margin-left: clamp(14px, 3vw, 44px);
   color: var(--muted);
 }
 
 .about-headline__line:nth-child(3) {
-  margin-left: clamp(28px, 6vw, 88px);
   color: var(--accent-soft);
   font-family: var(--font-mono);
   letter-spacing: 0.16em;
