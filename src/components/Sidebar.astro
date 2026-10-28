@@ -43,11 +43,6 @@ const isActive = (href: string) => {
   </nav>
 
   <div class="sidebar__foot">
-    <div class="sidebar__time">
-      <span class="sidebar__time-label">Local time</span>
-      <time class="sidebar__time-value" data-local-time>--:--</time>
-    </div>
-
     <div class="sidebar__links">
       {socialLinks.map((link) => <a href={link.href} rel="me noopener" target="_blank">{link.label}</a>)}
       <a href="/rss.xml">RSS</a>

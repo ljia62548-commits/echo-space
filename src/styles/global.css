@@ -477,30 +477,6 @@ a.tag:hover {
   gap: 20px;
 }
 
-.sidebar__time {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 0;
-  border-top: 0;
-}
-
-.sidebar__time-label {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  color: var(--faint);
-}
-
-.sidebar__time-value {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--ink-dim);
-  font-variant-numeric: tabular-nums;
-}
-
 .sidebar__links {
   display: flex;
   flex-wrap: wrap;

@@ -96,29 +96,6 @@ function initReveal(): void {
   items.forEach((item) => observer.observe(item));
 }
 
-function initLocalTime(): void {
-  const targets = qsa<HTMLElement>('[data-local-time]');
-  if (targets.length === 0) return;
-
-  const format = new Intl.DateTimeFormat('zh-CN', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
-
-  const tick = (): void => {
-    const now = new Date();
-    targets.forEach((target) => {
-      target.textContent = format.format(now);
-      target.setAttribute('datetime', now.toISOString());
-      target.title = now.toLocaleString('zh-CN');
-    });
-  };
-
-  tick();
-  window.setInterval(tick, 30_000);
-}
-
 function initTypewriter(): void {
   const elements = qsa<HTMLElement>('[data-typewriter]');
   if (elements.length === 0) return;
@@ -723,7 +700,6 @@ function boot(): void {
   initNav();
   initScrollState();
   initReveal();
-  initLocalTime();
   initTypewriter();
   initCodeCopy();
   initCopyLink();
