@@ -4,6 +4,7 @@ import profile from '../data/profile.json';
 
 const links = profile.links as Array<{ label: string; href: string }>;
 const hasAvatar = Boolean(profile.avatar);
+const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
 ---
 
 <BaseLayout
@@ -18,9 +19,24 @@ const hasAvatar = Boolean(profile.avatar);
       </div>
 
       <div class="about-intro" data-reveal>
-        <h1 class="about-name" id="about-name">{profile.name}</h1>
-        <p class="about-headline">{profile.headline}</p>
-        <p class="about-lede">{profile.intro}</p>
+        <div class="about-title">
+          <h1 class="about-name" id="about-name">{profile.name}</h1>
+          <div class="about-headline">
+            {
+              headlineParts.map((part, index) => (
+                <span class={`about-headline__line about-headline__line--${index + 1}`}>{part}</span>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="about-lower">
+          <p class="about-lede">{profile.intro}</p>
+          <div class="about-chips">
+            <span>{profile.location}</span>
+            <span>{profile.status}</span>
+          </div>
+        </div>
       </div>
     </section>
 
