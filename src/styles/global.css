@@ -434,7 +434,7 @@ a.tag:hover {
 .nav__num {
   padding-top: 3px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.1em;
   color: var(--faint);
   transition: color 0.25s var(--ease);
@@ -446,8 +446,8 @@ a.tag:hover {
 }
 
 .nav__label {
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.4;
   letter-spacing: 0.005em;
 }
 
@@ -455,7 +455,7 @@ a.tag:hover {
   grid-column: 2;
   margin-top: 5px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.08em;
   color: var(--faint);
   opacity: 0;
