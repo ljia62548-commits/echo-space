@@ -2,10 +2,10 @@
   "name": "Echo Space",
   "author": "niki",
   "description": "Echo Space 是个人博客，记录关于思考、生活、游戏、AI 工具与机器学习的长文字。",
-  "tagline": "这世间满是噪声，在此留一方天地聆听自己",
+  "tagline": "噪声太大，在此留一方天地聆听自己",
   "locale": "zh-CN",
   "hero": {
-    "line": "这世间满是噪声，在此留一方天地聆听自己",
+    "line": "噪声太大，在此留一方天地聆听自己",
     "image": "/uploads/echo-space-hero.jpg",
     "position": "50% 50%",
     "overlay": 0.07,
