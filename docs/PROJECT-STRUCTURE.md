@@ -26,7 +26,7 @@
 交互层   src/scripts + integrations  打字、搜索、本地编辑
 ```
 
-日常改内容，优先用页面里的编辑模式或 `/studio/`；改布局和视觉，去 `pages` / `components` / `styles`。
+日常改内容，优先用 `/studio/`；改布局和视觉，去 `pages` / `components` / `styles`。
 
 ---
 
@@ -188,8 +188,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [Brand.astro](../src/components/Brand.astro) | 左上角站名和下方两行标注，来自 `site.name` / `site.tagline` |
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、搜索框、当前项高亮、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
-| [Hero.astro](../src/components/Hero.astro) | 透明首屏占位：更换图片按钮、滚动提示和隐藏的 SEO 标题 |
-| [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
+| [Hero.astro](../src/components/Hero.astro) | 透明首屏占位：滚动提示和隐藏的 SEO 标题 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张为大卡片 |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
 | [Footer.astro](../src/components/Footer.astro) | 页脚：版权、RSS、归档、搜索、Studio、页脚短句 |
@@ -214,7 +213,6 @@ cover: /uploads/cover.jpg
 - 代码复制、目录高亮、复制链接；
 - 站内搜索；
 - 待办便签：`initMemos()`；
-- 编辑模式与图片弹窗。
 
 ### `src/scripts/studio.ts`
 
@@ -284,7 +282,7 @@ cover: /uploads/cover.jpg
 | Echo Space 下方标注 | `src/data/site.json` → `tagline`，或 Studio → 站点 |
 | 站名字号 | `src/styles/global.css` → `.brand__name` |
 | 标注字号/颜色 | `src/styles/global.css` → `.brand__sub` |
-| 首屏图片 | 替换 `public/uploads/echo-space-hero.jpg`，或编辑模式上传 |
+| 首屏图片 | 替换 `public/uploads/echo-space-hero.jpg`，或 Studio → 站点 → 首屏主图 |
 | 首屏亮度 | `src/styles/global.css` → `.hero--full .hero__bg` 的 `brightness()` |
 | 首屏遮罩 | `src/data/site.json` → `hero.overlay` |
 | 整体蓝色调 | `src/styles/global.css` 顶部 `:root` 的 `--bg`、`--bg-raised` 等 |
@@ -338,7 +336,7 @@ cover: /uploads/cover.jpg
 
 ### 改首屏图片
 
-替换 `public/uploads/echo-space-hero.jpg`，或在编辑模式里点「更换图片」。图片仍由 `hero.image`、`hero.position`、`hero.overlay` 控制。
+替换 `public/uploads/echo-space-hero.jpg`，或在 Studio → 站点 →「首屏主图」里更换。图片仍由 `hero.image`、`hero.position`、`hero.overlay` 控制。
 
 ---
 ## 九、常见坑
@@ -362,6 +360,6 @@ npm run build     # 构建到 dist/
 npm run preview   # 预览构建结果
 ```
 
-页面编辑：`Ctrl + E`。
+页面内容：`/studio/`。
 
 Studio：<http://127.0.0.1:4321/studio/>。

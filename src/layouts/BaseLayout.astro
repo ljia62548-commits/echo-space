@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
 import Backdrop from '../components/Backdrop.astro';
-import EditDock from '../components/EditDock.astro';
 import site from '../data/site.json';
 
 interface Props {
@@ -73,8 +72,6 @@ const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site
       </main>
       {!bare && <Footer />}
     </div>
-
-    {!bare && import.meta.env.DEV && <EditDock />}
 
     <script>
       import '../scripts/app.ts';
