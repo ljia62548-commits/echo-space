@@ -1360,6 +1360,74 @@ a.tag:hover {
   flex: 1;
 }
 
+.category-page {
+  min-height: 100svh;
+  padding: 0;
+  background: rgba(11, 18, 26, 0.36);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+}
+
+.category-inner {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 112px) var(--gutter) clamp(72px, 10vw, 120px);
+}
+
+.category-count {
+  margin-bottom: clamp(36px, 6vw, 66px);
+  color: var(--ink-strong);
+  font-family: var(--font-sans);
+  font-size: clamp(3.2rem, 7vw, 5.5rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 21px 0;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.25s var(--ease);
+}
+
+.category-item:hover {
+  border-bottom-color: var(--line-strong);
+}
+
+.category-item__title {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  transition: color 0.25s var(--ease);
+}
+
+.category-item:hover .category-item__title {
+  color: var(--ink-strong);
+}
+
+.category-item__date {
+  flex: none;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .page__head {
   max-width: var(--content-w);
   padding-bottom: clamp(42px, 6vw, 72px);
@@ -2807,6 +2875,28 @@ a.tag:hover {
 
   .memo-form__input {
     font-size: 16px;
+  }
+
+  .category-inner {
+    padding: 44px 20px 72px;
+  }
+
+  .category-count {
+    margin-bottom: 30px;
+    font-size: 3rem;
+  }
+
+  .category-item {
+    gap: 14px;
+    padding: 17px 0;
+  }
+
+  .category-item__title {
+    font-size: 1rem;
+  }
+
+  .category-item__date {
+    font-size: 8px;
   }
 
   .section {

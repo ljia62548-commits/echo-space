@@ -155,7 +155,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [index.astro](../src/pages/index.astro) | `/` 首页：固定壁纸 + 下滑出现的待办便签板 |
 | [about.astro](../src/pages/about.astro) | `/about/` 关于我 |
-| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | `/thinking/`、`/life/`、`/ai-tools/`、`/ml/` 栏目页 |
+| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部文章总数，下面标题在左、日期在右的文章列表 |
 | [文章页 slug.astro](<../src/pages/[category]/[slug].astro>) | 单篇文章，例如 `/thinking/why-i-write-again/` |
 | [tags/index.astro](../src/pages/tags/index.astro) | `/tags/` 全部标签 |
 | [标签页 tag.astro](<../src/pages/tags/[tag].astro>) | 单个标签下的文章 |
@@ -295,6 +295,7 @@ cover: /uploads/cover.jpg
 | 首页精选 | 文章 Frontmatter 的 `featured: true` 和 `date` |
 | 首页区块布局 | `src/pages/index.astro`（首页只有 Hero 和便签板） |
 | 待办便签逻辑 | `src/scripts/memos.ts` |
+| 栏目页布局 | `src/pages/[category]/index.astro` + `.category-page` |
 | 文章详情页 | `src/pages/[category]/[slug].astro` |
 | SEO / 分享卡片 | `src/layouts/BaseLayout.astro` |
 | 端口号 | `astro.config.mjs` → `server.port` |
