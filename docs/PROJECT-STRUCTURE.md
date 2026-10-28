@@ -317,6 +317,23 @@ cover: /uploads/cover.jpg
 
 句子中的中文逗号会被 [Hero.astro](../src/components/Hero.astro) 拆成两列。例如「第一句，第二句」会变成右边「第一句」、左边「第二句」两列。想增加第三列，就再加一个逗号；不想要分列，就去掉逗号。
 
+### 改字体
+
+[global.css](../src/styles/global.css) 顶部：
+
+```css
+--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+  "Microsoft YaHei", sans-serif;
+--font-serif: Georgia, "Songti SC", "STSong", "Noto Serif SC", "Times New Roman",
+  serif;
+```
+
+- 界面文字、正文、导航、About：`--font-sans`；
+- 文章标题：`--font-serif`，英文用 Georgia，中文回退到宋体；
+- 编号、日期、小标签：`--font-mono`。
+
+文章标题的统一规则在 `.article-title, .post-feature__title, .post-row__title, ...` 这一组选择器里。
+
 ### 改字号
 
 [global.css](../src/styles/global.css) 的 `.hero__title`：
