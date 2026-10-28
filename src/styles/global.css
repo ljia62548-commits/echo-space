@@ -696,7 +696,6 @@ a.tag:hover {
   justify-content: center;
   overflow: hidden;
   isolation: isolate;
-  border-bottom: 1px solid var(--line);
 }
 
 .hero__bg {
