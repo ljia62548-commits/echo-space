@@ -2138,14 +2138,12 @@ a.tag:hover {
 .about-headline__line:nth-child(2) {
   margin-left: clamp(14px, 3vw, 44px);
   color: var(--muted);
-  font-size: clamp(1.1rem, 1.9vw, 1.55rem);
 }
 
 .about-headline__line:nth-child(3) {
   margin-left: clamp(28px, 6vw, 88px);
   color: var(--accent-soft);
   font-family: var(--font-mono);
-  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
