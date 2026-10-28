@@ -33,6 +33,9 @@
     "Microsoft YaHei", sans-serif;
   --font-serif: Georgia, "Songti SC", "STSong", "Noto Serif SC", "Times New Roman",
     serif;
+  --font-round: ui-rounded, "SF Pro Rounded", "Nunito", "Quicksand",
+    "Arial Rounded MT Bold", "Yuanti SC", "YouYuan", "Hiragino Maru Gothic ProN",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: "SFMono-Regular", "Cascadia Code", "Roboto Mono", "JetBrains Mono",
     Consolas, "Liberation Mono", monospace;
 
@@ -1374,15 +1377,19 @@ a.tag:hover {
   padding: clamp(64px, 9vw, 112px) var(--gutter) clamp(72px, 10vw, 120px);
 }
 
-.category-count {
-  margin-bottom: clamp(36px, 6vw, 66px);
-  color: var(--ink-strong);
-  font-family: var(--font-sans);
-  font-size: clamp(3.2rem, 7vw, 5.5rem);
-  font-weight: 300;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  font-variant-numeric: tabular-nums;
+.category-note {
+  max-width: 27em;
+  margin: 0 0 clamp(36px, 6vw, 64px) clamp(0px, 2vw, 26px);
+  padding-left: 0.2em;
+  color: var(--ink-dim);
+  font-family: var(--font-round);
+  font-size: clamp(1.35rem, 2.5vw, 1.95rem);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  transform: rotate(-1deg);
+  transform-origin: left center;
+  text-wrap: balance;
 }
 
 .category-list {
@@ -2881,9 +2888,10 @@ a.tag:hover {
     padding: 44px 20px 72px;
   }
 
-  .category-count {
-    margin-bottom: 30px;
-    font-size: 3rem;
+  .category-note {
+    margin: 0 0 30px;
+    font-size: 1.25rem;
+    transform: rotate(-0.6deg);
   }
 
   .category-item {

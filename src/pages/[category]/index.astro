@@ -21,12 +21,14 @@ interface Props {
 
 const { meta } = Astro.props;
 const posts = await getPostsByCategory(meta.key);
+const description =
+  meta.description?.trim() || `关于 ${meta.label} 的一些记录，还在慢慢整理。`;
 ---
 
 <BaseLayout title={meta.label} description={meta.description}>
   <div class="page category-page">
     <div class="category-inner">
-      <p class="category-count" aria-label={`共 ${posts.length} 篇文章`}>{posts.length}</p>
+      <p class="category-note">{description}</p>
 
       <div class="category-list">
         {

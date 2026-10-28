@@ -155,7 +155,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [index.astro](../src/pages/index.astro) | `/` 首页：固定壁纸 + 下滑出现的待办便签板 |
 | [about.astro](../src/pages/about.astro) | `/about/` 关于我 |
-| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部文章总数，下面标题在左、日期在右的文章列表 |
+| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部一句专栏说明，下面标题在左、日期在右的文章列表 |
 | [文章页 slug.astro](<../src/pages/[category]/[slug].astro>) | 单篇文章，例如 `/thinking/why-i-write-again/` |
 | [tags/index.astro](../src/pages/tags/index.astro) | `/tags/` 全部标签 |
 | [标签页 tag.astro](<../src/pages/tags/[tag].astro>) | 单个标签下的文章 |
@@ -190,7 +190,7 @@ cover: /uploads/cover.jpg
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、搜索框、当前项高亮、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
 | [Hero.astro](../src/components/Hero.astro) | 透明首屏占位：滚动提示和隐藏的 SEO 标题 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张为大卡片 |
-| [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
+| [PostRow.astro](../src/components/PostRow.astro) | 标签页等处的横向文章条目 |
 | [Footer.astro](../src/components/Footer.astro) | 页脚：版权、RSS、归档、搜索、Studio、页脚短句 |
 
 ### `src/lib/`
