@@ -359,15 +359,12 @@ a.tag:hover {
   padding: 34px 24px 26px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(10, 17, 26, 0.5), rgba(10, 17, 26, 0.76));
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  backdrop-filter: blur(18px) saturate(1.15);
-  transition: background 0.45s var(--ease), transform 0.45s var(--ease-out);
-}
-
-.sidebar[data-scrolled="true"] {
-  background: rgba(10, 17, 26, 0.94);
+  border-right: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.72), 0 0 2px rgba(0, 0, 0, 0.35);
+  transition: transform 0.45s var(--ease-out);
 }
 
 .brand {
@@ -418,22 +415,20 @@ a.tag:hover {
   display: grid;
   grid-template-columns: 27px 1fr;
   gap: 0 6px;
-  padding: 13px 8px 13px 13px;
-  border-left: 1px solid transparent;
+  padding: 13px 8px 13px 0;
+  border-left: 0;
   color: var(--ink-dim);
-  transition: color 0.25s var(--ease), border-color 0.25s var(--ease),
-    background 0.25s var(--ease);
+  transition: color 0.25s var(--ease), transform 0.3s var(--ease);
 }
 
 .nav__link:hover {
-  color: var(--ink);
-  border-left-color: var(--line-strong);
+  color: var(--ink-strong);
+  transform: translateX(3px);
 }
 
 .nav__link[aria-current="page"] {
   color: var(--ink-strong);
-  border-left-color: var(--accent);
-  background: linear-gradient(90deg, rgba(196, 154, 85, 0.12), transparent 78%);
+  background: transparent;
 }
 
 .nav__num {
@@ -487,8 +482,8 @@ a.tag:hover {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
+  padding-top: 0;
+  border-top: 0;
 }
 
 .sidebar__time-label {
@@ -2606,8 +2601,10 @@ body.is-editing .edit-wallpaper {
     width: min(84vw, 330px);
     padding: 30px 26px 24px;
     transform: translateX(-105%);
-    background: rgba(10, 17, 26, 0.97);
-    box-shadow: 30px 0 80px rgba(0, 0, 0, 0.5);
+    background: rgba(10, 17, 26, 0.72);
+    -webkit-backdrop-filter: blur(22px) saturate(1.1);
+    backdrop-filter: blur(22px) saturate(1.1);
+    box-shadow: 24px 0 60px rgba(0, 0, 0, 0.35);
   }
 
   body.nav-open .sidebar {

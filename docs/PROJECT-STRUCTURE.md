@@ -194,7 +194,7 @@ cover: /uploads/cover.jpg
 | 文件 | 功能 |
 | --- | --- |
 | [Brand.astro](../src/components/Brand.astro) | 左上角站名，从 `site.json` 的 `name` 读取 |
-| [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、本地时间、社交/RSS/Edit、移动端顶栏和抽屉菜单 |
+| [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、本地时间、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
 | [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、唯一一行字（当前被注释）、打字容器 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张大卡片带淡金色 `01` |
