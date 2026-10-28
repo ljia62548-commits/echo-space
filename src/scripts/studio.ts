@@ -500,16 +500,7 @@ function initSiteForm(): void {
         image = await uploadImage(wallpaperFile);
       }
 
-      const nav = state.site.nav.map((item) => {
-        const row = qs<HTMLElement>(`[data-nav-key="${item.key}"]`);
-        return {
-          ...item,
-          label: row?.querySelector<HTMLInputElement>('[data-nav-label]')?.value.trim() || item.label,
-          description:
-            row?.querySelector<HTMLInputElement>('[data-nav-description]')?.value.trim() ||
-            item.description,
-        };
-      });
+      const nav = state.site.nav;
 
       const social = qsa<HTMLElement>('[data-social-list] [data-repeat]')
         .map((row) => ({
@@ -627,12 +618,194 @@ function initProfileForm(): void {
 }
 
 /* ------------------------------------------------------------------ */
+/* Categories                                                          */
+/* ------------------------------------------------------------------ */
+
+function slugifyCategory(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 60);
+}
+
+function renderCategories(): void {
+  const list = qs<HTMLElement>('[data-category-list]');
+  if (!list || !state.site) return;
+
+  const categories = state.site.nav.filter((item) => item.key !== 'about');
+  list.replaceChildren();
+
+  if (categories.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'studio-muted';
+    empty.textContent = '还没有自定义目录。';
+    list.append(empty);
+    return;
+  }
+
+  for (const item of categories) {
+    const row = document.createElement('div');
+    row.className = 'studio-category-row';
+    row.dataset.categoryRow = '';
+    row.dataset.categoryKey = item.key;
+    row.innerHTML = `
+      <label class="studio-field">
+        <span>目录名称</span>
+        <input class="studio-input" data-category-label />
+      </label>
+      <label class="studio-field">
+        <span>URL 名</span>
+        <input class="studio-input studio-input--mono" data-category-slug />
+      </label>
+      <label class="studio-field">
+        <span>说明</span>
+        <input class="studio-input" data-category-description />
+      </label>
+      <div class="studio-category-actions">
+        <button class="studio-mini-btn" type="button" data-category-save>保存</button>
+        <button class="studio-mini-btn studio-mini-btn--danger" type="button" data-category-delete>删除</button>
+      </div>
+    `;
+
+    row.querySelector<HTMLInputElement>('[data-category-label]')!.value = item.label;
+    row.querySelector<HTMLInputElement>('[data-category-slug]')!.value = item.key;
+    row.querySelector<HTMLInputElement>('[data-category-description]')!.value =
+      item.description ?? '';
+
+    list.append(row);
+  }
+}
+
+async function saveCategory(row: HTMLElement, key: string): Promise<void> {
+  const label = row.querySelector<HTMLInputElement>('[data-category-label]')?.value.trim() ?? '';
+  const nextKey =
+    row.querySelector<HTMLInputElement>('[data-category-slug]')?.value.trim().toLowerCase() ?? '';
+  const description =
+    row.querySelector<HTMLInputElement>('[data-category-description]')?.value.trim() ?? '';
+
+  if (!label) {
+    toast('目录名称不能为空', true);
+    return;
+  }
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(nextKey)) {
+    toast('URL 名只能包含小写字母、数字和连字符', true);
+    return;
+  }
+  if (
+    nextKey !== key &&
+    !window.confirm('修改 URL 名会移动文章文件夹并改变文章链接，旧链接会失效。继续？')
+  ) {
+    return;
+  }
+
+  const button = row.querySelector<HTMLButtonElement>('[data-category-save]');
+  if (button) button.disabled = true;
+
+  try {
+    const result = await api<{ moved: number }>('/__studio/api/categories/rename', {
+      method: 'POST',
+      body: JSON.stringify({ key, nextKey, label, description }),
+    });
+    toast(
+      result.moved > 0
+        ? `目录已更新，${result.moved} 篇文章的链接已同步`
+        : '目录已更新',
+    );
+    window.setTimeout(() => window.location.reload(), 700);
+  } catch (error) {
+    toast(error instanceof Error ? error.message : '更新失败', true);
+    if (button) button.disabled = false;
+  }
+}
+
+async function deleteCategory(row: HTMLElement, key: string): Promise<void> {
+  const label =
+    row.querySelector<HTMLInputElement>('[data-category-label]')?.value.trim() || key;
+  if (
+    !window.confirm(
+      `确定删除目录「${label}」？如果里面还有文章，会先提示你清空；这个操作无法撤销。`,
+    )
+  ) {
+    return;
+  }
+
+  const button = row.querySelector<HTMLButtonElement>('[data-category-delete]');
+  if (button) button.disabled = true;
+
+  try {
+    await api(`/__studio/api/categories?key=${encodeURIComponent(key)}`, {
+      method: 'DELETE',
+    });
+    toast('目录已删除');
+    window.setTimeout(() => window.location.reload(), 600);
+  } catch (error) {
+    toast(error instanceof Error ? error.message : '删除失败', true);
+    if (button) button.disabled = false;
+  }
+}
+
+function initCategoryManager(): void {
+  const list = qs<HTMLElement>('[data-category-list]');
+  list?.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const row = target.closest<HTMLElement>('[data-category-row]');
+    if (!row) return;
+    const key = row.dataset.categoryKey ?? '';
+
+    if (target.closest('[data-category-save]')) {
+      void saveCategory(row, key);
+    } else if (target.closest('[data-category-delete]')) {
+      void deleteCategory(row, key);
+    }
+  });
+
+  qs<HTMLButtonElement>('[data-add-category]')?.addEventListener('click', async () => {
+    const label =
+      qs<HTMLInputElement>('[data-new-category-label]')?.value.trim() ?? '';
+    const rawKey =
+      qs<HTMLInputElement>('[data-new-category-key]')?.value.trim() ?? '';
+    const description =
+      qs<HTMLInputElement>('[data-new-category-description]')?.value.trim() ?? '';
+    const key = rawKey.toLowerCase() || slugifyCategory(label);
+
+    if (!label) {
+      toast('先填写目录名称', true);
+      return;
+    }
+    if (!key || !/^[a-z0-9][a-z0-9-]*$/.test(key)) {
+      toast('请填写英文 URL 名，例如 reading', true);
+      return;
+    }
+
+    const button = qs<HTMLButtonElement>('[data-add-category]');
+    if (button) button.disabled = true;
+
+    try {
+      await api('/__studio/api/categories', {
+        method: 'POST',
+        body: JSON.stringify({ label, key, description }),
+      });
+      toast('目录已创建');
+      window.setTimeout(() => window.location.reload(), 600);
+    } catch (error) {
+      toast(error instanceof Error ? error.message : '创建失败', true);
+      if (button) button.disabled = false;
+    }
+  });
+}
+
+/* ------------------------------------------------------------------ */
 /* Boot                                                                */
 /* ------------------------------------------------------------------ */
 
 async function boot(): Promise<void> {
   initTabs();
   initRepeaters();
+  initCategoryManager();
   initPostForm();
   initSiteForm();
   initProfileForm();
@@ -642,6 +815,7 @@ async function boot(): Promise<void> {
     state.site = data.site;
     state.profile = data.profile;
     renderPosts(data.posts);
+    renderCategories();
 
     if (data.posts[0]) {
       loadPost(data.posts[0]);

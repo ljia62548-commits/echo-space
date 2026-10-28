@@ -221,6 +221,7 @@ cover: /uploads/cover.jpg
 
 - 文章列表、新建、保存、删除；
 - 站点设置；
+- 目录新增、改名、删除（会同步移动文章文件夹）；
 - 关于我表单；
 - 工具箱、时间线、链接的逐行增删；
 - 图片上传；
@@ -240,6 +241,9 @@ cover: /uploads/cover.jpg
 | `POST` | `/__studio/api/profile` | 合并写入关于我 |
 | `POST` | `/__studio/api/posts` | 新建或保存文章 |
 | `DELETE` | `/__studio/api/posts` | 删除文章 |
+| `POST` | `/__studio/api/categories` | 新增目录 |
+| `POST` | `/__studio/api/categories/rename` | 改名 / 改 URL，并移动文章 |
+| `DELETE` | `/__studio/api/categories` | 删除空目录 |
 | `POST` | `/__studio/api/upload` | 上传图片到 `public/uploads/` |
 
 顶部的 `SITE_KEYS` / `PROFILE_KEYS` 是允许修改的顶层字段白名单。如果往 JSON 里加新的顶层字段，也要同步加进这里。
@@ -284,6 +288,7 @@ cover: /uploads/cover.jpg
 | 首屏遮罩 | `src/data/site.json` → `hero.overlay` |
 | 整体蓝色调 | `src/styles/global.css` 顶部 `:root` 的 `--bg`、`--bg-raised` 等 |
 | 左侧菜单文字/顺序 | `src/data/site.json` → `nav` |
+| 新增/删除/改名目录 | Studio → 站点 → 目录管理 |
 | 左侧菜单样式 | `src/styles/global.css` → `/* sidebar */`，结构在 `Sidebar.astro` |
 | 站名/作者/描述/页脚 | `src/data/site.json` |
 | 关于我内容 | `src/data/profile.json` 或 Studio |

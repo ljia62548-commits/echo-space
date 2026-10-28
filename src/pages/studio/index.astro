@@ -203,25 +203,36 @@ const initialTab = 'posts';
 
           <div class="studio-card">
             <div class="studio-card__head">
-              <h2>左侧导航</h2>
-              <p>只改显示文字与说明，链接和顺序保持固定，避免页面结构被改坏。</p>
+              <h2>目录管理</h2>
+              <p>新增、改名、删除左侧栏目。About Me 是固定页面，不在管理范围内。</p>
             </div>
-            <div class="studio-nav-list">
-              {
-                site.nav.map((item) => (
-                  <div class="studio-nav-row" data-nav-key={item.key}>
-                    <label class="studio-field">
-                      <span>名称</span>
-                      <input class="studio-input" data-nav-label value={item.label} />
-                    </label>
-                    <label class="studio-field">
-                      <span>说明</span>
-                      <input class="studio-input" data-nav-description value={item.description} />
-                    </label>
-                  </div>
-                ))
-              }
+
+            <div class="studio-category-list" data-category-list>
+              <p class="studio-muted">正在读取目录…</p>
             </div>
+
+            <div class="studio-category-create">
+              <h3>新增目录</h3>
+              <div class="studio-grid studio-grid--2">
+                <label class="studio-field">
+                  <span>目录名称</span>
+                  <input class="studio-input" data-new-category-label placeholder="读书笔记" />
+                </label>
+                <label class="studio-field">
+                  <span>URL 名（英文）</span>
+                  <input class="studio-input" data-new-category-key placeholder="reading" />
+                </label>
+                <label class="studio-field studio-field--wide">
+                  <span>说明（可选）</span>
+                  <input class="studio-input" data-new-category-description placeholder="关于阅读的长期记录。" />
+                </label>
+              </div>
+              <button class="studio-add-btn" type="button" data-add-category>+ 添加目录</button>
+            </div>
+
+            <p class="studio-note">
+              修改 URL 名会同时移动文章文件夹并更新文章分类，旧链接会失效。目录里还有文章时，必须先移走文章才能删除目录。
+            </p>
           </div>
 
           <div class="studio-card">

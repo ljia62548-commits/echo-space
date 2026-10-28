@@ -46,6 +46,17 @@ const PROFILE_KEYS = new Set([
   'links',
 ]);
 
+const RESERVED_CATEGORY_KEYS = new Set([
+  'about',
+  'studio',
+  'tags',
+  'archive',
+  'search',
+  'rss',
+  'sitemap',
+  'robots',
+]);
+
 function sendJson(res, status, payload) {
   const body = JSON.stringify(payload);
   res.statusCode = status;
@@ -125,6 +136,42 @@ function sanitizeCategory(value) {
 
 function sanitizeText(value, max = 500) {
   return String(value ?? '').trim().slice(0, max);
+}
+
+function categoryDirectory(key) {
+  const dir = path.join(POSTS_DIR, key);
+  if (!inside(POSTS_DIR, dir)) {
+    throw new Error('目录路径无效');
+  }
+  return dir;
+}
+
+async function categoryFiles(key) {
+  const dir = categoryDirectory(key);
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    return entries;
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
+async function updatePostsCategory(key, nextKey) {
+  const entries = await categoryFiles(key);
+  if (!entries) return 0;
+
+  let updated = 0;
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.md')) continue;
+    const filePath = path.join(categoryDirectory(key), entry.name);
+    const raw = await fs.readFile(filePath, 'utf8');
+    const parsed = matter(raw);
+    parsed.data.category = nextKey;
+    await fs.writeFile(filePath, matter.stringify(parsed.content, parsed.data), 'utf8');
+    updated += 1;
+  }
+  return updated;
 }
 
 async function readJsonFile(name) {
@@ -316,6 +363,176 @@ async function handle(req, res) {
     const next = mergePatch(current, body.patch);
     await writeJsonFile('profile.json', next);
     sendJson(res, 200, { ok: true, profile: next });
+    return;
+  }
+
+  if (method === 'POST' && route === '/categories') {
+    const body = await readJsonBody(req);
+    const site = await readJsonFile('site.json');
+    const key = sanitizeCategory(body.key);
+    const label = sanitizeText(body.label, 60);
+    const description = sanitizeText(body.description, 160);
+
+    if (!key) {
+      fail(res, 400, '目录 URL 只能包含小写字母、数字和连字符');
+      return;
+    }
+    if (!label) {
+      fail(res, 400, '目录名称不能为空');
+      return;
+    }
+    if (
+      RESERVED_CATEGORY_KEYS.has(key) ||
+      site.nav.some((item) => item.key === key)
+    ) {
+      fail(res, 409, '这个目录名已被占用');
+      return;
+    }
+
+    const dir = categoryDirectory(key);
+    try {
+      await fs.mkdir(dir);
+    } catch (error) {
+      if (error?.code === 'EEXIST') {
+        fail(res, 409, '对应的文章文件夹已经存在');
+        return;
+      }
+      throw error;
+    }
+
+    const next = {
+      ...site,
+      nav: [
+        ...site.nav,
+        {
+          key,
+          label,
+          href: `/${key}/`,
+          description,
+        },
+      ],
+    };
+
+    try {
+      await writeJsonFile('site.json', next);
+    } catch (error) {
+      await fs.rm(dir, { recursive: true, force: true }).catch(() => {});
+      throw error;
+    }
+
+    sendJson(res, 200, { ok: true, site: next });
+    return;
+  }
+
+  if (method === 'POST' && route === '/categories/rename') {
+    const body = await readJsonBody(req);
+    const site = await readJsonFile('site.json');
+    const key = sanitizeCategory(body.key);
+    const index = site.nav.findIndex((item) => item.key === key);
+
+    if (index < 0 || key === 'about') {
+      fail(res, 404, '目录不存在');
+      return;
+    }
+
+    const current = site.nav[index];
+    const nextKey = sanitizeCategory(body.nextKey || key);
+    if (!nextKey) {
+      fail(res, 400, '目录 URL 只能包含小写字母、数字和连字符');
+      return;
+    }
+    if (
+      nextKey !== key &&
+      (RESERVED_CATEGORY_KEYS.has(nextKey) ||
+        site.nav.some((item) => item.key === nextKey))
+    ) {
+      fail(res, 409, '这个目录名已被占用');
+      return;
+    }
+
+    const label = sanitizeText(body.label, 60) || current.label;
+    const description = sanitizeText(body.description, 160) || current.description;
+    let moved = 0;
+
+    if (nextKey !== key) {
+      const oldDir = categoryDirectory(key);
+      const newDir = categoryDirectory(nextKey);
+      let oldEntries = null;
+
+      try {
+        oldEntries = await fs.readdir(oldDir, { withFileTypes: true });
+      } catch (error) {
+        if (error?.code !== 'ENOENT') throw error;
+      }
+
+      try {
+        await fs.access(newDir);
+        fail(res, 409, '目标目录已经存在');
+        return;
+      } catch (error) {
+        if (error?.code !== 'ENOENT') throw error;
+      }
+
+      if (oldEntries) {
+        await fs.rename(oldDir, newDir);
+      } else {
+        await fs.mkdir(newDir, { recursive: true });
+      }
+
+      moved = await updatePostsCategory(nextKey, nextKey);
+    }
+
+    const nav = site.nav.map((item, itemIndex) =>
+      itemIndex === index
+        ? {
+            ...item,
+            key: nextKey,
+            label,
+            href: `/${nextKey}/`,
+            description,
+          }
+        : item,
+    );
+
+    const next = { ...site, nav };
+    await writeJsonFile('site.json', next);
+    sendJson(res, 200, { ok: true, site: next, moved });
+    return;
+  }
+
+  if (method === 'DELETE' && route === '/categories') {
+    const key = sanitizeCategory(url.searchParams.get('key'));
+    const site = await readJsonFile('site.json');
+    const item = site.nav.find((entry) => entry.key === key);
+
+    if (!item || key === 'about') {
+      fail(res, 404, '目录不存在');
+      return;
+    }
+
+    const entries = await categoryFiles(key);
+    if (entries && entries.length > 0) {
+      const posts = entries.filter(
+        (entry) => entry.isFile() && entry.name.endsWith('.md'),
+      ).length;
+      if (posts > 0) {
+        fail(res, 409, `目录里还有 ${posts} 篇文章，请先移走或删除后再删目录`);
+        return;
+      }
+      fail(res, 409, '目录里还有文件，请先清空后再删目录');
+      return;
+    }
+
+    if (entries) {
+      await fs.rm(categoryDirectory(key), { recursive: true, force: true });
+    }
+
+    const next = {
+      ...site,
+      nav: site.nav.filter((entry) => entry.key !== key),
+    };
+    await writeJsonFile('site.json', next);
+    sendJson(res, 200, { ok: true, site: next });
     return;
   }
 
