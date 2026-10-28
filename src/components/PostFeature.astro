@@ -22,8 +22,6 @@ const minutes = postReadingMinutes(post);
     <span class="post-feature__date">{formatDate(post.data.date)}</span>
   </span>
 
-  {lead && <span class="post-feature__ghost" aria-hidden="true">01</span>}
-
   <span class="post-feature__body">
     <span class="post-feature__title">{post.data.title}</span>
     {post.data.description && <span class="post-feature__excerpt">{post.data.description}</span>}

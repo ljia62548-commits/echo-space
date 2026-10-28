@@ -27,13 +27,13 @@ const latest = posts[0];
 <BaseLayout title={meta.label} description={meta.description}>
   <div class="page">
     <header class="page__head">
-      <p class="page__index">{meta.index} / SECTION</p>
+      <p class="page__index">SECTION</p>
       <h1 class="page__title">
         {leadWords} <em>{lastWord}</em>
       </h1>
       <p class="page__lede">{meta.description}</p>
       <div class="page__meta">
-        <span>{String(posts.length).padStart(2, '0')} entries</span>
+        <span>{posts.length} entries</span>
         {latest && <span>Last update {formatDate(latest.data.date)}</span>}
         <a class="text-link" href="/archive/">Archive</a>
       </div>

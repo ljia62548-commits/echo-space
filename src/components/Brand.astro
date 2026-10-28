@@ -10,7 +10,6 @@ const { compact = false } = Astro.props;
 
 <a class="brand" href="/" aria-label={`${site.name} 首页`}>
   <span class="brand__line">
-    <span class="brand__mark" aria-hidden="true"></span>
     <span class="brand__name">{site.name}</span>
   </span>
   {!compact && <span class="brand__sub">Personal archive</span>}

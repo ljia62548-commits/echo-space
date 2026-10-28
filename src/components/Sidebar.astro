@@ -1,16 +1,10 @@
 ---
 import Brand from './Brand.astro';
 import site from '../data/site.json';
-import { getPublishedPosts, socialLinks } from '../lib/content';
+import { socialLinks } from '../lib/content';
 
 const path = Astro.url.pathname;
-const posts = await getPublishedPosts();
 const year = new Date().getFullYear();
-
-const counts = new Map<string, number>();
-for (const post of posts) {
-  counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
-}
 
 const isActive = (href: string) => {
   if (href === '/') return path === '/';
@@ -25,7 +19,6 @@ const isActive = (href: string) => {
     {
       site.nav.map((item) => {
         const active = isActive(item.href);
-        const meta = item.key === 'about' ? 'Profile' : `${counts.get(item.key) ?? 0} entries`;
         return (
           <a
             class="nav__link"
@@ -33,9 +26,7 @@ const isActive = (href: string) => {
             aria-current={active ? 'page' : undefined}
             data-nav-link
           >
-            <span class="nav__num">{item.index}</span>
             <span class="nav__label">{item.label}</span>
-            <span class="nav__meta">{meta}</span>
           </a>
         );
       })

@@ -91,7 +91,7 @@ plog/
 | `hero.image` | 首屏图片地址 |
 | `hero.position` | 图片焦点，例如 `50% 45%` |
 | `hero.overlay` | 暗色遮罩浓度，0 到 1 |
-| `nav` | 左侧菜单：`key`、`label`、`href`、`index`、`description` |
+| `nav` | 左侧菜单：`key`、`label`、`href`、`description` |
 | `social` | 左侧栏底部的社交链接数组 |
 | `footerNote` | 页脚那句短话 |
 
@@ -191,7 +191,7 @@ cover: /uploads/cover.jpg
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
 | [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、两列竖排文字、打字容器 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
-| [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张大卡片带淡色 `01` |
+| [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张为大卡片 |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
 | [Footer.astro](../src/components/Footer.astro) | 页脚：版权、RSS、归档、搜索、Studio、页脚短句 |
 

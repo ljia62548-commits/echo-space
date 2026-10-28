@@ -16,7 +16,6 @@ type SiteData = {
     key: string;
     label: string;
     href: string;
-    index: string;
     description: string;
   }>;
   social: Array<{ label: string; href: string }>;
@@ -182,7 +181,7 @@ function renderPosts(posts: PostRecord[]): void {
   const count = qs<HTMLElement>('[data-post-count]');
   if (!list) return;
 
-  if (count) count.textContent = String(posts.length).padStart(2, '0');
+  if (count) count.textContent = String(posts.length);
 
   list.replaceChildren();
 

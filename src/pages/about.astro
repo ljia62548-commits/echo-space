@@ -14,18 +14,13 @@ const hasAvatar = Boolean(profile.avatar);
   <div class="page">
     <section class="about-hero" aria-labelledby="about-name">
       <div class="portrait" data-reveal>
-        {
-          hasAvatar ? (
-            <img src={profile.avatar} alt={`${profile.name} 的照片`} />
-          ) : (
-            <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>
-          )
-        }
-        <span class="portrait__label">Portrait / 01</span>
+        <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>
+        {hasAvatar && <img src={profile.avatar} alt={`${profile.name} 的照片`} onerror="this.remove()" />}
+        <span class="portrait__label">Portrait</span>
       </div>
 
       <div class="about-intro" data-reveal>
-        <p class="eyebrow">01 / About Me</p>
+        <p class="eyebrow">About Me</p>
         <h1 class="about-name" id="about-name" data-bind="profile.name">{profile.name}</h1>
         <p class="about-headline" data-bind="profile.headline">{profile.headline}</p>
         <p class="about-lede" data-bind="profile.intro">{profile.intro}</p>
@@ -49,7 +44,7 @@ const hasAvatar = Boolean(profile.avatar);
 
     <div class="about-sections">
       <section class="about-section" aria-labelledby="bio-title">
-        <p class="about-section__label" id="bio-title">02 / 关于我</p>
+        <p class="about-section__label" id="bio-title">关于我</p>
         <div class="about-bio">
           {
             profile.bio.map((paragraph, index) => (
@@ -60,7 +55,7 @@ const hasAvatar = Boolean(profile.avatar);
       </section>
 
       <section class="about-section" aria-labelledby="now-title">
-        <p class="about-section__label" id="now-title">03 / 现在</p>
+        <p class="about-section__label" id="now-title">现在</p>
         <div class="now-table">
           <div class="now-table__row">
             <span class="now-table__key">Building</span>
@@ -78,7 +73,7 @@ const hasAvatar = Boolean(profile.avatar);
       </section>
 
       <section class="about-section" aria-labelledby="toolbox-title">
-        <p class="about-section__label" id="toolbox-title">04 / 工具箱</p>
+        <p class="about-section__label" id="toolbox-title">工具箱</p>
         <div class="toolbox">
           {
             profile.toolbox.map((group, groupIndex) => (
@@ -98,7 +93,7 @@ const hasAvatar = Boolean(profile.avatar);
       </section>
 
       <section class="about-section" aria-labelledby="timeline-title">
-        <p class="about-section__label" id="timeline-title">05 / 时间线</p>
+        <p class="about-section__label" id="timeline-title">时间线</p>
         <div class="timeline">
           {
             profile.timeline.map((item, index) => (
@@ -121,7 +116,7 @@ const hasAvatar = Boolean(profile.avatar);
       </section>
 
       <section class="about-section" aria-labelledby="interests-title">
-        <p class="about-section__label" id="interests-title">06 / 兴趣</p>
+        <p class="about-section__label" id="interests-title">兴趣</p>
         <div class="interest-list">
           {
             profile.interests.map((interest, index) => (
@@ -132,7 +127,7 @@ const hasAvatar = Boolean(profile.avatar);
       </section>
 
       <section class="about-section" aria-labelledby="links-title">
-        <p class="about-section__label" id="links-title">07 / 找到我</p>
+        <p class="about-section__label" id="links-title">找到我</p>
         <div>
           <div class="link-list">
             {links.map((link) => (

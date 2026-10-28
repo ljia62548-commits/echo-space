@@ -605,16 +605,9 @@ select.studio-input option {
 
 .studio-nav-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 0.8fr) minmax(0, 1.5fr);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
   align-items: end;
   gap: 12px;
-}
-
-.studio-nav-row__index {
-  padding-bottom: 10px;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--ink-dim);
 }
 
 .studio-repeat-list {
