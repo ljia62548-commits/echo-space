@@ -6,13 +6,13 @@
 
 ## 首屏文字
 
-首屏只有一行字，进入页面时逐字出现：
+首屏文字按中文逗号分成两列竖排，紧贴左侧菜单并上下错开，进入页面时逐字出现：
 
 - 文字内容在 [site.json](../src/data/site.json#L7) 的 `hero.line`；
-- 渲染在 [Hero.astro](../src/components/Hero.astro) 的 `.hero__content` / `.hero__title`；
+- 分列逻辑在 [Hero.astro](../src/components/Hero.astro)：按 `，` 拆分；
+- 渲染在 `.hero__content` / `.hero__title` / `.hero__column`；
 - 打字逻辑在 [app.ts](../src/scripts/app.ts) 的 `initTypewriter()`；
-- 文字在视觉上略低于画面几何中心，避开人物眼睛；
-- 末尾的光标 `_` 由 `global.css` 的 `.hero__title::after` 控制。
+- 光标是当前列底部的竖线，由 `.hero__column.is-typing::after` 控制。
 
 具体调整方法见 [调整首屏文字](#调整首屏文字)。
 
@@ -87,7 +87,7 @@ plog/
 | `author` | 作者名 |
 | `description` | 站点默认描述，用于 SEO |
 | `locale` | 页面语言，默认 `zh-CN` |
-| `hero.line` | 首屏唯一那一行字 |
+| `hero.line` | 首屏文字，按中文逗号分成两列竖排 |
 | `hero.image` | 首屏图片地址 |
 | `hero.position` | 图片焦点，例如 `50% 45%` |
 | `hero.overlay` | 暗色遮罩浓度，0 到 1 |
@@ -189,9 +189,9 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [Brand.astro](../src/components/Brand.astro) | 左上角站名，从 `site.json` 的 `name` 读取 |
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、本地时间、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
-| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、唯一一行字、打字容器 |
+| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、两列竖排文字、打字容器 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
-| [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张大卡片带淡金色 `01` |
+| [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张大卡片带淡色 `01` |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
 | [Footer.astro](../src/components/Footer.astro) | 页脚：版权、RSS、归档、搜索、Studio、页脚短句 |
 
@@ -221,7 +221,7 @@ cover: /uploads/cover.jpg
 
 - 每字间隔：搜索 `68 + Math.random() * 34`；
 - 开始前等待：搜索 `520`；
-- 光标样式：`global.css` 里的 `.hero__title::after`。
+- 光标样式：`global.css` 里的 `.hero__column.is-typing::after`。
 
 ### `src/scripts/studio.ts`
 
@@ -284,10 +284,10 @@ cover: /uploads/cover.jpg
 
 | 想改什么 | 去哪里 |
 | --- | --- |
-| 首屏那一行字 | `src/data/site.json` → `hero.line`，或页面 `Ctrl + E`/Studio |
+| 首屏文字（逗号分列） | `src/data/site.json` → `hero.line`，或页面 `Ctrl + E`/Studio |
 | 打字速度 | `src/scripts/app.ts` → `68 + Math.random() * 34` |
 | 开始前停顿 | `src/scripts/app.ts` → `520` |
-| 打字光标 | `src/styles/global.css` → `.hero__title::after` |
+| 打字光标 | `src/styles/global.css` → `.hero__column.is-typing::after` |
 | 文字上下位置 | `src/styles/global.css` → `.hero--full .hero__content` 的 `padding-bottom` |
 | 首屏图片 | 替换 `public/uploads/echo-space-hero.jpg`，或编辑模式上传 |
 | 首屏亮度 | `src/styles/global.css` → `.hero--full .hero__bg` 的 `brightness()` |
@@ -315,44 +315,76 @@ cover: /uploads/cover.jpg
 
 改 [site.json](../src/data/site.json#L7) 的 `hero.line`，或者进入页面编辑模式 / Studio → 站点。
 
+句子中的中文逗号会被 [Hero.astro](../src/components/Hero.astro) 拆成两列。例如「第一句，第二句」会变成右边「第一句」、左边「第二句」两列。想增加第三列，就再加一个逗号；不想要分列，就去掉逗号。
+
 ### 改字号
 
-[global.css](../src/styles/global.css#L649) 的 `.hero__title`：
+[global.css](../src/styles/global.css) 的 `.hero__title`：
 
 ```css
-font-size: clamp(1.25rem, 3.1vw, 2.5rem);
+font-size: clamp(1.1rem, 2.2vw, 2rem);
 ```
 
-- 第一个值是手机最小字号；
+- 第一个值是最小字号；
 - 中间是随屏幕宽度变化的字号；
-- 最后是桌面最大字号。
+- 最后是桌面最大字号；
+- 手机上还有一条单独的字号覆盖：`clamp(1rem, 4.6vw, 1.45rem)`。
+
+### 改颜色 / 和背景融合
+
+[global.css](../src/styles/global.css) 的 `.hero__title`：
+
+```css
+color: rgba(220, 226, 230, 0.72);
+```
+
+现在用的是一种带蓝灰倾向的半透明暗白，会透出一点背景图。想要更明显就提高最后一位透明度，想更淡就降低。
 
 ### 改位置
 
-[global.css](../src/styles/global.css#L640) 的 `.hero--full .hero__content`：
+[global.css](../src/styles/global.css) 的 `.hero--full .hero__content`：
 
 ```css
-padding: clamp(80px, 14vh, 150px) clamp(24px, 5vw, 72px) 0;
-justify-content: center;
+padding: 0 0 0 calc(var(--sidebar-w) + 14px);
 ```
 
-- 增大 `padding-top`：文字整体下移；
-- 减小 `padding-top`：文字整体上移；
-- 目前的值让文字略低于几何中心，避开人物眼睛。
+`14px` 决定文字离菜单栏有多近。改大就更远，改小就贴得更紧。
 
-文字背后的柔光在 `.hero__content::before`，如果觉得文字不够清楚，可以调高它的 `rgba(10, 17, 26, 0.5)` 透明度。
+两列之间的间距在 `.hero__title` 的 `gap`。
+
+### 让两列错开
+
+[global.css](../src/styles/global.css)：
+
+```css
+.hero__column:first-child {
+  margin-top: clamp(32px, 6vh, 64px);
+}
+```
+
+`first-child` 是右边那句；调大这个值，右列会向下错得更多。想让左列下移，就改成 `:last-child`。
+
+### 改竖排 / 横排
+
+[global.css](../src/styles/global.css) 的 `.hero__column`：
+
+```css
+writing-mode: vertical-rl;
+```
+
+把 `vertical-rl` 改成 `horizontal-tb`，文字就会恢复横向排列。
+
+`row-reverse` 控制两列的阅读顺序：第一句在右边、第二句在左边。改成 `row` 就会反过来。
 
 ### 改打字速度
 
-[app.ts](../src/scripts/app.ts#L158)：
+[app.ts](../src/scripts/app.ts)：
 
 ```js
 timer = window.setTimeout(step, 68 + Math.random() * 34);
 ```
 
-每字约 68–102ms。
-
-开始前的停顿在 [app.ts](../src/scripts/app.ts#L163)：
+每字约 68–102ms。开始前的停顿：
 
 ```js
 timer = window.setTimeout(step, 520);
@@ -360,18 +392,20 @@ timer = window.setTimeout(step, 520);
 
 ### 改光标
 
-[global.css](../src/styles/global.css#L666) 的 `.hero__title::after`：
+[global.css](../src/styles/global.css) 的 `.hero__column.is-typing::after`：
 
 ```css
-content: "_";
-color: var(--accent-soft);
+content: "";
+width: 1px;
+height: 0.7em;
+background: currentColor;
 ```
 
-把 `_` 换成 `|` 或 `▍` 都可以。
+这是当前列底部的一条竖直光标。
 
 ### 不要逐字、直接显示整句
 
-保留文字块，去掉 `<span>` 上的 `data-typewriter` 属性，或者把 `app.ts` 里 `initTypewriter()` 的调用注释掉。
+保留文字块，去掉每列 `<span>` 上的 `data-typewriter` 属性，或者把 `app.ts` 里 `initTypewriter()` 的调用注释掉。
 
 ### 暂时隐藏文字
 

@@ -4,7 +4,7 @@
   "description": "Echo Space 是 Jason Jia 的个人博客，记录关于思考、生活、游戏、AI 工具与机器学习的长文字。",
   "locale": "zh-CN",
   "hero": {
-    "line": "在噪声里，留下自己的回声。",
+    "line": "这世界满是噪声，在此留一方天地聆听自己",
     "image": "/uploads/echo-space-hero.jpg",
     "position": "50% 45%",
     "overlay": 0.14,

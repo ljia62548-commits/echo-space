@@ -2,6 +2,13 @@
 import site from '../data/site.json';
 
 const hero = site.hero;
+
+// 首屏文字用中文逗号分成两列；以后在 Studio 里改句子时，
+// 只要保留逗号，就会自动分成两列。
+const lines = hero.line
+  .split(/[，,]/)
+  .map((line) => line.trim())
+  .filter(Boolean);
 ---
 
 <section class="hero hero--full" aria-labelledby="hero-title">
@@ -18,8 +25,20 @@ const hero = site.hero;
   </button>
 
   <div class="hero__content">
-    <h1 class="hero__title" id="hero-title" data-bind="site.hero.line" aria-label={hero.line}>
-      <span data-typewriter data-text={hero.line}>{hero.line}</span>
+    <h1
+      class="hero__title hero__title--vertical"
+      id="hero-title"
+      data-bind="site.hero.line"
+      data-join="，"
+      aria-label={hero.line}
+    >
+      {
+        lines.map((line) => (
+          <span class="hero__column">
+            <span data-typewriter data-line data-text={line}>{line}</span>
+          </span>
+        ))
+      }
     </h1>
   </div>
 

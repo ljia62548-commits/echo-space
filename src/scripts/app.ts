@@ -120,26 +120,38 @@ function initLocalTime(): void {
 }
 
 function initTypewriter(): void {
-  const element = qs<HTMLElement>('[data-typewriter]');
-  if (!element) return;
+  const elements = qsa<HTMLElement>('[data-typewriter]');
+  if (elements.length === 0) return;
 
-  const text = element.dataset.text ?? element.textContent ?? '';
-  if (!text) return;
+  const texts = elements.map((element) => element.dataset.text ?? element.textContent ?? '');
+  const columns = elements.map((element) => element.closest('.hero__column') as HTMLElement | null);
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reducedMotion) {
-    element.textContent = text;
+    elements.forEach((element, index) => {
+      element.textContent = texts[index];
+    });
     return;
   }
 
-  let index = 0;
+  let elementIndex = 0;
+  let charIndex = 0;
   let timer = 0;
   let stopped = false;
+
+  const setActiveColumn = (activeIndex: number): void => {
+    columns.forEach((column, index) => {
+      column?.classList.toggle('is-typing', index === activeIndex);
+    });
+  };
 
   const reveal = (): void => {
     stopped = true;
     window.clearTimeout(timer);
-    element.textContent = text;
+    elements.forEach((element, index) => {
+      element.textContent = texts[index];
+    });
+    columns.forEach((column) => column?.classList.remove('is-typing'));
   };
 
   window.addEventListener('echo:edit-start', reveal);
@@ -151,15 +163,27 @@ function initTypewriter(): void {
       return;
     }
 
-    index += 1;
-    element.textContent = text.slice(0, index);
+    const element = elements[elementIndex];
+    const text = texts[elementIndex];
+    if (!element) return;
 
-    if (index < text.length) {
+    charIndex += 1;
+    element.textContent = text.slice(0, charIndex);
+    setActiveColumn(elementIndex);
+
+    if (charIndex < text.length) {
       timer = window.setTimeout(step, 68 + Math.random() * 34);
+    } else if (elementIndex < elements.length - 1) {
+      elementIndex += 1;
+      charIndex = 0;
+      timer = window.setTimeout(step, 260);
     }
   };
 
-  element.textContent = '';
+  elements.forEach((element) => {
+    element.textContent = '';
+  });
+
   timer = window.setTimeout(step, 520);
 }
 
@@ -392,6 +416,18 @@ function showToast(message: string, isError = false): void {
   window.setTimeout(() => toast.classList.remove('is-visible'), 3200);
 }
 
+function readBindingValue(element: HTMLElement): string {
+  const joiner = element.dataset.join;
+  if (joiner) {
+    const parts = qsa<HTMLElement>('[data-line]', element)
+      .map((part) => (part.innerText ?? '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean);
+    if (parts.length > 0) return parts.join(joiner);
+  }
+
+  return (element.innerText ?? '').replace(/\s+/g, ' ').trim();
+}
+
 function initEditMode(): void {
   const dock = qs<HTMLElement>('[data-edit-dock]');
   if (!dock) return;
@@ -476,7 +512,7 @@ function initEditMode(): void {
     const collected = bindings()
       .map((element) => ({
         path: element.dataset.bind ?? '',
-        value: (element.innerText ?? '').replace(/\s+/g, ' ').trim(),
+        value: readBindingValue(element),
       }))
       .filter((binding) => binding.path && binding.value);
 
