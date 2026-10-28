@@ -4,23 +4,17 @@
 > 文件名、目录名、关键类名可以直接在本文件里搜索。
 > 行号会随着以后修改而漂移，所以优先用「文件名 + 关键词」定位。
 
-## 当前临时状态：首屏文字已隐藏
+## 首屏文字
 
-为了先看完整的首屏图片，首屏那一行文字已经被注释掉：
+首屏只有一行字，进入页面时逐字出现：
 
-- 文件：[src/components/Hero.astro](../src/components/Hero.astro)
-- `<section>` 上多了 `hero--clean` 类，用来减少底部压暗；
-- 原来的 `<div class="hero__content">` 整块被包在 Astro 注释 `{/* ... */}` 里；
-- 页面上保留了一个仅供搜索引擎/读屏器读取的 `sr-only` 标题，视觉上不可见；
-- 打字效果的 JavaScript 没有删除，恢复文字后会自动继续工作。
+- 文字内容在 [site.json](../src/data/site.json#L7) 的 `hero.line`；
+- 渲染在 [Hero.astro](../src/components/Hero.astro) 的 `.hero__content` / `.hero__title`；
+- 打字逻辑在 [app.ts](../src/scripts/app.ts) 的 `initTypewriter()`；
+- 文字在视觉上略低于画面几何中心，避开人物眼睛；
+- 末尾的光标 `_` 由 `global.css` 的 `.hero__title::after` 控制。
 
-恢复文字时，在 `Hero.astro` 里做三件事：
-
-1. 删除 `<h1 class="sr-only" ...>` 那一行；
-2. 取消 `<div class="hero__content">` 外面的 `{/*` 和 `*/}` 注释；
-3. 把 `<section class="hero hero--full hero--clean">` 改回 `class="hero hero--full"`，恢复底部渐变。
-
-具体位置见 [恢复首屏文字](#恢复首屏文字)。
+具体调整方法见 [调整首屏文字](#调整首屏文字)。
 
 ---
 
@@ -195,7 +189,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [Brand.astro](../src/components/Brand.astro) | 左上角站名，从 `site.json` 的 `name` 读取 |
 | [Sidebar.astro](../src/components/Sidebar.astro) | 左侧固定竖向菜单、当前项高亮、文章数、本地时间、社交/RSS/Edit、移动端顶栏和抽屉菜单。桌面端是透明的，只保留文字覆盖在背景图上，没有底板和右边框 |
-| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、唯一一行字（当前被注释）、打字容器 |
+| [Hero.astro](../src/components/Hero.astro) | 首屏：全屏图片、明暗渐变、唯一一行字、打字容器 |
 | [EditDock.astro](../src/components/EditDock.astro) | 仅本地开发：编辑页面、保存/取消、更换图片、遮罩和焦点调整 |
 | [PostFeature.astro](../src/components/PostFeature.astro) | 首页精选文章卡片，第一张大卡片带淡金色 `01` |
 | [PostRow.astro](../src/components/PostRow.astro) | 栏目页/标签页的横向文章条目 |
@@ -315,33 +309,77 @@ cover: /uploads/cover.jpg
 
 ---
 
-## 恢复首屏文字
+## 调整首屏文字
 
-当前 `src/components/Hero.astro` 里，文字块被包在 Astro 注释中：
+### 改文字内容
 
-```astro
-<!-- 首屏文字暂时隐藏，先把整张图露出来。恢复方法见 docs/PROJECT-STRUCTURE.md。 -->
-<h1 class="sr-only" id="hero-title">{hero.line}</h1>
+改 [site.json](../src/data/site.json#L7) 的 `hero.line`，或者进入页面编辑模式 / Studio → 站点。
 
-{/*
-<div class="hero__content">
-  <h1 class="hero__title" id="hero-title" data-bind="site.hero.line" aria-label={hero.line}>
-    <span data-typewriter data-text={hero.line}>{hero.line}</span>
-  </h1>
-</div>
-*/}
+### 改字号
+
+[global.css](../src/styles/global.css#L649) 的 `.hero__title`：
+
+```css
+font-size: clamp(1.25rem, 3.1vw, 2.5rem);
 ```
 
-恢复步骤：
+- 第一个值是手机最小字号；
+- 中间是随屏幕宽度变化的字号；
+- 最后是桌面最大字号。
 
-1. 删除 `<h1 class="sr-only" ...>`；
-2. 删除 `{/*` 和 `*/}`；
-3. 把 `<section class="hero hero--full hero--clean">` 改成 `<section class="hero hero--full">`；
-4. 保存，浏览器会自动刷新。
+### 改位置
 
-- `hero--clean` 只影响首屏底部渐变；恢复文字后去掉它，文字会更清楚。
-- 打字效果的 JS 一直在，恢复文字后自动生效。
-- 如果只想显示静态文字、不要逐字动画：保留文字块，去掉 `<span data-typewriter ...>` 上的 `data-typewriter` 属性，或者把 `app.ts` 的 `initTypewriter()` 调用注释掉。
+[global.css](../src/styles/global.css#L640) 的 `.hero--full .hero__content`：
+
+```css
+padding: clamp(80px, 14vh, 150px) clamp(24px, 5vw, 72px) 0;
+justify-content: center;
+```
+
+- 增大 `padding-top`：文字整体下移；
+- 减小 `padding-top`：文字整体上移；
+- 目前的值让文字略低于几何中心，避开人物眼睛。
+
+文字背后的柔光在 `.hero__content::before`，如果觉得文字不够清楚，可以调高它的 `rgba(10, 17, 26, 0.5)` 透明度。
+
+### 改打字速度
+
+[app.ts](../src/scripts/app.ts#L158)：
+
+```js
+timer = window.setTimeout(step, 68 + Math.random() * 34);
+```
+
+每字约 68–102ms。
+
+开始前的停顿在 [app.ts](../src/scripts/app.ts#L163)：
+
+```js
+timer = window.setTimeout(step, 520);
+```
+
+### 改光标
+
+[global.css](../src/styles/global.css#L666) 的 `.hero__title::after`：
+
+```css
+content: "_";
+color: var(--accent-soft);
+```
+
+把 `_` 换成 `|` 或 `▍` 都可以。
+
+### 不要逐字、直接显示整句
+
+保留文字块，去掉 `<span>` 上的 `data-typewriter` 属性，或者把 `app.ts` 里 `initTypewriter()` 的调用注释掉。
+
+### 暂时隐藏文字
+
+如果又要露出整张图：
+
+1. 注释 [Hero.astro](../src/components/Hero.astro) 里的 `.hero__content`；
+2. 在同样位置加一个 `<h1 class="sr-only" id="hero-title">{hero.line}</h1>`，保留 SEO；
+3. 在 `<section>` 上加 `hero--clean`，减少为文字准备的底部压暗。
 
 ---
 

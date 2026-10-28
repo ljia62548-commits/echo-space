@@ -4,7 +4,7 @@ import site from '../data/site.json';
 const hero = site.hero;
 ---
 
-<section class="hero hero--full hero--clean" aria-labelledby="hero-title">
+<section class="hero hero--full" aria-labelledby="hero-title">
   <div
     class="hero__bg"
     style={`--hero-image: url('${hero.image}'); --hero-position: ${hero.position};`}
@@ -17,16 +17,11 @@ const hero = site.hero;
     <span aria-hidden="true">◉</span> 更换图片
   </button>
 
-  <!-- 首屏文字暂时隐藏，先把整张图露出来。恢复方法见 docs/PROJECT-STRUCTURE.md。 -->
-  <h1 class="sr-only" id="hero-title">{hero.line}</h1>
-
-  {/*
   <div class="hero__content">
     <h1 class="hero__title" id="hero-title" data-bind="site.hero.line" aria-label={hero.line}>
       <span data-typewriter data-text={hero.line}>{hero.line}</span>
     </h1>
   </div>
-  */}
 
   <div class="hero__scroll" aria-hidden="true">
     <span class="hero__scroll-line"></span>

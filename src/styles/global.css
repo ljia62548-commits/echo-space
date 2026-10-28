@@ -599,7 +599,7 @@ a.tag:hover {
   background:
     linear-gradient(125deg, rgba(48, 104, 146, 0.09), transparent 55%),
     radial-gradient(ellipse 62% 58% at 58% 36%, rgba(10, 17, 26, 0) 0%, rgba(10, 17, 26, 0.04) 38%, rgba(10, 17, 26, 0.34) 68%, rgba(10, 17, 26, 0.9) 100%),
-    linear-gradient(180deg, rgba(10, 17, 26, 0.46) 0%, transparent 22%, transparent 44%, rgba(10, 17, 26, 0.46) 72%, rgba(10, 17, 26, 0.97) 100%),
+    linear-gradient(180deg, rgba(10, 17, 26, 0.42) 0%, transparent 22%, transparent 58%, rgba(10, 17, 26, 0.45) 82%, rgba(10, 17, 26, 0.95) 100%),
     linear-gradient(90deg, rgba(10, 17, 26, 0.74) 0%, rgba(10, 17, 26, 0.2) 38%, transparent 68%);
 }
 
@@ -613,7 +613,7 @@ a.tag:hover {
   pointer-events: none;
 }
 
-/* 文字暂时隐藏时，减少底部压暗，让画面尽量完整露出。 */
+/* 可选：给 Hero 加上 hero--clean 后，减少底部压暗，适合暂时隐藏文字。 */
 .hero--clean .hero__grade {
   background:
     linear-gradient(125deg, rgba(48, 104, 146, 0.08), transparent 55%),
@@ -623,6 +623,8 @@ a.tag:hover {
 }
 
 .hero__content {
+  position: relative;
+  z-index: 1;
   width: min(880px, calc(100% - 80px));
   margin-left: var(--sidebar-w);
   padding: clamp(90px, 12vh, 150px) 0 clamp(80px, 10vh, 130px);
@@ -642,23 +644,38 @@ a.tag:hover {
   width: auto;
   min-height: 100svh;
   margin-left: var(--sidebar-w);
-  padding: clamp(120px, 17vh, 190px) clamp(24px, 5vw, 72px) clamp(100px, 13vh, 150px);
-  justify-content: flex-end;
+  padding: clamp(80px, 14vh, 150px) clamp(24px, 5vw, 72px) 0;
+  justify-content: center;
+}
+
+/* 文字居中时只压暗文字附近，避免整块画面变黑。 */
+.hero__content::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 7vh);
+  width: min(940px, 92%);
+  height: min(300px, 36vh);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(10, 17, 26, 0.5) 0%, rgba(10, 17, 26, 0.24) 46%, transparent 74%);
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .hero__title {
   max-width: 22em;
   margin: 0;
   color: var(--ink-strong);
-  font-size: clamp(1.35rem, 4.8vw, 3.9rem);
+  font-size: clamp(1.25rem, 3.1vw, 2.5rem);
   font-weight: 300;
-  line-height: 1.22;
-  letter-spacing: -0.035em;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
   text-align: center;
   text-wrap: balance;
   text-shadow:
-    0 3px 26px rgba(0, 0, 0, 0.78),
-    0 0 70px rgba(0, 0, 0, 0.45);
+    0 3px 26px rgba(0, 0, 0, 0.8),
+    0 0 70px rgba(0, 0, 0, 0.55);
   opacity: 0;
   animation: rise-in 1.1s 0.3s var(--ease-out) forwards;
 }
@@ -2703,7 +2720,12 @@ body.is-editing .edit-wallpaper {
     width: 100%;
     min-height: 100svh;
     margin-left: 0;
-    padding: 108px 22px 104px;
+    padding: 20vh 22px 0;
+  }
+
+  .hero__content::before {
+    top: calc(50% + 12vh);
+    height: min(220px, 30vh);
   }
 
   .hero__scroll {
