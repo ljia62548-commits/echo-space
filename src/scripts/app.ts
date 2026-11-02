@@ -1,6 +1,7 @@
 /* Echo Space — small, dependency-free client behaviours. */
 
 import { initMemos } from './memos';
+import { initRunningChallenge } from './running';
 
 type Json = Record<string, unknown>;
 
@@ -433,6 +434,7 @@ function boot(): void {
   initToc();
   initSidebarSearch();
   initMemos();
+  initRunningChallenge();
 }
 
 if (document.readyState === 'loading') {
