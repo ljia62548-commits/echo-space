@@ -104,14 +104,17 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
         </div>
       </section>
 
-      <section class="about-section about-section--links" aria-label="找到我">
-        <div class="link-list">
-          {links.map((link) => (
-            <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
-          ))}
-          <a href={withBase('/rss.xml')}>RSS Feed ↗</a>
-        </div>
-      </section>
+      {
+        links.length > 0 && (
+          <section class="about-section about-section--links" aria-label="找到我">
+            <div class="link-list">
+              {links.map((link) => (
+                <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
+              ))}
+            </div>
+          </section>
+        )
+      }
     </div>
   </div>
 </BaseLayout>
