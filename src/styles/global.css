@@ -968,20 +968,18 @@ a.tag:hover {
   padding: clamp(28px, 5vw, 56px);
   overflow: hidden;
   color: var(--ink);
-  background: var(--panel);
-  border: 1px solid var(--line-strong);
-  border-left: 2px solid rgba(196, 154, 85, 0.4);
-  border-radius: 0;
-  clip-path: polygon(
-    0 0,
-    calc(100% - 18px) 0,
-    100% 18px,
-    100% 100%,
-    0 100%
-  );
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.07)),
+    rgba(16, 18, 19, 0.28);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 28px;
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.38),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
 }
 
 .memo-board::before {
@@ -990,9 +988,25 @@ a.tag:hover {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.045), transparent 36%),
-    repeating-linear-gradient(0deg, transparent 0 3px, rgba(127, 212, 230, 0.018) 3px 4px),
-    radial-gradient(90% 70% at 100% 100%, rgba(196, 154, 85, 0.05), transparent 60%);
+    radial-gradient(100% 70% at 18% 0%, rgba(255, 255, 255, 0.22), transparent 48%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 35%, transparent 65%, rgba(255, 255, 255, 0.04));
+}
+
+.memo-board::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 27px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 20px 40px rgba(255, 255, 255, 0.025);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .memo-board {
+    background: rgba(16, 18, 19, 0.92);
+  }
 }
 
 .memo-form {
@@ -1001,7 +1015,7 @@ a.tag:hover {
   align-items: center;
   gap: 14px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .memo-form__input {
@@ -1025,7 +1039,7 @@ a.tag:hover {
   width: 30px;
   height: 30px;
   padding: 0;
-  border: 1px solid var(--line-strong);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   color: var(--ink-dim);
   font-family: var(--font-sans);
@@ -1052,7 +1066,7 @@ a.tag:hover {
   align-items: flex-start;
   gap: 12px;
   padding: 13px 0;
-  border-bottom: 1px dashed var(--line);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
 }
 
 .memo-check {
@@ -1061,7 +1075,7 @@ a.tag:hover {
   height: 16px;
   margin-top: 3px;
   padding: 0;
-  border: 1.5px solid rgba(230, 225, 214, 0.42);
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
   border-radius: 3px;
   background: transparent;
   cursor: pointer;
