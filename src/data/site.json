@@ -2,14 +2,14 @@
   "name": "Echo Space",
   "author": "niki",
   "description": "Echo Space 是个人博客，记录关于思考、生活、游戏、AI 工具与机器学习的长文字。",
-  "tagline": "这世间噪声太大，在此留一方天地聆听自己",
+  "tagline": "如果没有那些眼泪灌溉__",
   "locale": "zh-CN",
   "hero": {
-    "line": "这世间噪声太大，在此留一方天地聆听自己",
-    "image": "/uploads/echo-space-hero.jpg",
-    "position": "50% 50%",
-    "overlay": 0.07,
-    "updatedAt": "2026-10-28"
+    "line": "这里是月球",
+    "image": "/uploads/echo-space-hero-jpg-mw39m8rk-50b438.jpg",
+    "position": "50% 45%",
+    "overlay": 0,
+    "updatedAt": "2026-11-05T08:09:57.748Z"
   },
   "nav": [
     {
@@ -41,6 +41,18 @@
       "label": "Machine Learning",
       "href": "/ml/",
       "description": "机器学习、论文笔记、实验与工程实践。"
+    },
+    {
+      "key": "psych",
+      "label": "Psychology",
+      "href": "/psych/",
+      "description": ""
+    },
+    {
+      "key": "econ",
+      "label": "Economics",
+      "href": "/econ/",
+      "description": ""
     }
   ],
   "social": [],
