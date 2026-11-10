@@ -969,17 +969,17 @@ a.tag:hover {
   overflow: hidden;
   color: var(--ink);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.015) 45%, rgba(255, 255, 255, 0.045)),
-    rgba(16, 18, 19, 0.1);
-  -webkit-backdrop-filter: blur(38px) saturate(190%);
-  backdrop-filter: blur(38px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01) 45%, rgba(255, 255, 255, 0.035)),
+    rgba(16, 18, 19, 0.04);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 28px;
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44),
     inset 0 -1px 1px rgba(255, 255, 255, 0.09);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 }
 
 .memo-board::before {
