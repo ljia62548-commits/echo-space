@@ -357,6 +357,7 @@ cover: /uploads/cover.jpg
 
 ```bash
 npm run dev       # 本地开发，http://127.0.0.1:4321
+npm run dev:lan   # 局域网访问，http://<电脑IP>:4322
 npm run build     # 构建到 dist/
 npm run preview   # 预览构建结果
 ```
