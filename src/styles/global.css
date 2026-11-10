@@ -1454,16 +1454,18 @@ a.tag:hover {
 .category-head {
   margin-bottom: 10px;
   padding: clamp(22px, 3vw, 32px);
-  border: 1px solid var(--line-strong);
-  border-left: 2px solid rgba(196, 154, 85, 0.4);
-  background: var(--panel);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 14px) 0,
-    100% 14px,
-    100% 100%,
-    0 100%
-  );
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.015) 45%, rgba(255, 255, 255, 0.04)),
+    rgba(8, 10, 12, 0.22);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  backdrop-filter: blur(40px) saturate(200%);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
 .category-name {
@@ -1489,16 +1491,21 @@ a.tag:hover {
 .category-empty {
   margin: 10px 0;
   padding: 18px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--faint);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015) 50%),
+    rgba(8, 10, 12, 0.2);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
+  color: var(--muted);
   font-size: 13px;
 }
 
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .category-item {
@@ -1507,23 +1514,34 @@ a.tag:hover {
   align-items: baseline;
   gap: 28px;
   padding: 16px 18px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 8px) 0,
-    100% 8px,
-    100% 100%,
-    0 100%
-  );
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.012) 48%, rgba(255, 255, 255, 0.03)),
+    rgba(8, 10, 12, 0.2);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
     transform 0.25s var(--ease);
 }
 
 .category-item:hover {
-  border-color: var(--cyan);
-  background: var(--panel-raised);
+  border-color: rgba(255, 255, 255, 0.44);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 48%, rgba(255, 255, 255, 0.04)),
+    rgba(8, 10, 12, 0.16);
   transform: translateX(2px);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .category-head,
+  .category-item,
+  .category-empty {
+    background: rgba(12, 15, 16, 0.9);
+  }
 }
 
 .category-item__title {
@@ -1827,6 +1845,159 @@ a.tag:hover {
 
 .article-body {
   min-width: 0;
+}
+
+/* Full-screen reading mode */
+body.article-reading {
+  background: #050505;
+  color: #f2eee6;
+}
+
+body.article-reading .site-backdrop,
+body.article-reading .sidebar,
+body.article-reading .mobile-bar,
+body.article-reading .site-footer,
+body.article-reading .nav-overlay {
+  display: none !important;
+}
+
+body.article-reading .shell {
+  margin-left: 0;
+}
+
+body.article-reading::after {
+  display: none;
+}
+
+body.article-reading .article-page {
+  min-height: 100svh;
+  padding: 0;
+  background: #050505;
+}
+
+body.article-reading .article-layout {
+  display: block;
+  width: 100%;
+  max-width: 840px;
+  padding: clamp(96px, 12vw, 132px) clamp(24px, 5vw, 44px) 90px;
+  margin: 0 auto;
+}
+
+body.article-reading .article-main {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  clip-path: none;
+  box-shadow: none;
+}
+
+body.article-reading .article-toc {
+  display: none;
+}
+
+body.article-reading .article-title {
+  color: #f6f2e9;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+body.article-reading .article-kicker,
+body.article-reading .article-description {
+  color: #a9a49b;
+}
+
+body.article-reading .article-cover {
+  border-color: #252525;
+  background: #0b0b0b;
+}
+
+body.article-reading .prose {
+  color: #e7e2d9;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 2;
+}
+
+body.article-reading .prose h2,
+body.article-reading .prose h3,
+body.article-reading .prose strong {
+  color: #f6f2e9;
+}
+
+body.article-reading .prose a {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.35);
+}
+
+body.article-reading .prose blockquote {
+  border-left-color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #c9c4ba;
+}
+
+body.article-reading .prose code {
+  background: #151515;
+  color: #f0ece4;
+}
+
+body.article-reading .prose pre {
+  background: #0b0b0b;
+  border-color: #262626;
+}
+
+body.article-reading .article-foot,
+body.article-reading .article-nav {
+  border-top-color: #242424;
+}
+
+body.article-reading .article-tags .tag {
+  border-color: #2d2d2d;
+  color: #a9a49b;
+}
+
+body.article-reading .copy-link,
+body.article-reading .article-nav__label {
+  color: #858078;
+}
+
+body.article-reading .article-nav__title {
+  color: #d8d2c8;
+}
+
+body.article-reading .article-nav__item:hover .article-nav__title {
+  color: #ffffff;
+}
+
+body.article-reading .read-progress {
+  height: 1px;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.reading-back {
+  display: none;
+}
+
+body.article-reading .reading-back {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 120;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: #050505;
+  color: #f6f2e9;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+body.article-reading .reading-back:hover {
+  border-color: #ffffff;
+  background: #111111;
 }
 
 /* 100-day running challenge inside an article */
@@ -3102,6 +3273,18 @@ a.tag:hover {
 }
 
 @media (max-width: 700px) {
+  body.article-reading .article-layout {
+    padding: 84px 20px 64px;
+  }
+
+  body.article-reading .reading-back {
+    top: 16px;
+    left: 16px;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
   .run-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 5px;

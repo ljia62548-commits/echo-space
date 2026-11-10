@@ -62,7 +62,12 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description} image={post.data.cover ?? site.hero.image}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.cover ?? site.hero.image}
+  bodyClass="article-reading"
+>
   <script
     slot="head"
     type="application/ld+json"
@@ -71,14 +76,18 @@ const jsonLd = {
 
   <div class="read-progress" aria-hidden="true"></div>
 
+  <a
+    class="reading-back"
+    href={withBase(category?.href ?? '/')}
+    aria-label={`返回 ${category?.label ?? '目录'}`}
+  >
+    <span aria-hidden="true">←</span>
+  </a>
+
   <article class="article-page">
     <div class:list={['article-layout', toc.length === 0 && 'article-layout--single']}>
       <div class="article-main">
         <header class="article-header">
-          <a class="article-back" href={withBase(category?.href ?? '/')}>
-            <span aria-hidden="true">←</span> {category?.label ?? 'All writing'}
-          </a>
-
           <div class="article-kicker">
             <time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time>
             <span aria-hidden="true">·</span>
