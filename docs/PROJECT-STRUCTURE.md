@@ -6,7 +6,7 @@
 
 ## 首屏与品牌标注
 
-首屏只保留整张图片，文字全部移到左上角 `Echo Space` 下方。壁纸由 [Backdrop.astro](../src/components/Backdrop.astro) 固定在视口，内容层是半透明玻璃，滚动时从壁纸上滑过：
+首屏只保留整张图片，文字全部移到左上角 `Echo Space` 下方。壁纸由 [Backdrop.astro](../src/components/Backdrop.astro) 固定在视口；内容组件是摆在壁纸上的实心石墨灰面板，不做虚化：
 
 - 站名下方两行标注来自 [site.json](../src/data/site.json) 的 `tagline`；
 - [Brand.astro](../src/components/Brand.astro) 按中文逗号把 `tagline` 拆成两行；
@@ -155,7 +155,7 @@ cover: /uploads/cover.jpg
 | --- | --- |
 | [index.astro](../src/pages/index.astro) | `/` 首页：固定壁纸 + 下滑出现的待办便签板 |
 | [about.astro](../src/pages/about.astro) | `/about/` 关于我 |
-| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：右侧整块毛玻璃，顶部大小字混排的专栏说明，下面标题在左、日期在右的文章列表 |
+| [栏目页 index.astro](<../src/pages/[category]/index.astro>) | 栏目页：石墨灰标题板 + 独立文章条目板，标题在左、日期在右 |
 | [文章页 slug.astro](<../src/pages/[category]/[slug].astro>) | 单篇文章，例如 `/thinking/why-i-write-again/` |
 | [tags/index.astro](../src/pages/tags/index.astro) | `/tags/` 全部标签 |
 | [标签页 tag.astro](<../src/pages/tags/[tag].astro>) | 单个标签下的文章 |
