@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import { withBase } from '../lib/url';
 
 const year = new Date().getFullYear();
 ---
@@ -8,9 +9,9 @@ const year = new Date().getFullYear();
   <div class="site-footer__left">
     <span>© {year} {site.name}</span>
     <span aria-hidden="true">·</span>
-    <a href="/rss.xml">RSS</a>
-    <a href="/archive/">Archive</a>
-    {import.meta.env.DEV && <a href="/studio/">Studio</a>}
+    <a href={withBase('/rss.xml')}>RSS</a>
+    <a href={withBase('/archive/')}>Archive</a>
+    {import.meta.env.DEV && <a href={withBase('/studio/')}>Studio</a>}
   </div>
   <p class="site-footer__note">{site.footerNote}</p>
 </footer>

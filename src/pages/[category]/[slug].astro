@@ -11,6 +11,7 @@ import {
   type Post,
 } from '../../lib/content';
 import { formatDate, isoDate } from '../../lib/format';
+import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -55,7 +56,7 @@ const jsonLd = {
   },
   mainEntityOfPage: canonical,
   url: canonical,
-  image: new URL(post.data.cover ?? site.hero.image, siteUrl).href,
+  image: new URL(withBase(post.data.cover ?? site.hero.image), siteUrl).href,
   inLanguage: 'zh-CN',
   keywords: post.data.tags.join(', '),
 };
@@ -72,7 +73,7 @@ const jsonLd = {
 
   <article class="article-page">
     <header class="article-header">
-      <a class="article-back" href={category?.href ?? '/'}>
+      <a class="article-back" href={withBase(category?.href ?? '/')}>
         <span aria-hidden="true">←</span> {category?.label ?? 'All writing'}
       </a>
 
@@ -101,7 +102,7 @@ const jsonLd = {
     {
       post.data.cover && (
         <figure class="article-cover">
-          <img src={post.data.cover} alt="" loading="eager" />
+          <img src={withBase(post.data.cover)} alt="" loading="eager" />
         </figure>
       )
     }
@@ -114,7 +115,7 @@ const jsonLd = {
 
         <footer class="article-foot">
           <div class="article-tags">
-            {post.data.tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>)}
+            {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>)}
           </div>
           <div class="article-share">
             <span>Written slowly. Shared quietly.</span>

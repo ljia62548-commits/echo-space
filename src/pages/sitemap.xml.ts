@@ -1,16 +1,17 @@
 import type { APIRoute } from 'astro';
 import { categoryNav, getAllTags, getPostUrl, getPublishedPosts } from '../lib/content';
+import { withBase } from '../lib/url';
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL('http://localhost:4321');
   const posts = await getPublishedPosts();
   const tags = await getAllTags();
 
-  const staticPages = ['/', '/about/', '/archive/', '/tags/'];
+  const staticPages = ['/', '/about/', '/archive/', '/tags/'].map(withBase);
   const entries = [
     ...staticPages.map((path) => ({ loc: new URL(path, base).href, lastmod: undefined })),
     ...categoryNav.map((category) => ({
-      loc: new URL(category.href, base).href,
+      loc: new URL(withBase(category.href), base).href,
       lastmod: undefined,
     })),
     ...posts.map((post) => ({
@@ -18,7 +19,7 @@ export const GET: APIRoute = async ({ site }) => {
       lastmod: (post.data.updated ?? post.data.date).toISOString(),
     })),
     ...tags.map(({ tag }) => ({
-      loc: new URL(`/tags/${encodeURIComponent(tag)}/`, base).href,
+      loc: new URL(withBase(`/tags/${encodeURIComponent(tag)}/`), base).href,
       lastmod: undefined,
     })),
   ];

@@ -1,13 +1,15 @@
 ---
 import site from '../data/site.json';
+import { withBase } from '../lib/url';
 
 const hero = site.hero;
+const image = withBase(hero.image);
 ---
 
 <div
   class="site-backdrop"
   aria-hidden="true"
-  style={`--backdrop-image: url('${hero.image}'); --backdrop-position: ${hero.position}; --backdrop-overlay: ${hero.overlay};`}
+  style={`--backdrop-image: url('${image}'); --backdrop-position: ${hero.position}; --backdrop-overlay: ${hero.overlay};`}
 >
   <div class="site-backdrop__image"></div>
   <div class="site-backdrop__shade"></div>

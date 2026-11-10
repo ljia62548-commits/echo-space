@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
 import Backdrop from '../components/Backdrop.astro';
 import site from '../data/site.json';
+import { withBase } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -23,7 +24,7 @@ const {
 
 const siteUrl = Astro.site ?? new URL('http://localhost:4321');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
-const ogImage = new URL(image, siteUrl).href;
+const ogImage = new URL(withBase(image), siteUrl).href;
 const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.hero.line}`;
 ---
 
@@ -37,8 +38,8 @@ const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site
     <meta name="author" content={site.author} />
     <meta name="theme-color" content="#0a111a" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href={withBase('/rss.xml')} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

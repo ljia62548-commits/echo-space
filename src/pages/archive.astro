@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPublishedPosts, type Post } from '../lib/content';
+import { getPostUrl, getPublishedPosts, type Post } from '../lib/content';
 import { formatDate } from '../lib/format';
+import { withBase } from '../lib/url';
 
 const posts = await getPublishedPosts();
 const years = new Map<number, Post[]>();
@@ -27,7 +28,7 @@ const entries = [...years.entries()].sort((a, b) => b[0] - a[0]);
       <div class="page__meta">
         <span>{posts.length} entries</span>
         <span>{entries.length} years</span>
-        <a class="text-link" href="/tags/">Tags</a>
+        <a class="text-link" href={withBase('/tags/')}>Tags</a>
       </div>
     </header>
 
@@ -38,7 +39,7 @@ const entries = [...years.entries()].sort((a, b) => b[0] - a[0]);
             <h2 class="archive-year__label" id={`year-${year}`}>{year}</h2>
             <div class="archive-list">
               {items.map((post) => (
-                <a class="archive-item" href={`/${post.data.category}/${post.id.split('/').pop()}/`}>
+                <a class="archive-item" href={getPostUrl(post)}>
                   <time class="archive-item__date" datetime={post.data.date.toISOString()}>
                     {formatDate(post.data.date).slice(5)}
                   </time>

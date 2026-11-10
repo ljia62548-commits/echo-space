@@ -2,11 +2,12 @@ import type { APIRoute } from 'astro';
 import site from '../data/site.json';
 import { getCategoryLabel, getPostUrl, getPublishedPosts } from '../lib/content';
 import { escapeXml } from '../lib/format';
+import { withBase } from '../lib/url';
 
 export const GET: APIRoute = async ({ site: astroSite }) => {
   const posts = await getPublishedPosts();
   const base = astroSite ?? new URL('http://localhost:4321');
-  const feedUrl = new URL('/rss.xml', base).href;
+  const feedUrl = new URL(withBase('/rss.xml'), base).href;
   const lastBuild = posts[0]?.data.date ?? new Date();
 
   const items = posts
@@ -31,7 +32,7 @@ ${categories}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(site.name)}</title>
-    <link>${new URL('/', base).href}</link>
+    <link>${new URL(withBase('/'), base).href}</link>
     <description>${escapeXml(site.description)}</description>
     <language>zh-cn</language>
     <lastBuildDate>${lastBuild.toUTCString()}</lastBuildDate>

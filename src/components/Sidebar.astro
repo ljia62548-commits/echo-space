@@ -2,13 +2,15 @@
 import Brand from './Brand.astro';
 import site from '../data/site.json';
 import { socialLinks } from '../lib/content';
+import { withBase } from '../lib/url';
 
-const path = Astro.url.pathname;
+const currentPath = Astro.url.pathname;
 const year = new Date().getFullYear();
 
 const isActive = (href: string) => {
-  if (href === '/') return path === '/';
-  return path === href || path.startsWith(href);
+  const target = withBase(href);
+  if (href === '/') return currentPath === target;
+  return currentPath === target || currentPath.startsWith(target);
 };
 ---
 
@@ -49,7 +51,7 @@ const isActive = (href: string) => {
         return (
           <a
             class="nav__link"
-            href={item.href}
+            href={withBase(item.href)}
             aria-current={active ? 'page' : undefined}
             data-nav-link
           >
@@ -63,8 +65,8 @@ const isActive = (href: string) => {
   <div class="sidebar__foot">
     <div class="sidebar__links">
       {socialLinks.map((link) => <a href={link.href} rel="me noopener" target="_blank">{link.label}</a>)}
-      <a href="/rss.xml">RSS</a>
-      {import.meta.env.DEV && <a class="sidebar__edit" href="/studio/">Edit</a>}
+      <a href={withBase('/rss.xml')}>RSS</a>
+      {import.meta.env.DEV && <a class="sidebar__edit" href={withBase('/studio/')}>Edit</a>}
     </div>
 
     <p class="sidebar__copyright">

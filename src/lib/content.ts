@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import site from '../data/site.json';
+import { withBase } from './url';
 
 export type Post = CollectionEntry<'posts'>;
 export type NavItem = (typeof site.nav)[number];
@@ -28,7 +29,7 @@ export function getPostSlug(post: Post): string {
 }
 
 export function getPostUrl(post: Post): string {
-  return `/${post.data.category}/${getPostSlug(post)}/`;
+  return withBase(`/${post.data.category}/${getPostSlug(post)}/`);
 }
 
 export function sortByDateDesc(a: Post, b: Post): number {

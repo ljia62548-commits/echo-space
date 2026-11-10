@@ -53,35 +53,35 @@ http://10.181.224.231:4322/
 
 ## 发布到 GitHub Pages
 
-这个项目使用 GitHub Pages 的用户站点形式，仓库名必须是：
+这个项目现在使用 **项目站点**：
 
 ```text
-<你的GitHub用户名>.github.io
+仓库：https://github.com/ljia62548-commits/echo-space
+地址：https://ljia62548-commits.github.io/echo-space/
 ```
 
-这样网站会直接位于 `https://<用户名>.github.io/`，所有站内绝对路径都能正常工作。
+站内链接和图片都通过 `src/lib/url.ts` 的 `withBase()` 加上 `/echo-space/` 前缀，因此项目子路径也能正常工作。
 
-1. 在 GitHub 新建一个公开仓库 `<用户名>.github.io`；
-2. 在本地添加远程仓库：
+1. 在 GitHub 仓库 **Settings → Pages**，把 **Build and deployment → Source** 设为 **GitHub Actions**；
+2. 添加远程仓库并推送：
 
 ```bash
-git remote add origin https://github.com/<用户名>/<用户名>.github.io.git
+git remote add origin https://github.com/ljia62548-commits/echo-space.git
 git branch -M main
 git push -u origin main
 ```
 
-3. 打开仓库 **Settings → Pages**，把 **Build and deployment → Source** 设为 **GitHub Actions**；
-4. 之后每次 push 到 `main`，`.github/workflows/deploy.yml` 会自动构建并发布。
+3. 之后每次 push 到 `main`，`.github/workflows/deploy.yml` 会自动构建并发布。
 
 首次发布完成后，地址是：
 
 ```text
-https://<用户名>.github.io/
+https://ljia62548-commits.github.io/echo-space/
 ```
 
 构建时会自动排除 `/studio/`。线上只能阅读，写文章仍然在本地进行，改完重新 push 即可。
 
-如果仓库名不是 `<用户名>.github.io`，工作流会主动失败，避免生成一个所有链接都指向根目录的错误站点。想用自定义域名，可以在仓库 Settings → Pages 里配置，并把构建时的 `SITE_URL` 换成该域名。
+如果以后换仓库名，工作流会自动把仓库名作为 `BASE_PATH`。如果配置自定义域名，在仓库 **Settings → Secrets and variables → Actions → Variables** 里设置 `SITE_URL`（例如 `https://example.com`）和 `BASE_PATH`（`/`）即可。
 
 ## 内容编辑
 

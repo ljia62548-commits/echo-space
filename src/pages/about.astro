@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import profile from '../data/profile.json';
+import { withBase } from '../lib/url';
 
 const links = profile.links as Array<{ label: string; href: string }>;
 const hasAvatar = Boolean(profile.avatar);
@@ -15,7 +16,7 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
     <section class="about-hero" aria-labelledby="about-name">
       <div class="portrait" data-reveal>
         <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>
-        {hasAvatar && <img src={profile.avatar} alt={`${profile.name} 的照片`} onerror="this.remove()" />}
+        {hasAvatar && <img src={withBase(profile.avatar)} alt={`${profile.name} 的照片`} onerror="this.remove()" />}
       </div>
 
       <div class="about-intro" data-reveal>
@@ -108,7 +109,7 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
           {links.map((link) => (
             <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
           ))}
-          <a href="/rss.xml">RSS Feed ↗</a>
+          <a href={withBase('/rss.xml')}>RSS Feed ↗</a>
         </div>
       </section>
     </div>

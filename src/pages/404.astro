@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
 ---
 
 <BaseLayout title="404" description="这一页不存在。">
@@ -11,8 +12,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       可以回到首页，或者去归档里随便翻翻。
     </p>
     <div class="not-found__actions">
-      <a class="btn btn--solid" href="/">回到首页</a>
-      <a class="btn" href="/archive/">浏览归档</a>
+      <a class="btn btn--solid" href={withBase('/')}>回到首页</a>
+      <a class="btn" href={withBase('/archive/')}>浏览归档</a>
     </div>
   </div>
 </BaseLayout>

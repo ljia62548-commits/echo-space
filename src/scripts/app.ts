@@ -2,6 +2,7 @@
 
 import { initMemos } from './memos';
 import { initRunningChallenge } from './running';
+import { withBase } from '../lib/url';
 
 type Json = Record<string, unknown>;
 
@@ -334,7 +335,7 @@ function initSidebarSearch(): void {
     loading = true;
 
     try {
-      const response = await fetch('/search-index.json', {
+      const response = await fetch(withBase('/search-index.json'), {
         headers: { accept: 'application/json' },
       });
       if (!response.ok) throw new Error('索引加载失败');
