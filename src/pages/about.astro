@@ -34,8 +34,8 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
         <div class="about-lower">
           <p class="about-lede">{profile.intro}</p>
           <div class="about-chips">
-            <span>{profile.location}</span>
-            <span>{profile.status}</span>
+            {profile.location && <span>{profile.location}</span>}
+            {profile.status && <span>{profile.status}</span>}
           </div>
         </div>
       </div>

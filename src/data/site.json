@@ -2,7 +2,7 @@
   "name": "Echo Space",
   "author": "niki",
   "description": "Echo Space 是个人博客，记录关于思考、生活、游戏、AI 工具与机器学习的长文字。",
-  "tagline": "如果没有那些眼泪灌溉__",
+  "tagline": "",
   "locale": "zh-CN",
   "hero": {
     "line": "这里是月球",
@@ -22,37 +22,31 @@
       "key": "thinking",
       "label": "Personal Thinking",
       "href": "/thinking/",
-      "description": "关于选择、习惯、创造与生活的长期思考。"
+      "description": "博学之，审问之，慎思之"
     },
     {
       "key": "life",
       "label": "Life and Game",
       "href": "/life/",
-      "description": "游戏、阅读、旅行，以及那些不产出 KPI 的时间。"
-    },
-    {
-      "key": "ai-tools",
-      "label": "AI Tools",
-      "href": "/ai-tools/",
-      "description": "把 AI 真正用进日常工作的工具、提示词与工作流。"
+      "description": "偷得浮生半日闲"
     },
     {
       "key": "ml",
       "label": "Machine Learning",
       "href": "/ml/",
-      "description": "机器学习、论文笔记、实验与工程实践。"
+      "description": "Any sufficiently advanced technology is indistinguishable from magic"
     },
     {
       "key": "psych",
       "label": "Psychology",
       "href": "/psych/",
-      "description": ""
+      "description": "知人者智，自知者明"
     },
     {
       "key": "econ",
       "label": "Economics",
       "href": "/econ/",
-      "description": ""
+      "description": "catch the invisible hand"
     }
   ],
   "social": [],
