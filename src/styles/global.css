@@ -970,7 +970,7 @@ a.tag:hover {
   color: var(--ink);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01) 45%, rgba(255, 255, 255, 0.035)),
-    rgba(16, 18, 19, 0.04);
+    rgba(8, 10, 12, 0.22);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   backdrop-filter: blur(40px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.28);
