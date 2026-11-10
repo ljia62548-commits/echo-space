@@ -12,7 +12,7 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
   title="About Me"
   description={`关于 ${profile.name}：${profile.headline}。${profile.intro}`}
 >
-  <div class="page">
+  <div class="page about-page">
     <section class="about-hero" aria-labelledby="about-name">
       <div class="portrait" data-reveal>
         <span class="portrait__monogram" aria-hidden="true">{profile.monogram}</span>

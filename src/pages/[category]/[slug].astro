@@ -27,10 +27,6 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
-const allPosts = await getPublishedPosts();
-const position = allPosts.findIndex((item) => item.id === post.id);
-const newer = position > 0 ? allPosts[position - 1] : null;
-const older = position >= 0 && position < allPosts.length - 1 ? allPosts[position + 1] : null;
 
 const category = getCategoryMeta(post.data.category);
 const minutes = postReadingMinutes(post);
@@ -120,28 +116,6 @@ const jsonLd = {
             </div>
           </footer>
         </div>
-
-        {
-          (newer || older) && (
-            <nav
-              class:list={['article-nav', { 'article-nav--single': !newer || !older }]}
-              aria-label="相邻文章"
-            >
-              {newer && (
-                <a class="article-nav__item" href={getPostUrl(newer)}>
-                  <span class="article-nav__label">← 上一篇</span>
-                  <span class="article-nav__title">{newer.data.title}</span>
-                </a>
-              )}
-              {older && (
-                <a class="article-nav__item article-nav__item--next" href={getPostUrl(older)}>
-                  <span class="article-nav__label">下一篇 →</span>
-                  <span class="article-nav__title">{older.data.title}</span>
-                </a>
-              )}
-            </nav>
-          )
-        }
       </div>
 
       {
