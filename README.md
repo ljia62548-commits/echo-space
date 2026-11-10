@@ -51,6 +51,38 @@ http://10.181.224.231:4322/
 
 这个地址只适合在家庭局域网内临时阅读。不要把它映射到公网。平板可以阅读网站，但 Studio 的写入接口默认只信任 `localhost`，编辑仍然建议在电脑上进行。
 
+## 发布到 GitHub Pages
+
+这个项目使用 GitHub Pages 的用户站点形式，仓库名必须是：
+
+```text
+<你的GitHub用户名>.github.io
+```
+
+这样网站会直接位于 `https://<用户名>.github.io/`，所有站内绝对路径都能正常工作。
+
+1. 在 GitHub 新建一个公开仓库 `<用户名>.github.io`；
+2. 在本地添加远程仓库：
+
+```bash
+git remote add origin https://github.com/<用户名>/<用户名>.github.io.git
+git branch -M main
+git push -u origin main
+```
+
+3. 打开仓库 **Settings → Pages**，把 **Build and deployment → Source** 设为 **GitHub Actions**；
+4. 之后每次 push 到 `main`，`.github/workflows/deploy.yml` 会自动构建并发布。
+
+首次发布完成后，地址是：
+
+```text
+https://<用户名>.github.io/
+```
+
+构建时会自动排除 `/studio/`。线上只能阅读，写文章仍然在本地进行，改完重新 push 即可。
+
+如果仓库名不是 `<用户名>.github.io`，工作流会主动失败，避免生成一个所有链接都指向根目录的错误站点。想用自定义域名，可以在仓库 Settings → Pages 里配置，并把构建时的 `SITE_URL` 换成该域名。
+
 ## 内容编辑
 
 打开 <http://127.0.0.1:4321/studio/>：
