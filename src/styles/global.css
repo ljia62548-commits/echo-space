@@ -1482,24 +1482,14 @@ a.tag:hover {
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
-.category-name {
-  margin: 0;
-  color: var(--ink-strong);
-  font-family: var(--font-round);
-  font-size: clamp(2.2rem, 4.2vw, 3.3rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-}
-
 .category-note {
   max-width: 34em;
-  margin: 14px 0 0;
-  color: var(--ink-dim);
+  margin: 0;
+  color: var(--ink);
   font-family: var(--font-round);
-  font-size: clamp(15px, 1.6vw, 17px);
-  line-height: 1.8;
-  letter-spacing: 0.01em;
+  font-size: clamp(17px, 1.8vw, 20px);
+  line-height: 1.75;
+  letter-spacing: 0.005em;
 }
 
 .category-empty {
@@ -3418,13 +3408,9 @@ body.article-reading .reading-back:hover {
     padding: 44px 20px 72px;
   }
 
-  .category-name {
-    font-size: 2.1rem;
-  }
-
   .category-note {
-    margin-top: 12px;
-    font-size: 15px;
+    margin: 0;
+    font-size: 16px;
   }
 
   .category-item {
