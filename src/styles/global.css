@@ -1,24 +1,28 @@
 /* ============================================================
    Echo Space — global stylesheet
-   Midnight blue, brass and the gold of a single lit eye.
+   Smoked ink, brass and the gold of a single lit eye.
    ============================================================ */
 
 :root {
-  --bg: #0a111a;
-  --bg-deep: #070c12;
-  --bg-raised: #0d1621;
-  --bg-soft: #121d2b;
+  --bg: #121110;
+  --bg-deep: #0b0a09;
+  --bg-raised: #191613;
+  --bg-soft: #201c18;
 
-  --ink: #d8d6d0;
-  --ink-strong: #ecebe6;
-  --ink-dim: #bfc0be;
-  --muted: #9a9fa2;
-  --faint: #70787f;
+  --ink: #dedad2;
+  --ink-strong: #f0ece4;
+  --ink-dim: #c4beb5;
+  --muted: #9f9990;
+  --faint: #766f66;
 
-  --line: rgba(226, 236, 246, 0.09);
-  --line-strong: rgba(226, 236, 246, 0.19);
+  --line: rgba(232, 222, 208, 0.09);
+  --line-strong: rgba(232, 222, 208, 0.19);
 
-  --accent-deep: #233f50;
+  --glass: rgba(26, 23, 20, 0.46);
+  --glass-soft: rgba(26, 23, 20, 0.28);
+  --glass-deep: rgba(26, 23, 20, 0.64);
+
+  --accent-deep: #3a2f20;
   --accent: #c49a55;
   --accent-soft: #e0be80;
   --accent-bright: #f2d9a6;
@@ -86,7 +90,7 @@ body {
   background-image: var(--backdrop-image);
   background-size: cover;
   background-position: var(--backdrop-position, 50% 45%);
-  filter: brightness(0.84) saturate(1.02);
+  filter: brightness(0.9) saturate(0.88) sepia(0.06) contrast(1.02);
   transform: scale(1.03);
 }
 
@@ -94,9 +98,9 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(7, 12, 18, 0.72) 0%, rgba(7, 12, 18, 0.28) 36%, transparent 68%),
-    linear-gradient(180deg, rgba(7, 12, 18, 0.18) 0%, transparent 30%, rgba(7, 12, 18, 0.12) 66%, rgba(7, 12, 18, 0.58) 100%),
-    rgba(10, 17, 26, var(--backdrop-overlay, 0.07));
+    linear-gradient(90deg, rgba(20, 18, 15, 0.34) 0%, rgba(20, 18, 15, 0.12) 38%, transparent 70%),
+    linear-gradient(180deg, rgba(20, 18, 15, 0.12) 0%, transparent 30%, rgba(20, 18, 15, 0.1) 66%, rgba(20, 18, 15, 0.36) 100%),
+    rgba(20, 18, 15, var(--backdrop-overlay, 0.07));
 }
 
 body::after {
@@ -401,6 +405,17 @@ a.tag:hover {
   transition: transform 0.45s var(--ease-out);
 }
 
+.sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -52px;
+  bottom: 0;
+  width: 52px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(26, 23, 20, 0.28));
+}
+
 .brand {
   display: inline-flex;
   flex-direction: column;
@@ -455,19 +470,19 @@ a.tag:hover {
   gap: 8px;
   height: 38px;
   padding: 0 10px;
-  border: 1px solid rgba(226, 236, 246, 0.14);
+  border: 1px solid var(--line);
   border-radius: 9px;
-  background: rgba(10, 17, 26, 0.34);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  backdrop-filter: blur(16px) saturate(1.2);
+  background: rgba(24, 21, 18, 0.34);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  backdrop-filter: blur(16px) saturate(1.05);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
     box-shadow 0.25s var(--ease);
 }
 
 .sidebar-search__box:focus-within {
-  border-color: rgba(226, 236, 246, 0.28);
-  background: rgba(10, 17, 26, 0.52);
+  border-color: var(--line-strong);
+  background: rgba(24, 21, 18, 0.52);
   box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28);
 }
 
@@ -532,11 +547,11 @@ a.tag:hover {
   width: min(340px, calc(100vw - 40px));
   max-height: min(420px, 60vh);
   padding: 8px;
-  border: 1px solid rgba(226, 236, 246, 0.14);
+  border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(10, 17, 26, 0.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  backdrop-filter: blur(24px) saturate(1.2);
+  background: rgba(24, 21, 18, 0.62);
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
   overflow: hidden;
 }
@@ -927,10 +942,10 @@ a.tag:hover {
   padding: clamp(28px, 5vw, 56px);
   overflow: hidden;
   color: var(--ink);
-  background: rgba(11, 18, 26, 0.36);
-  -webkit-backdrop-filter: blur(28px) saturate(1.2);
-  backdrop-filter: blur(28px) saturate(1.2);
-  border: 1px solid rgba(226, 236, 246, 0.18);
+  background: rgba(26, 23, 20, 0.42);
+  -webkit-backdrop-filter: blur(28px) saturate(1.05);
+  backdrop-filter: blur(28px) saturate(1.05);
+  border: 1px solid rgba(232, 222, 208, 0.18);
   border-radius: 24px;
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.38),
@@ -1073,12 +1088,12 @@ a.tag:hover {
   flex-direction: column;
   min-height: 300px;
   padding: clamp(26px, 3.2vw, 42px);
-  background: rgba(10, 17, 26, 0.24);
+  background: rgba(26, 23, 20, 0.2);
   transition: background 0.35s var(--ease);
 }
 
 .post-feature:hover {
-  background: rgba(10, 17, 26, 0.4);
+  background: rgba(26, 23, 20, 0.34);
 }
 
 .post-feature--lead {
@@ -1353,9 +1368,14 @@ a.tag:hover {
 .page,
 .article-page,
 .not-found {
-  background: rgba(10, 17, 26, 0.64);
-  -webkit-backdrop-filter: blur(26px) saturate(1.12);
-  backdrop-filter: blur(26px) saturate(1.12);
+  background: linear-gradient(
+    90deg,
+    rgba(26, 23, 20, 0) 0,
+    rgba(26, 23, 20, 0.28) 56px,
+    rgba(26, 23, 20, 0.46) 150px
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.05);
+  backdrop-filter: blur(18px) saturate(1.05);
 }
 
 .page {
@@ -1366,9 +1386,14 @@ a.tag:hover {
 .category-page {
   min-height: 100svh;
   padding: 0;
-  background: rgba(11, 18, 26, 0.46);
-  -webkit-backdrop-filter: blur(28px) saturate(1.2);
-  backdrop-filter: blur(28px) saturate(1.2);
+  background: linear-gradient(
+    90deg,
+    rgba(26, 23, 20, 0) 0,
+    rgba(26, 23, 20, 0.26) 56px,
+    rgba(26, 23, 20, 0.42) 150px
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.05);
+  backdrop-filter: blur(18px) saturate(1.05);
 }
 
 .category-inner {
@@ -1613,7 +1638,12 @@ a.tag:hover {
 
 .article-page {
   padding-top: clamp(90px, 10vw, 130px);
-  background: rgba(10, 17, 26, 0.72);
+  background: linear-gradient(
+    90deg,
+    rgba(26, 23, 20, 0) 0,
+    rgba(26, 23, 20, 0.32) 56px,
+    rgba(26, 23, 20, 0.56) 150px
+  );
 }
 
 .article-header {
@@ -1749,7 +1779,7 @@ a.tag:hover {
   padding: 4px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: rgba(10, 17, 26, 0.26);
+  background: rgba(26, 23, 20, 0.24);
   color: var(--muted);
   font-family: var(--font-mono);
   transition: background 0.2s var(--ease), border-color 0.2s var(--ease),
@@ -1758,7 +1788,7 @@ a.tag:hover {
 
 .run-day:hover {
   border-color: var(--line-strong);
-  background: rgba(10, 17, 26, 0.42);
+  background: rgba(26, 23, 20, 0.38);
   color: var(--ink-dim);
 }
 
@@ -1834,7 +1864,7 @@ a.tag:hover {
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: rgba(10, 17, 26, 0.28);
+  background: rgba(26, 23, 20, 0.3);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 14px;
@@ -2109,7 +2139,7 @@ a.tag:hover {
   right: 8px;
   padding: 4px 8px;
   border: 1px solid var(--line);
-  background: rgba(10, 17, 26, 0.8);
+  background: rgba(20, 18, 15, 0.85);
   color: var(--faint);
   font-family: var(--font-mono);
   font-size: 8px;
@@ -2170,7 +2200,7 @@ a.tag:hover {
   border: 1px solid var(--line);
   background:
     radial-gradient(90% 80% at 50% 22%, rgba(196, 154, 85, 0.22), transparent 68%),
-    linear-gradient(160deg, #0f1720, #0a111a 70%);
+    linear-gradient(160deg, #191512, #0d0b09 70%);
   overflow: hidden;
 }
 
@@ -2841,10 +2871,14 @@ a.tag:hover {
     width: min(84vw, 330px);
     padding: 30px 26px 24px;
     transform: translateX(-105%);
-    background: rgba(10, 17, 26, 0.72);
-    -webkit-backdrop-filter: blur(22px) saturate(1.1);
-    backdrop-filter: blur(22px) saturate(1.1);
+    background: rgba(20, 18, 15, 0.78);
+    -webkit-backdrop-filter: blur(22px) saturate(1.05);
+    backdrop-filter: blur(22px) saturate(1.05);
     box-shadow: 24px 0 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar::after {
+    display: none;
   }
 
   body.nav-open .sidebar {
@@ -2862,12 +2896,12 @@ a.tag:hover {
     height: 62px;
     padding: 0 20px;
     border-bottom: 1px solid transparent;
-    background: linear-gradient(180deg, rgba(10, 17, 26, 0.72), transparent);
+    background: linear-gradient(180deg, rgba(20, 18, 15, 0.78), transparent);
     transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
   }
 
   .mobile-bar[data-scrolled="true"] {
-    background: rgba(10, 17, 26, 0.94);
+    background: rgba(20, 18, 15, 0.94);
     border-bottom-color: var(--line);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
