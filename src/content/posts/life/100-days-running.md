@@ -11,8 +11,6 @@ featured: false
 draft: false
 ---
 
-100 天，每天跑一次。点一下方格打卡，再点一下取消。
-
 <div class="run-challenge" data-run-challenge>
   <p class="run-progress" data-run-progress>0 / 100</p>
 

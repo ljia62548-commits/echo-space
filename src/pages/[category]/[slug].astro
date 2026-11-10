@@ -72,62 +72,73 @@ const jsonLd = {
   <div class="read-progress" aria-hidden="true"></div>
 
   <article class="article-page">
-    <header class="article-header">
-      <a class="article-back" href={withBase(category?.href ?? '/')}>
-        <span aria-hidden="true">←</span> {category?.label ?? 'All writing'}
-      </a>
+    <div class:list={['article-layout', toc.length === 0 && 'article-layout--single']}>
+      <div class="article-main">
+        <header class="article-header">
+          <a class="article-back" href={withBase(category?.href ?? '/')}>
+            <span aria-hidden="true">←</span> {category?.label ?? 'All writing'}
+          </a>
 
-      <div class="article-kicker">
-        <span>{category?.label ?? post.data.category}</span>
-        <span>·</span>
-        <time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time>
-        <span>·</span>
-        <span>{minutes} min read</span>
-      </div>
+          <div class="article-kicker">
+            <time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time>
+            <span aria-hidden="true">·</span>
+            <span>{minutes} 分钟阅读</span>
+          </div>
 
-      <h1 class="article-title">{post.data.title}</h1>
-      {post.data.description && <p class="article-description">{post.data.description}</p>}
+          <h1 class="article-title">{post.data.title}</h1>
+          {post.data.description && <p class="article-description">{post.data.description}</p>}
+        </header>
 
-      <div class="article-meta">
-        <span>By {site.author}</span>
-        <span>{post.data.tags.map((tag) => `#${tag}`).join('  ')}</span>
         {
-          post.data.updated && (
-            <span>Updated {formatDate(post.data.updated)}</span>
+          post.data.cover && (
+            <figure class="article-cover">
+              <img src={withBase(post.data.cover)} alt="" loading="eager" />
+            </figure>
           )
         }
-      </div>
-    </header>
 
-    {
-      post.data.cover && (
-        <figure class="article-cover">
-          <img src={withBase(post.data.cover)} alt="" loading="eager" />
-        </figure>
-      )
-    }
+        <div class="article-body">
+          <div class="prose">
+            <Content />
+          </div>
 
-    <div class="article-layout">
-      <div class="article-body">
-        <div class="prose">
-          <Content />
+          <footer class="article-foot">
+            <div class="article-tags">
+              {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>)}
+            </div>
+            <div class="article-share">
+              <button class="copy-link" type="button" data-copy-link>复制链接 ↗</button>
+            </div>
+          </footer>
         </div>
 
-        <footer class="article-foot">
-          <div class="article-tags">
-            {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>#{tag}</a>)}
-          </div>
-          <div class="article-share">
-            <span>Written slowly. Shared quietly.</span>
-            <button class="copy-link" type="button" data-copy-link>Copy link ↗</button>
-          </div>
-        </footer>
+        {
+          (newer || older) && (
+            <nav
+              class:list={['article-nav', { 'article-nav--single': !newer || !older }]}
+              aria-label="相邻文章"
+            >
+              {newer && (
+                <a class="article-nav__item" href={getPostUrl(newer)}>
+                  <span class="article-nav__label">← 上一篇</span>
+                  <span class="article-nav__title">{newer.data.title}</span>
+                </a>
+              )}
+              {older && (
+                <a class="article-nav__item article-nav__item--next" href={getPostUrl(older)}>
+                  <span class="article-nav__label">下一篇 →</span>
+                  <span class="article-nav__title">{older.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )
+        }
       </div>
 
       {
         toc.length > 0 && (
           <aside class="article-toc" aria-label="文章目录">
-            <p class="article-toc__label">On this page</p>
+            <p class="article-toc__label">目录</p>
             <ol>
               {toc.map((heading) => (
                 <li class={`toc-depth-${heading.depth}`}>
@@ -139,27 +150,5 @@ const jsonLd = {
         )
       }
     </div>
-
-    {
-      (newer || older) && (
-        <nav
-          class:list={['article-nav', { 'article-nav--single': !newer || !older }]}
-          aria-label="相邻文章"
-        >
-          {newer && (
-            <a class="article-nav__item" href={getPostUrl(newer)}>
-              <span class="article-nav__label">← Newer</span>
-              <span class="article-nav__title">{newer.data.title}</span>
-            </a>
-          )}
-          {older && (
-            <a class="article-nav__item article-nav__item--next" href={getPostUrl(older)}>
-              <span class="article-nav__label">Older →</span>
-              <span class="article-nav__title">{older.data.title}</span>
-            </a>
-          )}
-        </nav>
-      )
-    }
   </article>
 </BaseLayout>
