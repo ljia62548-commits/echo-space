@@ -42,13 +42,13 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
     </section>
 
     <div class="about-sections">
-      <section class="about-section" aria-label="关于我">
+      <section class="about-section about-section--bio" aria-label="关于我">
         <div class="about-bio">
           {profile.bio.map((paragraph) => <p>{paragraph}</p>)}
         </div>
       </section>
 
-      <section class="about-section" aria-label="现在">
+      <section class="about-section about-section--now" aria-label="现在">
         <div class="now-table">
           <div class="now-table__row">
             <span class="now-table__key">Building</span>
@@ -67,7 +67,7 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
 
       {
         profile.toolbox.length > 0 && (
-          <section class="about-section" aria-label="工具箱">
+          <section class="about-section about-section--toolbox" aria-label="工具箱">
             <div class="toolbox">
               {profile.toolbox.map((group) => (
                 <div class="toolbox__group">
@@ -82,7 +82,7 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
         )
       }
 
-      <section class="about-section" aria-label="时间线">
+      <section class="about-section about-section--timeline" aria-label="时间线">
         <div class="timeline">
           {
             profile.timeline.map((item) => (
@@ -98,13 +98,13 @@ const headlineParts = profile.headline.split(/\s+/).filter(Boolean);
         </div>
       </section>
 
-      <section class="about-section" aria-label="兴趣">
+      <section class="about-section about-section--interests" aria-label="兴趣">
         <div class="interest-list">
           {profile.interests.map((interest) => <span class="tag">{interest}</span>)}
         </div>
       </section>
 
-      <section class="about-section" aria-label="找到我">
+      <section class="about-section about-section--links" aria-label="找到我">
         <div class="link-list">
           {links.map((link) => (
             <a href={link.href} target="_blank" rel="me noopener">{link.label} ↗</a>
